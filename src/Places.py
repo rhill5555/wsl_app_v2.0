@@ -17,10 +17,10 @@ class CommonSQL:
     # changes it for all instances of the class. This variable has a default value of None and will be assigned a value
     # by the function below. This variable is NEVER accessed directly, only through the function below (this is just a
     # standard of how to do this, but not a specific rule in python).
-    __mysql__connection: Optional[MySQLConnection] = None
-    __sql_host: Optional[str] = None
-    __sql_user: Optional[str] = None
-    __sql_password: Optional[str] = None
+    mysql__connection: Optional[MySQLConnection] = None
+    sql_host: Optional[str] = None
+    sql_user: Optional[str] = None
+    sql_password: Optional[str] = None
 
     # We need some information
     # passed to this class when an instance is created, that being the host_name, user_name, and password.
@@ -39,16 +39,16 @@ class CommonSQL:
         # still access them if you know they are there, but just can't see them.
 
         # Define the class variable for the host name.
-        if self.__sql_host is None:
-            self.__sql_host = host_name
+        if CommonSQL.sql_host is None:
+            CommonSQL.sql_host = host_name
 
         # Define the instance variable for the username.
-        if self.__sql_user is None:
-            self.__sql_user = user_name
+        if CommonSQL.sql_user is None:
+            CommonSQL.sql_user = user_name
 
         # Define the instance variable for the password.
-        if self.__sql_user is None:
-            self.__sql_password = password
+        if CommonSQL.sql_password is None:
+            CommonSQL.sql_password = password
 
     # This is a special function (property) that does NOT allow inputs, besides self, but REQUIRES a returned value.
     # This property will return the class variable __mysql__connection. When it is first accessed it will be None,
@@ -62,19 +62,20 @@ class CommonSQL:
         # would be through the cls operator if that was passed to the function, but in this case we can't use cls,
         # because we can only pass self to a property function. So option 1 or 2 would work, but I will go with the self
         # operator.
-        if self.__mysql__connection is None:
+        if CommonSQL.mysql__connection is None:
 
             # Now, we need to check that the following instance variables were not None. If they were not defined to
             # something besides None, then, trying to create a connection will lead to an error.
-            if self.__sql_host is not None and self.__sql_user is not None and self.__sql_password is not None:
+            if CommonSQL.sql_host is not None and CommonSQL.sql_user is not None and CommonSQL.sql_password \
+                    is not None:
 
                 # Finally, we can create the mysql connection, but we can wrap this in a try except to help with
                 # debugging.
                 try:
-                    self.__mysql__connection = mysql.connector.connect(
-                        host=self.__sql_host,
-                        user=self.__sql_user,
-                        password=self.__sql_password
+                    CommonSQL.mysql__connection = mysql.connector.connect(
+                        host=CommonSQL.sql_host,
+                        user=CommonSQL.sql_user,
+                        password=CommonSQL.sql_password
 
                     )
                 except Exception as e:
@@ -90,7 +91,7 @@ class CommonSQL:
         # You could add some error handling at this point to prevent a return of None or you can do it in the
         # locations using this property function to get a mysql connection. This is up to you and no real standard way
         # of doing this, just personal choice.
-        return self.__mysql__connection
+        return CommonSQL.mysql__connection
 
     # After looking over the code, I noticed that a lot of the code did this one thing over and over again. You also had
     # this code more or less repeated over and over again, with a few changes here or there. So, I created this function
