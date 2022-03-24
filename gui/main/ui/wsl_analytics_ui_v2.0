@@ -162,7 +162,7 @@ QTabBar::tab:!selected {
       <attribute name="title">
        <string>Add Break</string>
       </attribute>
-      <widget class="QGroupBox" name="groupbox_addbreak_location">
+      <widget class="QGroupBox" name="gb_addbreak_location">
        <property name="geometry">
         <rect>
          <x>49</x>
@@ -179,7 +179,7 @@ font: 75 14pt &quot;Verdana&quot;;
        <property name="title">
         <string>Location</string>
        </property>
-       <widget class="QPushButton" name="pushButton">
+       <widget class="QPushButton" name="pb_addbreak_newloc">
         <property name="enabled">
          <bool>true</bool>
         </property>
@@ -220,9 +220,9 @@ font: 63 11pt &quot;Verdana&quot;;</string>
           <height>153</height>
          </rect>
         </property>
-        <layout class="QFormLayout" name="formLayout">
+        <layout class="QFormLayout" name="flayout_addbreak_location">
          <item row="0" column="0">
-          <widget class="QLabel" name="label">
+          <widget class="QLabel" name="label_addbreak_continent">
            <property name="styleSheet">
             <string notr="true">background-color: rgb(254, 131, 198);
 font: 63 10pt &quot;Cascadia Mono SemiBold&quot;;</string>
@@ -233,7 +233,7 @@ font: 63 10pt &quot;Cascadia Mono SemiBold&quot;;</string>
           </widget>
          </item>
          <item row="1" column="0">
-          <widget class="QLabel" name="label_2">
+          <widget class="QLabel" name="label_addbreak_country">
            <property name="styleSheet">
             <string notr="true">background-color: rgb(254, 131, 198);
 font: 63 10pt &quot;Cascadia Mono SemiBold&quot;;</string>
@@ -244,14 +244,14 @@ font: 63 10pt &quot;Cascadia Mono SemiBold&quot;;</string>
           </widget>
          </item>
          <item row="1" column="1">
-          <widget class="QComboBox" name="comboBox_2">
+          <widget class="QComboBox" name="cb_addbreak_country">
            <property name="styleSheet">
             <string notr="true">background-color: rgb(251, 248, 241);</string>
            </property>
           </widget>
          </item>
          <item row="2" column="0">
-          <widget class="QLabel" name="label_3">
+          <widget class="QLabel" name="label_addbreak_region">
            <property name="styleSheet">
             <string notr="true">background-color: rgb(254, 131, 198);
 font: 63 10pt &quot;Cascadia Mono SemiBold&quot;;</string>
@@ -262,14 +262,14 @@ font: 63 10pt &quot;Cascadia Mono SemiBold&quot;;</string>
           </widget>
          </item>
          <item row="2" column="1">
-          <widget class="QComboBox" name="comboBox_3">
+          <widget class="QComboBox" name="cb_addbreak_region">
            <property name="styleSheet">
             <string notr="true">background-color: rgb(251, 248, 241);</string>
            </property>
           </widget>
          </item>
          <item row="3" column="0">
-          <widget class="QLabel" name="label_4">
+          <widget class="QLabel" name="label_addbreak_break">
            <property name="styleSheet">
             <string notr="true">background-color: rgb(254, 131, 198);
 font: 63 10pt &quot;Cascadia Mono SemiBold&quot;;</string>
@@ -280,14 +280,14 @@ font: 63 10pt &quot;Cascadia Mono SemiBold&quot;;</string>
           </widget>
          </item>
          <item row="3" column="1">
-          <widget class="QLineEdit" name="lineEdit">
+          <widget class="QLineEdit" name="line_addbreak_break">
            <property name="styleSheet">
             <string notr="true">background-color: rgb(251, 248, 241);</string>
            </property>
           </widget>
          </item>
          <item row="0" column="1">
-          <widget class="QComboBox" name="comboBox">
+          <widget class="QComboBox" name="cb_addbreak_continent">
            <property name="styleSheet">
             <string notr="true">background-color: rgb(251, 248, 241);</string>
            </property>
@@ -296,7 +296,7 @@ font: 63 10pt &quot;Cascadia Mono SemiBold&quot;;</string>
         </layout>
        </widget>
       </widget>
-      <widget class="QGroupBox" name="groupBox">
+      <widget class="QGroupBox" name="gb_addbreak_surfability">
        <property name="geometry">
         <rect>
          <x>590</x>
@@ -322,9 +322,9 @@ font: 75 14pt &quot;Verdana&quot;;
           <height>141</height>
          </rect>
         </property>
-        <layout class="QFormLayout" name="formLayout_2">
+        <layout class="QFormLayout" name="flayout_addbreak_surfability">
          <item row="0" column="0">
-          <widget class="QLabel" name="label_5">
+          <widget class="QLabel" name="label_addbreak_clean">
            <property name="styleSheet">
             <string notr="true">font: 63 10pt &quot;Cascadia Mono SemiBold&quot;;</string>
            </property>
@@ -334,7 +334,7 @@ font: 75 14pt &quot;Verdana&quot;;
           </widget>
          </item>
          <item row="2" column="0">
-          <widget class="QLabel" name="label_6">
+          <widget class="QLabel" name="label_addbreak_small">
            <property name="styleSheet">
             <string notr="true">font: 63 10pt &quot;Cascadia Mono SemiBold&quot;;</string>
            </property>
@@ -344,7 +344,7 @@ font: 75 14pt &quot;Verdana&quot;;
           </widget>
          </item>
          <item row="1" column="0">
-          <widget class="QLabel" name="label_7">
+          <widget class="QLabel" name="label_addbreak_blown">
            <property name="styleSheet">
             <string notr="true">font: 63 10pt &quot;Cascadia Mono SemiBold&quot;;</string>
            </property>
@@ -354,21 +354,21 @@ font: 75 14pt &quot;Verdana&quot;;
           </widget>
          </item>
          <item row="0" column="1">
-          <widget class="QLineEdit" name="lineEdit_2">
+          <widget class="QLineEdit" name="line_addbreak_clean">
            <property name="styleSheet">
             <string notr="true">background-color: rgb(251, 248, 241);</string>
            </property>
           </widget>
          </item>
          <item row="1" column="1">
-          <widget class="QLineEdit" name="lineEdit_3">
+          <widget class="QLineEdit" name="line_addbreak_blown">
            <property name="styleSheet">
             <string notr="true">background-color: rgb(251, 248, 241);</string>
            </property>
           </widget>
          </item>
          <item row="2" column="1">
-          <widget class="QLineEdit" name="lineEdit_4">
+          <widget class="QLineEdit" name="line_addbreak_small">
            <property name="styleSheet">
             <string notr="true">background-color: rgb(251, 248, 241);</string>
            </property>
@@ -377,7 +377,7 @@ font: 75 14pt &quot;Verdana&quot;;
         </layout>
        </widget>
       </widget>
-      <widget class="QGroupBox" name="groupBox_2">
+      <widget class="QGroupBox" name="gb_addbreak_type">
        <property name="geometry">
         <rect>
          <x>590</x>
@@ -403,9 +403,9 @@ font: 75 14pt &quot;Verdana&quot;;
           <height>191</height>
          </rect>
         </property>
-        <layout class="QFormLayout" name="formLayout_3">
+        <layout class="QFormLayout" name="flayout_addbreak_type">
          <item row="0" column="0">
-          <widget class="QCheckBox" name="checkBox">
+          <widget class="QCheckBox" name="check_addbreak_beach">
            <property name="styleSheet">
             <string notr="true">font: 63 12pt &quot;Cascadia Mono SemiBold&quot;;</string>
            </property>
@@ -415,7 +415,7 @@ font: 75 14pt &quot;Verdana&quot;;
           </widget>
          </item>
          <item row="0" column="1">
-          <widget class="QCheckBox" name="checkBox_2">
+          <widget class="QCheckBox" name="check_addbreak_point">
            <property name="styleSheet">
             <string notr="true">font: 63 12pt &quot;Cascadia Mono SemiBold&quot;;</string>
            </property>
@@ -425,7 +425,7 @@ font: 75 14pt &quot;Verdana&quot;;
           </widget>
          </item>
          <item row="1" column="0">
-          <widget class="QCheckBox" name="checkBox_3">
+          <widget class="QCheckBox" name="check_addbreak_reef">
            <property name="styleSheet">
             <string notr="true">font: 63 12pt &quot;Cascadia Mono SemiBold&quot;;</string>
            </property>
@@ -435,7 +435,7 @@ font: 75 14pt &quot;Verdana&quot;;
           </widget>
          </item>
          <item row="1" column="1">
-          <widget class="QCheckBox" name="checkBox_4">
+          <widget class="QCheckBox" name="check_addbreak_river">
            <property name="styleSheet">
             <string notr="true">font: 63 12pt &quot;Cascadia Mono SemiBold&quot;;</string>
            </property>
@@ -445,7 +445,7 @@ font: 75 14pt &quot;Verdana&quot;;
           </widget>
          </item>
          <item row="2" column="0">
-          <widget class="QCheckBox" name="checkBox_5">
+          <widget class="QCheckBox" name="check_addbreak_sandbar">
            <property name="styleSheet">
             <string notr="true">font: 63 12pt &quot;Cascadia Mono SemiBold&quot;;</string>
            </property>
@@ -455,7 +455,7 @@ font: 75 14pt &quot;Verdana&quot;;
           </widget>
          </item>
          <item row="2" column="1">
-          <widget class="QCheckBox" name="checkBox_6">
+          <widget class="QCheckBox" name="check_addbreak_jetty">
            <property name="styleSheet">
             <string notr="true">font: 63 12pt &quot;Cascadia Mono SemiBold&quot;;</string>
            </property>
@@ -465,7 +465,7 @@ font: 75 14pt &quot;Verdana&quot;;
           </widget>
          </item>
          <item row="3" column="0">
-          <widget class="QCheckBox" name="checkBox_7">
+          <widget class="QCheckBox" name="check_addbreak_eng">
            <property name="styleSheet">
             <string notr="true">font: 63 12pt &quot;Cascadia Mono SemiBold&quot;;</string>
            </property>
@@ -477,7 +477,7 @@ font: 75 14pt &quot;Verdana&quot;;
         </layout>
        </widget>
       </widget>
-      <widget class="QGroupBox" name="groupBox_3">
+      <widget class="QGroupBox" name="gb_addbreak_skill">
        <property name="geometry">
         <rect>
          <x>50</x>
@@ -502,9 +502,9 @@ font: 75 14pt &quot;Verdana&quot;;</string>
           <height>161</height>
          </rect>
         </property>
-        <layout class="QFormLayout" name="formLayout_4">
+        <layout class="QFormLayout" name="flayout_addbreak_skill">
          <item row="0" column="0">
-          <widget class="QLabel" name="label_8">
+          <widget class="QLabel" name="label_addbreak_reliability">
            <property name="styleSheet">
             <string notr="true">font: 63 10pt &quot;Cascadia Mono SemiBold&quot;;</string>
            </property>
@@ -514,7 +514,7 @@ font: 75 14pt &quot;Verdana&quot;;</string>
           </widget>
          </item>
          <item row="2" column="0">
-          <widget class="QLabel" name="label_10">
+          <widget class="QLabel" name="label_addbreak_ability">
            <property name="styleSheet">
             <string notr="true">font: 63 10pt &quot;Cascadia Mono SemiBold&quot;;</string>
            </property>
@@ -524,9 +524,9 @@ font: 75 14pt &quot;Verdana&quot;;</string>
           </widget>
          </item>
          <item row="2" column="1">
-          <layout class="QHBoxLayout" name="horizontalLayout_3">
+          <layout class="QHBoxLayout" name="hlayout_addbreak_ability">
            <item>
-            <widget class="QCheckBox" name="checkBox_11">
+            <widget class="QCheckBox" name="check_addbreak_ability_green">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                <horstretch>0</horstretch>
@@ -549,7 +549,7 @@ color: rgb(40, 223, 153);</string>
             </widget>
            </item>
            <item>
-            <widget class="QCheckBox" name="checkBox_12">
+            <widget class="QCheckBox" name="check_addbreak_ability_yellow">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                <horstretch>0</horstretch>
@@ -572,7 +572,7 @@ color: #FDFFA9;</string>
             </widget>
            </item>
            <item>
-            <widget class="QCheckBox" name="checkBox_13">
+            <widget class="QCheckBox" name="check_addbreak_ability_red">
              <property name="sizePolicy">
               <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                <horstretch>0</horstretch>
@@ -597,7 +597,7 @@ color: rgb(216, 58, 86);</string>
           </layout>
          </item>
          <item row="3" column="0">
-          <widget class="QLabel" name="label_9">
+          <widget class="QLabel" name="label_addbreak_burn">
            <property name="styleSheet">
             <string notr="true">font: 63 10pt &quot;Cascadia Mono SemiBold&quot;;</string>
            </property>
@@ -607,91 +607,87 @@ color: rgb(216, 58, 86);</string>
           </widget>
          </item>
          <item row="3" column="1">
-          <layout class="QHBoxLayout" name="horizontalLayout_2">
+          <layout class="QHBoxLayout" name="halyout_addbreak_burn">
            <item>
-            <layout class="QHBoxLayout" name="horizontalLayout">
-             <item>
-              <widget class="QCheckBox" name="checkBox_9">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>75</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">font: 24pt &quot;Wingdings&quot;;
+            <widget class="QCheckBox" name="check_addbreak_burn_green">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>75</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">font: 24pt &quot;Wingdings&quot;;
 color: rgb(40, 223, 153);</string>
-               </property>
-               <property name="text">
-                <string>l</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QCheckBox" name="checkBox_10">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>75</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">font: 24pt &quot;Wingdings&quot;;
+             </property>
+             <property name="text">
+              <string>l</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="check_addbreak_burn_yellow">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>75</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">font: 24pt &quot;Wingdings&quot;;
 color: #FDFFA9;</string>
-               </property>
-               <property name="text">
-                <string>l</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QCheckBox" name="checkBox_8">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="minimumSize">
-                <size>
-                 <width>75</width>
-                 <height>0</height>
-                </size>
-               </property>
-               <property name="styleSheet">
-                <string notr="true">font: 24pt &quot;Wingdings&quot;;
+             </property>
+             <property name="text">
+              <string>l</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="check_addbreak_burn_red">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="minimumSize">
+              <size>
+               <width>75</width>
+               <height>0</height>
+              </size>
+             </property>
+             <property name="styleSheet">
+              <string notr="true">font: 24pt &quot;Wingdings&quot;;
 color: rgb(216, 58, 86);</string>
-               </property>
-               <property name="text">
-                <string>l</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
+             </property>
+             <property name="text">
+              <string>l</string>
+             </property>
+            </widget>
            </item>
           </layout>
          </item>
          <item row="0" column="1">
-          <widget class="QComboBox" name="comboBox_4">
+          <widget class="QComboBox" name="cb_addbreak_reliability">
            <property name="styleSheet">
             <string notr="true">background-color: rgb(251, 248, 241);</string>
            </property>
           </widget>
          </item>
          <item row="1" column="0">
-          <spacer name="verticalSpacer">
+          <spacer name="vspace_addbreak_skill">
            <property name="orientation">
             <enum>Qt::Vertical</enum>
            </property>
@@ -706,7 +702,7 @@ color: rgb(216, 58, 86);</string>
         </layout>
        </widget>
       </widget>
-      <widget class="QPushButton" name="pushButton_2">
+      <widget class="QPushButton" name="pb_addbreak_submit">
        <property name="enabled">
         <bool>true</bool>
        </property>
@@ -738,7 +734,7 @@ font: 63 11pt &quot;Verdana&quot;;</string>
         <string>Submit</string>
        </property>
       </widget>
-      <widget class="QPushButton" name="pushButton_3">
+      <widget class="QPushButton" name="pb_addbreak_clear">
        <property name="enabled">
         <bool>true</bool>
        </property>
