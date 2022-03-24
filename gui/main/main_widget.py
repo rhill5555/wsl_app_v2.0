@@ -12,7 +12,7 @@ from mysql.connector import MySQLConnection
 from PyQt5.QtWidgets import QMainWindow, QApplication
 
 from gui.main.ui_to_py.wsl_analytics_ui_v2 import Ui_Form
-from src.Places import Continent, Country, Region, City, Break
+from src.Places import Continent, Country, Region
 
 ########################################################################################################################
 
@@ -54,7 +54,7 @@ class MainWidget(QMainWindow, Ui_Form):
         # Slots for Add Break Tab
         # Change Country when Continent is selected
         self.cb_addbreak_continent.currentIndexChanged.connect(self.slot_cb_addbreak_continent_on_index_change)
-        #self.cb_addbreak_country.currentIndexChanged.connect(self.slot_cb_addbreak_country_on_index_change)
+        self.cb_addbreak_country.currentIndexChanged.connect(self.slot_cb_addbreak_country_on_index_change)
     #     self.cb_addbreak_region.currentIndexChanged.connect(self.slot_cb_addbreak_region_on_index_change)
     #     self.pb_addbreak_clear.clicked.connect(self.slot_pb_addbreak_clear_clicked)
     #     self.pb_addbreak_newloc.clicked.connect(self.slot_pb_addbreak_newloc_clicked)
@@ -73,7 +73,11 @@ class MainWidget(QMainWindow, Ui_Form):
         self.cb_addbreak_country.addItems(
             [item for item in country_list])
 
-
+    def slot_cb_addbreak_country_on_index_change(self):
+        region_list = Region.region(mysql_connection=self.mysql, country=self.cb_addbreak_country.currentText())
+        self.cb_addbreak_region.clear()
+        self.cb_addbreak_region.addItems(
+            [item for item in region_list])
 
 ########################################################################################################################
 
