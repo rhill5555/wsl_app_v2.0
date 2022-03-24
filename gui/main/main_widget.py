@@ -4,6 +4,8 @@
 # Main Python Code for GUI
 ########################################################################################################################
 from typing import Optional
+
+import mysql
 from mysql.connector import MySQLConnection
 
 from PyQt5.QtWidgets import QMainWindow
@@ -33,3 +35,19 @@ class MainWidget(QMainWindow, Ui_Form):
 
         # Call to setup everything on the gui.
         self.on_startup()
+
+    @property
+    def mysql(self) -> MySQLConnection:
+        # Connect to MySQL
+        if self.__mysql_connection is None:
+            self.__mysql_connection = mysql.connector.connect(
+                host=self.__sql_host,
+                user=self.__sql_user,
+                password=self.__sql_password
+            )
+        return self.__mysql_connection
+
+    # This defines the event handlers for everything on the Main Widget
+    def connect_slots(self):
+        # Slots for Break Data Entry Tab
+        self.BreakContCb.currentIndexChanged.connect(self.slot_break_cont_cb_on_index_change)
