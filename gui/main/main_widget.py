@@ -3,14 +3,16 @@
 # FileName: main_widget.py
 # Main Python Code for GUI
 ########################################################################################################################
+import sys
 from typing import Optional
 
 import mysql
 from mysql.connector import MySQLConnection
 
-from PyQt5.QtWidgets import QMainWindow
+from PyQt5.QtWidgets import QMainWindow, QApplication
 
 from gui.main.ui_to_py.wsl_analytics_ui_v2 import Ui_Form
+from src.Places import Continent, Country, Region, City, Break
 
 ########################################################################################################################
 
@@ -49,5 +51,35 @@ class MainWidget(QMainWindow, Ui_Form):
 
     # This defines the event handlers for everything on the Main Widget
     def connect_slots(self):
-        # Slots for Break Data Entry Tab
-        self.BreakContCb.currentIndexChanged.connect(self.slot_break_cont_cb_on_index_change)
+        # Slots for Add Break Tab
+        # Change Country when Continent is selected
+        self.cb_addbreak_continent.currentIndexChanged.connect(self.slot_cb_addbreak_continent_on_index_change)
+        #self.cb_addbreak_country.currentIndexChanged.connect(self.slot_cb_addbreak_country_on_index_change)
+    #     self.cb_addbreak_region.currentIndexChanged.connect(self.slot_cb_addbreak_region_on_index_change)
+    #     self.pb_addbreak_clear.clicked.connect(self.slot_pb_addbreak_clear_clicked)
+    #     self.pb_addbreak_newloc.clicked.connect(self.slot_pb_addbreak_newloc_clicked)
+    #     self.pb_addbreak_submit.clicked.connect(self.slot_pb_addbreak_submit_clicked)
+
+    def on_startup(self):
+
+        self.cb_addbreak_continent.addItems(
+            [item for item in Continent.continent(mysql_connection=self.mysql)]
+        )
+
+    def slot_cb_addbreak_continent_on_index_change(self):
+
+        country_list = Country.country(mysql_connection=self.mysql, continent=self.cb_addbreak_continent.currentText())
+        self.cb_addbreak_country.clear()
+        self.cb_addbreak_country.addItems(
+            [item for item in country_list])
+
+
+
+########################################################################################################################
+
+if __name__ == '__main__':
+    app = QApplication([])
+    win = MainWidget(sql_host='localhost', sql_user='Heather', sql_password='#LAwaItly19')
+    win.show()
+
+    sys.exit(app.exec())

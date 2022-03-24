@@ -3,17 +3,45 @@
 # FileName: Places.py
 
 ########################################################################################################################
+# Select Continents
+from mysql.connector import MySQLConnection
+
+import gui
+
+
+class Continent:
+    @staticmethod
+    def continent(mysql_connection: MySQLConnection):
+        mycursor = mysql_connection.cursor()
+        mycursor.execute("select continent from wsl.continents")
+        result = mycursor.fetchall()
+
+        continent_list = []
+        for x in result:
+            continent_list.append(x[0])
+
+        return sorted(continent_list, key=str.lower)
+
 
 # Countries from Continents
-class Country:
-    def __init__(self, continent: str):
-        self.continent = continent
+class Country(Continent):
+    @staticmethod
+    def country(mysql_connection: MySQLConnection, continent: str):
+        mycursor = mysql_connection.cursor()
+        mycursor.execute(f"""select country
+                            from wsl.countries countries
+                            join wsl.continents continents
+                                on countries.continent_id = continents.id
+                            where continent = '{continent}'
+                        """)
 
-    # return countries that are in selected continents
-    def select_country(self):
-        # Select country from wsl.continents
-        pass
+        result = mycursor.fetchall()
 
+        country_list = []
+        for x in result:
+            country_list.append(x[0])
+
+        return sorted(country_list, key=str.lower)
 
 # Regions from Country
 class Region(Country):
