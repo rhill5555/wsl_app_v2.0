@@ -29,7 +29,9 @@ class Region(Country):
 
 # Cities from Region
 class City(Region):
-    def __init__(self, region: str):
+    def __init__(self, region: str, country: str, continent: str):
+        Country.__init__(self, continent=continent)
+        Region.__init__(self, country=country)
         self.region = region
 
     # return cities that are in selected region
@@ -40,7 +42,9 @@ class City(Region):
 
 # Breaks from region
 class Break(Region):
-    def __init__(self, region: str):
+    def __init__(self, region: str, country: str, continent: str):
+        Country.__init__(self, continent=continent)
+        Region.__init__(self, country=country)
         self.region = region
 
     # return breaks that are in select region
