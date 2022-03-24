@@ -4,29 +4,22 @@
 # Main Python Code for GUI
 ########################################################################################################################
 import sys
-from typing import Optional
-
-import mysql
-from mysql.connector import MySQLConnection
 
 from PyQt5.QtWidgets import QMainWindow, QApplication
 
 from gui.main.ui_to_py.wsl_analytics_ui_v2 import Ui_Form
-from src.Places import Continent, Country, Region
+from src.Places import Region
+from src import Places
+from src.Places import CommonSQL
+
 
 ########################################################################################################################
 
 
 class MainWidget(QMainWindow, Ui_Form):
-    def __init__(self, sql_host: str, sql_user: str, sql_password: str):
+    def __init__(self) -> object:
         # Call the constructor for the inherited QWidget class.
         QMainWindow.__init__(self)
-
-        # Sql Connection Info and mysql connection
-        self.__sql_host: str = sql_host
-        self.__sql_user: str = sql_user
-        self.__sql_password: str = sql_password
-        self.__mysql_connection: Optional[MySQLConnection] = None
 
         # Call the setupUi function that adds all the pyqt stuff to this class, that was designed in the designer.
         # This function is inherited from the Ui_Form class.
@@ -35,22 +28,24 @@ class MainWidget(QMainWindow, Ui_Form):
         # Call the connect_slots function to connect all the event-handlers to functions in this class.
         self.connect_slots()
 
+        # Sql Connection Variables
+        self.__sql_user: str = "Heather"
+        self.__sql_password: str = "#LAwaItly19"
+        self.__sql_host: str = "localhost"
+
+        # Instance of the Region Class.
+        self.add_break_region_instance: Region = Region(
+            sql_host_name=self.__sql_host,
+            sql_password=self.__sql_password,
+            sql_user_name=self.__sql_user
+        )
+
         # Call to setup everything on the gui.
         self.on_startup()
 
-    @property
-    def mysql(self) -> MySQLConnection:
-        # Connect to MySQL
-        if self.__mysql_connection is None:
-            self.__mysql_connection = mysql.connector.connect(
-                host=self.__sql_host,
-                user=self.__sql_user,
-                password=self.__sql_password
-            )
-        return self.__mysql_connection
-
     # This defines the event handlers for everything on the Main Widget
     def connect_slots(self):
+        pass
         # Slots for Add Break Tab
         # Change Country when Continent is selected
         self.cb_addbreak_continent.currentIndexChanged.connect(self.slot_cb_addbreak_continent_on_index_change)
@@ -61,29 +56,41 @@ class MainWidget(QMainWindow, Ui_Form):
     #     self.pb_addbreak_submit.clicked.connect(self.slot_pb_addbreak_submit_clicked)
 
     def on_startup(self):
-
-        self.cb_addbreak_continent.addItems(
-            [item for item in Continent.continent(mysql_connection=self.mysql)]
-        )
+        self.cb_addbreak_continent.addItems(self.add_break_region_instance.return_continents())
 
     def slot_cb_addbreak_continent_on_index_change(self):
 
-        country_list = Country.country(mysql_connection=self.mysql, continent=self.cb_addbreak_continent.currentText())
+        # Set all the instance variables in the instance of the Region class to None, by calling a function in the
+        # add_break_region_instance instance.
+        self.add_break_region_instance.set_everything_to_none()
+
+        # Clear the country combo boxs.
         self.cb_addbreak_country.clear()
-        self.cb_addbreak_country.addItems(
-            [item for item in country_list])
+
+        # Set the current value of the selected_continent variable in add_break_region_instance to the current text in the continent
+        # combo box.
+        self.add_break_region_instance.selected_continent = self.cb_addbreak_continent.currentText()
+
+        # Add the countries to the country combo box.
+        self.cb_addbreak_country.addItems(self.add_break_region_instance.return_countries())
 
     def slot_cb_addbreak_country_on_index_change(self):
-        region_list = Region.region(mysql_connection=self.mysql, country=self.cb_addbreak_country.currentText())
+        # Clear the add_break_region_instance combo boxs.
         self.cb_addbreak_region.clear()
-        self.cb_addbreak_region.addItems(
-            [item for item in region_list])
+
+        # Set the current value of the selected_country variable in add_break_region_instance to the current text
+        # in the country combo box.
+        self.add_break_region_instance.selected_country = self.cb_addbreak_country.currentText()
+
+        # Add the regions to the add_break_region_instance combo box.
+        self.cb_addbreak_region.addItems(self.add_break_region_instance.return_regions())
+
 
 ########################################################################################################################
 
 if __name__ == '__main__':
     app = QApplication([])
-    win = MainWidget(sql_host='localhost', sql_user='Heather', sql_password='#LAwaItly19')
+    win = MainWidget()
     win.show()
 
     sys.exit(app.exec())

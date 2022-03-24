@@ -18,6 +18,9 @@ class CommonSQL:
     # by the function below. This variable is NEVER accessed directly, only through the function below (this is just a
     # standard of how to do this, but not a specific rule in python).
     __mysql__connection: Optional[MySQLConnection] = None
+    __sql_host: Optional[str] = None
+    __sql_user: Optional[str] = None
+    __sql_password: Optional[str] = None
 
     # We need some information
     # passed to this class when an instance is created, that being the host_name, user_name, and password.
@@ -35,14 +38,17 @@ class CommonSQL:
         # This is very similar but not completely the same to private variables in other languages. In python, you can
         # still access them if you know they are there, but just can't see them.
 
-        # Define the instance variable for the host name.
-        self.__sql_host: Optional[str] = host_name
+        # Define the class variable for the host name.
+        if self.__sql_host is None:
+            self.__sql_host = host_name
 
         # Define the instance variable for the username.
-        self.__sql_user: Optional[str] = user_name
+        if self.__sql_user is None:
+            self.__sql_user = user_name
 
         # Define the instance variable for the password.
-        self.__sql_password: Optional[str] = password
+        if self.__sql_user is None:
+            self.__sql_password = password
 
     # This is a special function (property) that does NOT allow inputs, besides self, but REQUIRES a returned value.
     # This property will return the class variable __mysql__connection. When it is first accessed it will be None,
@@ -69,6 +75,7 @@ class CommonSQL:
                         host=self.__sql_host,
                         user=self.__sql_user,
                         password=self.__sql_password
+
                     )
                 except Exception as e:
                     # Print the official exception info.
@@ -76,8 +83,7 @@ class CommonSQL:
                     # Print a blank line.
                     print()
                     # Print a funny error message, so you feel less bad and know where the error came from in the code.
-                    # print("Wow there partner, looks like the horse bucked you off before you could connect to mysql!!!")
-                    print(f"You're a fucking piece of shit idiot and can't even fucking connect to mysl correctly.")
+                    print(f"You're a fucking piece of shit idiot and can't even fucking connect to mysql correctly.")
                     # Maybe consider raising an error here to shut down the program.
 
         # Return the value of the class variable, regardless of whether it is equal to None.
@@ -85,8 +91,6 @@ class CommonSQL:
         # locations using this property function to get a mysql connection. This is up to you and no real standard way
         # of doing this, just personal choice.
         return self.__mysql__connection
-
-
 
     # After looking over the code, I noticed that a lot of the code did this one thing over and over again. You also had
     # this code more or less repeated over and over again, with a few changes here or there. So, I created this function
@@ -167,9 +171,9 @@ class Continent(CommonSQL):
     # class without having that information at the time of creating the instance. We will assign it later, during its
     # use.
     def __init__(self,
-                 sql_host_name: str,
-                 sql_user_name: str,
-                 sql_password: str,
+                 sql_host_name: Optional[str] = None,
+                 sql_user_name: Optional[str] = None,
+                 sql_password: Optional[str] = None,
                  selected_continent: Optional[str] = None):
 
         # Call the constructor for the inherited class, CommonSQL. Remember this runs the constructor function in the
@@ -191,7 +195,7 @@ class Continent(CommonSQL):
 
     # Okay, so we need to define a function to return a list of the continents, so you can use it to place it in the
     # Combo box at startup of the app.
-    def return_countinents(self) -> List:
+    def return_continents(self) -> List:
 
         # Let's print that we are in this function, so it makes debugging easier.
         print("We are returning the continents...")
@@ -200,6 +204,7 @@ class Continent(CommonSQL):
         # list of continents and return it. First, let's create a temporary string with the sql command.
 
         sql_command: str = "select continent from wsl.continents"
+
 
         return self.return_places(
             mysql_command=sql_command
@@ -253,9 +258,9 @@ class Country(Continent):
     # class without having that information at the time of creating the instance. We will assign it later, during its
     # use.
     def __init__(self,
-                 sql_host_name: str,
-                 sql_user_name: str,
-                 sql_password: str,
+                 sql_host_name: Optional[str] = None,
+                 sql_user_name: Optional[str] = None,
+                 sql_password: Optional[str] = None,
                  selected_country: Optional[str] = None):
         # Call the constructor for the inherited class, Continent. Remember this runs the constructor function in the
         # CommonSQL class and all the instance variables of that class are now instance variables of this class.
@@ -315,14 +320,15 @@ class Country(Continent):
             mysql_command=sql_command
         )
 
+
 class Region(Country):
     # This is the constructor class for the region class. We will assign default values of None to all values passed to
     # the constructor, so that we can create an instance of this class without having all information at the time of
     # of creating the instance. Values will be assigned later during use.
     def __init__(self,
-                 sql_host_name: str,
-                 sql_user_name: str,
-                 sql_password: str,
+                 sql_host_name: Optional[str] = None,
+                 sql_user_name: Optional[str] = None,
+                 sql_password: Optional[str] = None,
                  selected_region: Optional[str] = None):
         # Call the constructor for the inherited class, Country. Remember, this runs the constructor function in the
         # CommonSQL class and all the instance variables of that class are now instance variables of this class.
@@ -422,4 +428,83 @@ class Region(Country):
         return self.return_places(
             mysql_command=sql_command
         )
+
+    # This function sets all the instance variables that dealing with selected places back to None.
+    def set_everything_to_none(self) -> None:
+        self.selected_region = None
+        self.selected_country = None
+        self.selected_continent = None
+
+
+if __name__ == '__main__':
+    # Create an instance of the Continent Class
+    inst_cont: Continent = Continent(
+        sql_host_name="localhost",
+        sql_password="#LAwaItly19",
+        sql_user_name="Heather"
+    )
+
+    # Print the continents out.
+    print(inst_cont.return_continents())
+
+    # Set the selected_continent to North America
+    inst_cont.selected_continent = "North America"
+
+    # Print the countries out.
+    print(inst_cont.return_countries())
+    ####################################################################################################################
+    # # Create an instance of the Country class
+    # inst_country: Country = Country(
+    #     sql_host_name="localhost",
+    #     sql_password="#LAwaItly19",
+    #     sql_user_name="Heather"
+    # )
+    #
+    # # Print the continents out.
+    # print(inst_country.return_continents())
+    #
+    # # Set the selected_continent to North America
+    # inst_country.selected_continent = "North America"
+    #
+    # # Print the countries out.
+    # print(inst_country.return_countries())
+    #
+    # # Set the selected_country to "USA".
+    # inst_country.selected_country = "USA"
+    #
+    # # Print the regions out.
+    # print(inst_country.return_regions())
+    ####################################################################################################################
+    # # Create an instance of the Region class
+    # inst_region: Region = Region(
+    #     sql_host_name="localhost",
+    #     sql_password="#LAwaItly19",
+    #     sql_user_name="Heather"
+    # )
+    #
+    # # Print the continents out.
+    # print(inst_region.return_continents())
+    #
+    # # Set the selected_continent to North America
+    # inst_region.selected_continent = "North America"
+    #
+    # # Print the countries out.
+    # print(inst_region.return_countries())
+    #
+    # # Set the selected_country to "USA".
+    # inst_region.selected_country = "USA"
+    #
+    # # Print the regions out.
+    # print(inst_region.return_regions())
+    #
+    # # Set the selected_region to Florida
+    # inst_region.selected_region = "Florida"
+    #
+    # # Print the cities out.
+    # print(inst_region.return_cities())
+    #
+    # # Print the breaks out.
+    # print(inst_region.return_breaks())
+
+
 
