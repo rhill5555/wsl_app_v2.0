@@ -257,6 +257,29 @@ class MainWidget(QMainWindow, Ui_Form):
         else:
             print('You should probably enter a break name.')
 
+        # Add the Break to wsl.breaks
+        try:
+            # Need to grab region id tied to break that needs to be added
+            table = 'wsl.regions'
+            column = 'id'
+            col_filter = f"where region = '{region}' "
+            inst = Places.SqlCommands()
+            region_id = inst.select_a_column(table=table,
+                                                column=column,
+                                                col_filter=col_filter
+                                                )[0]
+            # Insert into Break Table
+            table = 'wsl.breaks'
+            columns = f"break, region_id, break_type, reliability, ability, shoulder_burn, clean_waves, blown_waves, small_waves"
+            fields = f"'{break_name}', {region_id}, '{break_type[0]}', '{reliability}', '{ability[0]}', '{shoulder_burn[0]},'{int(clean)}, {int(blown)}, {int(small)}"
+            inst.insert_to_table(table=table,
+                                 columns=columns,
+                                 fields=fields
+                                 )
+        except:
+            print('I went to the fucking except')
+
+
 
 
 
