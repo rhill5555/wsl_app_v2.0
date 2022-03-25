@@ -797,7 +797,7 @@ font: 63 11pt &quot;Verdana&quot;;</string>
       <attribute name="title">
        <string>Add Surfer</string>
       </attribute>
-      <widget class="QGroupBox" name="groupBox">
+      <widget class="QGroupBox" name="gb_addsurfer_basic">
        <property name="geometry">
         <rect>
          <x>80</x>
@@ -822,9 +822,9 @@ font: 75 14pt &quot;Verdana&quot;;</string>
           <height>381</height>
          </rect>
         </property>
-        <layout class="QFormLayout" name="formLayout">
+        <layout class="QFormLayout" name="flayout_addsurfer_basic">
          <item row="0" column="0">
-          <widget class="QLabel" name="label">
+          <widget class="QLabel" name="label_addsurfer_firstname">
            <property name="styleSheet">
             <string notr="true">font: 63 10pt &quot;Cascadia Mono SemiBold&quot;;</string>
            </property>
@@ -834,7 +834,7 @@ font: 75 14pt &quot;Verdana&quot;;</string>
           </widget>
          </item>
          <item row="1" column="0">
-          <widget class="QLabel" name="label_2">
+          <widget class="QLabel" name="label_addsurfer_lastname">
            <property name="styleSheet">
             <string notr="true">font: 63 10pt &quot;Cascadia Mono SemiBold&quot;;</string>
            </property>
@@ -844,7 +844,7 @@ font: 75 14pt &quot;Verdana&quot;;</string>
           </widget>
          </item>
          <item row="2" column="0">
-          <widget class="QLabel" name="label_3">
+          <widget class="QLabel" name="label_addsurfer_country">
            <property name="styleSheet">
             <string notr="true">font: 63 10pt &quot;Cascadia Mono SemiBold&quot;;</string>
            </property>
@@ -854,21 +854,21 @@ font: 75 14pt &quot;Verdana&quot;;</string>
           </widget>
          </item>
          <item row="0" column="1">
-          <widget class="QLineEdit" name="lineEdit">
+          <widget class="QLineEdit" name="line_addsurfer_firstname">
            <property name="styleSheet">
             <string notr="true">background-color: rgb(224, 255, 236);</string>
            </property>
           </widget>
          </item>
          <item row="1" column="1">
-          <widget class="QLineEdit" name="lineEdit_2">
+          <widget class="QLineEdit" name="line_addsurfer_lastname">
            <property name="styleSheet">
             <string notr="true">background-color: rgb(224, 255, 236);</string>
            </property>
           </widget>
          </item>
          <item row="3" column="0">
-          <spacer name="verticalSpacer">
+          <spacer name="vspace_addsurfer_basic01">
            <property name="orientation">
             <enum>Qt::Vertical</enum>
            </property>
@@ -881,7 +881,7 @@ font: 75 14pt &quot;Verdana&quot;;</string>
           </spacer>
          </item>
          <item row="3" column="1">
-          <spacer name="verticalSpacer_2">
+          <spacer name="vspace_addsurfer_basic02">
            <property name="orientation">
             <enum>Qt::Vertical</enum>
            </property>
@@ -894,7 +894,7 @@ font: 75 14pt &quot;Verdana&quot;;</string>
           </spacer>
          </item>
          <item row="4" column="0">
-          <widget class="QLabel" name="label_4">
+          <widget class="QLabel" name="label_addsurfer_bday">
            <property name="styleSheet">
             <string notr="true">font: 63 10pt &quot;Cascadia Mono SemiBold&quot;;</string>
            </property>
@@ -904,7 +904,7 @@ font: 75 14pt &quot;Verdana&quot;;</string>
           </widget>
          </item>
          <item row="6" column="0">
-          <widget class="QLabel" name="label_5">
+          <widget class="QLabel" name="label_addsurfer_ht">
            <property name="styleSheet">
             <string notr="true">font: 63 10pt &quot;Cascadia Mono SemiBold&quot;;</string>
            </property>
@@ -914,7 +914,7 @@ font: 75 14pt &quot;Verdana&quot;;</string>
           </widget>
          </item>
          <item row="7" column="0">
-          <widget class="QLabel" name="label_6">
+          <widget class="QLabel" name="label_addsurfer_wt">
            <property name="styleSheet">
             <string notr="true">font: 63 10pt &quot;Cascadia Mono SemiBold&quot;;</string>
            </property>
@@ -924,7 +924,7 @@ font: 75 14pt &quot;Verdana&quot;;</string>
           </widget>
          </item>
          <item row="9" column="0">
-          <widget class="QLabel" name="label_7">
+          <widget class="QLabel" name="label_addsurfer_firstseason">
            <property name="styleSheet">
             <string notr="true">font: 63 10pt &quot;Cascadia Mono SemiBold&quot;;</string>
            </property>
@@ -934,7 +934,7 @@ font: 75 14pt &quot;Verdana&quot;;</string>
           </widget>
          </item>
          <item row="10" column="0">
-          <widget class="QLabel" name="label_8">
+          <widget class="QLabel" name="label_addseason_firsttour">
            <property name="styleSheet">
             <string notr="true">font: 63 10pt &quot;Cascadia Mono SemiBold&quot;;</string>
            </property>
@@ -944,7 +944,7 @@ font: 75 14pt &quot;Verdana&quot;;</string>
           </widget>
          </item>
          <item row="8" column="0">
-          <spacer name="verticalSpacer_3">
+          <spacer name="vpsace_addsurfer_05">
            <property name="orientation">
             <enum>Qt::Vertical</enum>
            </property>
@@ -957,7 +957,7 @@ font: 75 14pt &quot;Verdana&quot;;</string>
           </spacer>
          </item>
          <item row="8" column="1">
-          <spacer name="verticalSpacer_4">
+          <spacer name="vspace_addsurfer_06">
            <property name="orientation">
             <enum>Qt::Vertical</enum>
            </property>
@@ -970,7 +970,7 @@ font: 75 14pt &quot;Verdana&quot;;</string>
           </spacer>
          </item>
          <item row="5" column="0">
-          <spacer name="verticalSpacer_5">
+          <spacer name="vspace_addsurfer_basic03">
            <property name="orientation">
             <enum>Qt::Vertical</enum>
            </property>
@@ -983,7 +983,7 @@ font: 75 14pt &quot;Verdana&quot;;</string>
           </spacer>
          </item>
          <item row="5" column="1">
-          <spacer name="verticalSpacer_6">
+          <spacer name="vspace_addsurfer_basic04">
            <property name="orientation">
             <enum>Qt::Vertical</enum>
            </property>
@@ -996,42 +996,42 @@ font: 75 14pt &quot;Verdana&quot;;</string>
           </spacer>
          </item>
          <item row="2" column="1">
-          <widget class="QComboBox" name="comboBox">
+          <widget class="QComboBox" name="cb_addsurfer_country">
            <property name="styleSheet">
             <string notr="true">background-color: rgb(224, 255, 236);</string>
            </property>
           </widget>
          </item>
          <item row="4" column="1">
-          <widget class="QLineEdit" name="lineEdit_3">
+          <widget class="QLineEdit" name="line_addsurfer_bday">
            <property name="styleSheet">
             <string notr="true">background-color: rgb(224, 255, 236);</string>
            </property>
           </widget>
          </item>
          <item row="6" column="1">
-          <widget class="QLineEdit" name="lineEdit_4">
+          <widget class="QLineEdit" name="line_addsurfer_ht">
            <property name="styleSheet">
             <string notr="true">background-color: rgb(224, 255, 236);</string>
            </property>
           </widget>
          </item>
          <item row="7" column="1">
-          <widget class="QLineEdit" name="lineEdit_5">
+          <widget class="QLineEdit" name="line_addsurfer_wt">
            <property name="styleSheet">
             <string notr="true">background-color: rgb(224, 255, 236);</string>
            </property>
           </widget>
          </item>
          <item row="9" column="1">
-          <widget class="QComboBox" name="comboBox_2">
+          <widget class="QComboBox" name="line_addsurfer_firstseason">
            <property name="styleSheet">
             <string notr="true">background-color: rgb(224, 255, 236);</string>
            </property>
           </widget>
          </item>
          <item row="10" column="1">
-          <widget class="QLineEdit" name="lineEdit_6">
+          <widget class="QLineEdit" name="line_addsurfer_firsttour">
            <property name="styleSheet">
             <string notr="true">background-color: rgb(224, 255, 236);</string>
            </property>
@@ -1040,7 +1040,7 @@ font: 75 14pt &quot;Verdana&quot;;</string>
         </layout>
        </widget>
       </widget>
-      <widget class="QGroupBox" name="groupBox_2">
+      <widget class="QGroupBox" name="gb_addsurfer_home">
        <property name="geometry">
         <rect>
          <x>630</x>
@@ -1065,9 +1065,9 @@ font: 75 14pt &quot;Verdana&quot;;</string>
           <height>151</height>
          </rect>
         </property>
-        <layout class="QFormLayout" name="formLayout_2">
+        <layout class="QFormLayout" name="flayout_addsurfer_home">
          <item row="0" column="0">
-          <widget class="QLabel" name="label_9">
+          <widget class="QLabel" name="label_addsurfer_hcontinent">
            <property name="styleSheet">
             <string notr="true">font: 63 10pt &quot;Cascadia Mono SemiBold&quot;;</string>
            </property>
@@ -1077,7 +1077,7 @@ font: 75 14pt &quot;Verdana&quot;;</string>
           </widget>
          </item>
          <item row="2" column="0">
-          <widget class="QLabel" name="label_10">
+          <widget class="QLabel" name="label_addsurfer_hregion">
            <property name="styleSheet">
             <string notr="true">font: 63 10pt &quot;Cascadia Mono SemiBold&quot;;</string>
            </property>
@@ -1087,7 +1087,7 @@ font: 75 14pt &quot;Verdana&quot;;</string>
           </widget>
          </item>
          <item row="1" column="0">
-          <widget class="QLabel" name="label_11">
+          <widget class="QLabel" name="label_addsurfer_hcountry">
            <property name="styleSheet">
             <string notr="true">font: 63 10pt &quot;Cascadia Mono SemiBold&quot;;</string>
            </property>
@@ -1097,28 +1097,28 @@ font: 75 14pt &quot;Verdana&quot;;</string>
           </widget>
          </item>
          <item row="0" column="1">
-          <widget class="QComboBox" name="comboBox_3">
+          <widget class="QComboBox" name="cb_addsurfer_hcontinent">
            <property name="styleSheet">
             <string notr="true">background-color: rgb(215, 248, 255);</string>
            </property>
           </widget>
          </item>
          <item row="1" column="1">
-          <widget class="QComboBox" name="comboBox_4">
+          <widget class="QComboBox" name="cb_addsurfer_hcountry">
            <property name="styleSheet">
             <string notr="true">background-color: rgb(215, 248, 255);</string>
            </property>
           </widget>
          </item>
          <item row="2" column="1">
-          <widget class="QComboBox" name="comboBox_5">
+          <widget class="QComboBox" name="cb_addsurfer_hregion">
            <property name="styleSheet">
             <string notr="true">background-color: rgb(215, 248, 255);</string>
            </property>
           </widget>
          </item>
          <item row="3" column="0">
-          <widget class="QLabel" name="label_12">
+          <widget class="QLabel" name="label_addsurfer_hcity">
            <property name="styleSheet">
             <string notr="true">font: 63 10pt &quot;Cascadia Mono SemiBold&quot;;</string>
            </property>
@@ -1128,7 +1128,7 @@ font: 75 14pt &quot;Verdana&quot;;</string>
           </widget>
          </item>
          <item row="3" column="1">
-          <widget class="QComboBox" name="comboBox_6">
+          <widget class="QComboBox" name="cb_addsurfer_hcity">
            <property name="styleSheet">
             <string notr="true">background-color: rgb(215, 248, 255);</string>
            </property>
@@ -1136,7 +1136,7 @@ font: 75 14pt &quot;Verdana&quot;;</string>
          </item>
         </layout>
        </widget>
-       <widget class="QPushButton" name="pb_addbreak_newloc_2">
+       <widget class="QPushButton" name="pb_addsurfer_newloc">
         <property name="enabled">
          <bool>true</bool>
         </property>
@@ -1169,7 +1169,7 @@ font: 63 11pt &quot;Verdana&quot;;</string>
         </property>
        </widget>
       </widget>
-      <widget class="QGroupBox" name="groupBox_3">
+      <widget class="QGroupBox" name="gb_addsurfer_tour">
        <property name="geometry">
         <rect>
          <x>630</x>
@@ -1194,9 +1194,9 @@ font: 75 14pt &quot;Verdana&quot;;</string>
           <height>111</height>
          </rect>
         </property>
-        <layout class="QVBoxLayout" name="verticalLayout">
+        <layout class="QVBoxLayout" name="vlayout_addsurfer_tour">
          <item>
-          <widget class="QCheckBox" name="checkBox_2">
+          <widget class="QCheckBox" name="check_addsurfer_male">
            <property name="styleSheet">
             <string notr="true">font: 63 10pt &quot;Cascadia Mono SemiBold&quot;;</string>
            </property>
@@ -1206,7 +1206,7 @@ font: 75 14pt &quot;Verdana&quot;;</string>
           </widget>
          </item>
          <item>
-          <widget class="QCheckBox" name="checkBox">
+          <widget class="QCheckBox" name="check_addsurfer_female">
            <property name="styleSheet">
             <string notr="true">font: 63 10pt &quot;Cascadia Mono SemiBold&quot;;</string>
            </property>
@@ -1218,7 +1218,7 @@ font: 75 14pt &quot;Verdana&quot;;</string>
         </layout>
        </widget>
       </widget>
-      <widget class="QPushButton" name="pb_addbreak_clear_2">
+      <widget class="QPushButton" name="pb_addsurfer_clear">
        <property name="enabled">
         <bool>true</bool>
        </property>
@@ -1250,7 +1250,7 @@ font: 63 11pt &quot;Verdana&quot;;</string>
         <string>Clear</string>
        </property>
       </widget>
-      <widget class="QPushButton" name="pb_addbreak_submit_2">
+      <widget class="QPushButton" name="pb_addsurfer_submit">
        <property name="enabled">
         <bool>true</bool>
        </property>

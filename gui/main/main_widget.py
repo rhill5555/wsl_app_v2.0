@@ -65,7 +65,7 @@ class MainWidget(QMainWindow, Ui_Form):
         self.pb_addbreak_submit.clicked.connect(self.slot_pb_addbreak_submit_clicked)
 
         # Slots for Add Surfer Tab
-
+        
 
     # Everything that should happen when the app has started up
     def on_startup(self):
