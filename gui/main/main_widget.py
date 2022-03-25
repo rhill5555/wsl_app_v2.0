@@ -3,6 +3,7 @@
 # FileName: main_widget.py
 # Main Python Code for GUI
 ########################################################################################################################
+import datetime
 import sys
 
 from PyQt5.QtWidgets import QMainWindow, QApplication, QDialog
@@ -437,6 +438,8 @@ class MainWidget(QMainWindow, Ui_Form):
     def slot_pb_addsurfer_clear_clicked(self):
         self.line_addsurfer_firstname.clear()
         self.line_addsurfer_lastname.clear()
+        self.check_addsurfer_goofy.setChecked(0)
+        self.check_addsurfer_regular.setChecked(0)
         self.cb_addsurfer_continent.clear()
         self.cb_addsurfer_continent.addItems([''] + self.add_break_region_instance.return_continents())
         self.cb_addsurfer_country.clear()
@@ -457,7 +460,84 @@ class MainWidget(QMainWindow, Ui_Form):
 
     # Event Handler for Submit Button Clicked
     def slot_pb_addsurfer_submit_clicked(self):
-        pass
+        # Check to Make Sure a First and Last Name are entered
+        condition_1 = self.line_addsurfer_firstname.text() == ''
+        condition_2 = self.line_addsurfer_lastname.text() == ''
+        if not condition_1 and not condition_2:
+            print(f"You're not a complete fuck up. You entered a first and last name!")
+        else:
+            print(f"Enter a first and last name. Don't be a piece of shit.")
+
+        # Grab First and Last Name
+        first_name = self.line_addsurfer_firstname.text()
+        last_name = self.line_addsurfer_lastname.text()
+
+        # Determine Stance
+        if self.check_addsurfer_regular.isChecked():
+            stance = 'Regular'
+        elif self.check_addsurfer_goofy.isChecked():
+            stance = 'Goofy'
+        else:
+            stance = ''
+
+        # Find Country they represent
+        country = self.cb_addsurfer_country.currentText()
+
+        # Grab birthday and turn into correct format for sql
+        birthday = self.line_addsurfer_bday.text()
+        inst = Validations.DateCheck
+        birthday = inst.date_check(self, input_dt=birthday)
+
+        # Grab Height and Weight and check to see if they are numbers
+        height = self.line_addsurfer_ht.text()
+        weight = self.line_addsurfer_wt.text()
+
+        # Check to Make sure height and weight were entered as numbers
+        inst = Validations.NumCheck
+        inst.int_check(self, input_num=height)
+        inst.int_check(self, input_num=weight)
+
+        # Grab first season and tour
+        first_season = self.line_addsurfer_firstseason.text()
+        first_tour = self.line_addsurfer_firsttour.text()
+
+        # Make sure first season has a length of 4 and is an integer
+        if not first_season =='':
+            if len(first_season) == 4:
+                pass
+            else:
+                "First Season must be a year in form YYYY"
+        inst = Validations.NumCheck
+        inst.int_check(self, input_num=first_season)
+
+        # Grab Home City
+        home_city = self.cb_addsurfer_hcity.currentText()
+
+        # Grab Male or Female
+        if self.check_addsurfer_male.isChecked():
+            if self.check_addsurfer_female.isChecked():
+                print('Dude, we have to separate by gender because of stuff like muscle density to keep it fair.')
+                raise ValueError
+            gender = 'Men'
+        elif self.check_addsurfer_female.isChecked():
+            gender = 'Women'
+        else:
+            print("Bruh, you have to choose a gender for this to work.")
+            raise ValueError
+
+        print(f"Name: {first_name} {last_name}")
+        print(f"Stance: {stance}")
+        print(f"Representing: {country}")
+        print(f"Date of Birth: {birthday}")
+        print(f"Height(cm): {height}    Weight(kg): {weight}")
+        print(f"First Season: {first_season} {first_tour}")
+        print(f"Hometown: {home_city}")
+        print(f"Competing in the {gender}'s tour.")
+
+
+
+
+
 
 
 

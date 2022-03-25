@@ -3,18 +3,21 @@
 # Or I may want to check that a break name entered does not already exist
 
 # Class for checking that something is a number
+import datetime
+
+
 class NumCheck():
     def __init__(self, input_num: str):
         self.input_num = input_num
 
     def int_check(self, input_num: str):
         try:
-            print(f"I'm checking for an integer.")
+            # print(f"I'm checking for an integer.")
             if input_num == '':
                 input_num = 0
             int(input_num)
-            print(f"It's an integer.")
-            print(f"I've adjusted the type to int.")
+            # print(f"It's an integer.")
+            # print(f"I've adjusted the type to int.")
             return(input_num)
         except:
             print(f"It's not an integer.")
@@ -22,13 +25,31 @@ class NumCheck():
 
     def float_check(self, input_num: str):
         try:
-            print(f"I'm checking for an integer.")
+            # print(f"I'm checking for an integer.")
             if input_num == '':
                 input_num = 0
             float(input_num)
-            print(f"It's an integer.")
-            print(f"I've adjusted the type to int.")
+            # print(f"It's an integer.")
+            # print(f"I've adjusted the type to int.")
             return(input_num)
         except:
             print(f"It's not an integer.")
             return('Invalid Number')
+
+# Class for checking that dates were entered in correct format
+class DateCheck():
+    def __init__(selfself, input_dt: str):
+        self.input_dt = input_dt
+
+    def date_check(self, input_dt: str):
+        try:
+            if input_dt == '':
+                input_dt = '1900-01-01'
+            else:
+                dt_string = input_dt
+                dt_format = '%m/%d/%Y'
+                output_dt = datetime.datetime.strptime(dt_string, dt_format)
+                return output_dt
+        except:
+            print(f"Date format should be %m/%d/%Y")
+            return "Invalid Date"
