@@ -19,3 +19,16 @@ class NumCheck():
         except:
             print(f"It's not an integer.")
             return('Invalid Number')
+
+    def float_check(self, input_num: str):
+        try:
+            print(f"I'm checking for an integer.")
+            if input_num == '':
+                input_num = 0
+            float(input_num)
+            print(f"It's an integer.")
+            print(f"I've adjusted the type to int.")
+            return(input_num)
+        except:
+            print(f"It's not an integer.")
+            return('Invalid Number')
