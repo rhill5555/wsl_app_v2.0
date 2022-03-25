@@ -9,6 +9,7 @@ import mysql
 from mysql.connector import MySQLConnection
 
 from mysql.connector import MySQLConnection
+from mysql.connector.cursor import MySQLCursor
 
 
 class CommonSQL:
@@ -164,6 +165,43 @@ class CommonSQL:
                   f"IGNORE ME, PUT THAT SHIT IN THE SQL COMMAND LINE THING AND CHECK IT, JESUS.")
             # return
             return places_list
+
+
+class SqlCommands(CommonSQL):
+    my_cursor: Optional[MySQLCursor] = None
+
+    def __init__(self,
+                 sql_host_name: Optional[str] = None,
+                 sql_user_name: Optional[str] = None,
+                 sql_password: Optional[str] = None):
+        # Call the constructor for the inherited class, CommonSQL. Remember this runs the constructor function in the
+        # CommonSQL class and all the instance variables of that class are now instance variables of this class.
+        # It also inherits all the functions.
+        CommonSQL.__init__(
+            self,
+            host_name=sql_host_name,
+            user_name=sql_user_name,
+            password=sql_password
+        )
+
+    @property
+    def mycursor(self) -> MySQLCursor:
+
+        # Check if the Class variable my_cursor is None, and define a value to it, if it is.
+        if SqlCommands.my_cursor is None:
+            SqlCommands.my_cursor = self.mysql_connection.cursor()
+
+        # Return
+        return SqlCommands.my_cursor
+
+    def insert_to_table(self):
+        pass
+
+    def select_a_column(self):
+        pass
+
+    def update_table_record(self):
+        pass
 
 
 class Continent(CommonSQL):

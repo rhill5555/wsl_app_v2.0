@@ -121,6 +121,8 @@ class MainWidget(QMainWindow, Ui_Form):
 
             print(f"You have found {city}, {region}, {country}, {continent}.")
 
+            self
+
 
 
 
