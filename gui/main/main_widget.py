@@ -11,11 +11,9 @@ from gui.common_widget.dialog_widget.add_location_popup import AddLocation
 from gui.main.ui_to_py.wsl_analytics_ui_v2 import Ui_Form
 from src.Places import Region
 from src import Places, Validations
-from src.Places import CommonSQL
 
 
 ########################################################################################################################
-from src.Validations import NumCheck
 
 
 class MainWidget(QMainWindow, Ui_Form):
@@ -67,11 +65,12 @@ class MainWidget(QMainWindow, Ui_Form):
     # Everything that should happen when the app has started up
     def on_startup(self):
         # Add Break Tab
-        self.cb_addbreak_continent.addItems(self.add_break_region_instance.return_continents())
+
+        self.cb_addbreak_continent.addItems(['']+self.add_break_region_instance.return_continents())
 
         # Add Surfer Tab
-        self.cb_addsurfer_continent.addItems(self.add_break_region_instance.return_continents())
-        self.cb_addsurfer_hcontinent.addItems(self.add_break_region_instance.return_continents())
+        self.cb_addsurfer_continent.addItems(['']+self.add_break_region_instance.return_continents())
+        self.cb_addsurfer_hcontinent.addItems(['']+self.add_break_region_instance.return_continents())
 
     ####################################################################################################################
     # Event Handler Functions for The Add Break Tab
@@ -91,7 +90,7 @@ class MainWidget(QMainWindow, Ui_Form):
         self.add_break_region_instance.selected_continent = self.cb_addbreak_continent.currentText()
 
         # Add the countries to the country combo box.
-        self.cb_addbreak_country.addItems(self.add_break_region_instance.return_countries())
+        self.cb_addbreak_country.addItems(['']+self.add_break_region_instance.return_countries())
 
     # Change Region List when a Country is selected
     def slot_cb_addbreak_country_on_index_change(self):
@@ -103,7 +102,7 @@ class MainWidget(QMainWindow, Ui_Form):
         self.add_break_region_instance.selected_country = self.cb_addbreak_country.currentText()
 
         # Add the regions to the add_break_region_instance combo box.
-        self.cb_addbreak_region.addItems(self.add_break_region_instance.return_regions())
+        self.cb_addbreak_region.addItems(['']+self.add_break_region_instance.return_regions())
 
     # Open a PopUp to enter new places when The Add Location Button is selected
     def slot_pb_addbreak_newloc_clicked(self):
@@ -215,6 +214,8 @@ class MainWidget(QMainWindow, Ui_Form):
 
     # Clear the form when the Clear button is checked
     def slot_pb_addbreak_clear_clicked(self):
+        self.cb_addbreak_continent.clear()
+        self.cb_addbreak_continent.addItems([''] + self.add_break_region_instance.return_continents())
         self.cb_addbreak_country.clear()
         self.cb_addbreak_region.clear()
         self.line_addbreak_break.clear()
@@ -390,7 +391,7 @@ class MainWidget(QMainWindow, Ui_Form):
         self.add_break_region_instance.selected_continent = self.cb_addsurfer_continent.currentText()
 
         # Add the countries to the country combo box.
-        self.cb_addsurfer_country.addItems(self.add_break_region_instance.return_countries())
+        self.cb_addsurfer_country.addItems(['']+self.add_break_region_instance.return_countries())
 
     # Change Home Country List when Home Continent is Selected
     def slot_cb_addsurfer_hcontinent_on_index_change(self):
@@ -406,7 +407,7 @@ class MainWidget(QMainWindow, Ui_Form):
         self.add_break_region_instance.selected_continent = self.cb_addsurfer_hcontinent.currentText()
 
         # Add the countries to the country combo box.
-        self.cb_addsurfer_hcountry.addItems(self.add_break_region_instance.return_countries())
+        self.cb_addsurfer_hcountry.addItems(['']+self.add_break_region_instance.return_countries())
 
     # Change Home Region List when Home Country is Selected
     def slot_cb_addsurfer_hcountry_on_index_change(self):
@@ -418,7 +419,7 @@ class MainWidget(QMainWindow, Ui_Form):
         self.add_break_region_instance.selected_country = self.cb_addsurfer_hcountry.currentText()
 
         # Add the regions to the add_break_region_instance combo box.
-        self.cb_addsurfer_hregion.addItems(self.add_break_region_instance.return_regions())
+        self.cb_addsurfer_hregion.addItems(['']+self.add_break_region_instance.return_regions())
 
     # Change Home City List when Home Region is Selected
     def slot_cb_addsurfer_hregion_on_index_change(self):
@@ -430,11 +431,25 @@ class MainWidget(QMainWindow, Ui_Form):
         self.add_break_region_instance.selected_region = self.cb_addsurfer_hregion.currentText()
 
         # Add the regions to the add_break_region_instance combo box.
-        self.cb_addsurfer_hcity.addItems(self.add_break_region_instance.return_cities())
+        self.cb_addsurfer_hcity.addItems(['']+self.add_break_region_instance.return_cities())
 
     # Event Handler for Clear Button Clicked
     def slot_pb_addsurfer_clear_clicked(self):
-        pass
+        self.line_addsurfer_firstname.clear()
+        self.line_addsurfer_lastname.clear()
+        self.cb_addsurfer_continent.clear()
+        self.cb_addsurfer_continent.addItems([''] + self.add_break_region_instance.return_continents())
+        self.cb_addsurfer_country.clear()
+        self.line_addsurfer_bday.clear()
+        self.line_addsurfer_ht.clear()
+        self.line_addsurfer_wt.clear()
+        self.line_addsurfer_firstseason.clear()
+        self.line_addsurfer_firsttour.clear()
+        self.cb_addsurfer_hcontinent.clear()
+        self.cb_addsurfer_hcontinent.addItems([''] + self.add_break_region_instance.return_continents())
+        self.cb_addsurfer_hcountry.clear()
+        self.cb_addsurfer_hregion.clear()
+        self.cb_addsurfer_hcity.clear()
 
     # Event Handler for Add Location Button Clicked
     def slot_pb_addsurfer_newloc_clicked(self):

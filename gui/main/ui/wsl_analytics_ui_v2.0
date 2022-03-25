@@ -819,7 +819,7 @@ font: 75 14pt &quot;Verdana&quot;;</string>
           <x>40</x>
           <y>70</y>
           <width>351</width>
-          <height>386</height>
+          <height>388</height>
          </rect>
         </property>
         <layout class="QFormLayout" name="flayout_addsurfer_basic">
@@ -1023,13 +1023,6 @@ font: 75 14pt &quot;Verdana&quot;;</string>
            </property>
           </widget>
          </item>
-         <item row="11" column="1">
-          <widget class="QComboBox" name="line_addsurfer_firstseason">
-           <property name="styleSheet">
-            <string notr="true">background-color: rgb(224, 255, 236);</string>
-           </property>
-          </widget>
-         </item>
          <item row="12" column="1">
           <widget class="QLineEdit" name="line_addsurfer_firsttour">
            <property name="styleSheet">
@@ -1049,6 +1042,13 @@ font: 75 14pt &quot;Verdana&quot;;</string>
          </item>
          <item row="3" column="1">
           <widget class="QComboBox" name="cb_addsurfer_continent">
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(224, 255, 236);</string>
+           </property>
+          </widget>
+         </item>
+         <item row="11" column="1">
+          <widget class="QLineEdit" name="line_addsurfer_firstseason">
            <property name="styleSheet">
             <string notr="true">background-color: rgb(224, 255, 236);</string>
            </property>
