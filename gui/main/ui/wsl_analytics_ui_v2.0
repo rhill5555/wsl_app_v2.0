@@ -143,19 +143,432 @@ QTabBar::tab:!selected {
 }</string>
      </property>
      <property name="currentIndex">
-      <number>3</number>
+      <number>0</number>
      </property>
      <property name="documentMode">
       <bool>true</bool>
      </property>
+     <widget class="QWidget" name="tab">
+      <attribute name="title">
+       <string>Add Event</string>
+      </attribute>
+      <widget class="QGroupBox" name="gb_addevent_name">
+       <property name="geometry">
+        <rect>
+         <x>60</x>
+         <y>50</y>
+         <width>451</width>
+         <height>351</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(0, 170, 255);
+font: 75 14pt &quot;Verdana&quot;;</string>
+       </property>
+       <property name="title">
+        <string>Event Name</string>
+       </property>
+       <widget class="QWidget" name="formLayoutWidget_7">
+        <property name="geometry">
+         <rect>
+          <x>50</x>
+          <y>50</y>
+          <width>361</width>
+          <height>91</height>
+         </rect>
+        </property>
+        <layout class="QFormLayout" name="flayout_addevent_tour">
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_addevent_year">
+           <property name="styleSheet">
+            <string notr="true">font: 63 10pt &quot;Cascadia Mono SemiBold&quot;;</string>
+           </property>
+           <property name="text">
+            <string>Year:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_addevent_tourtype">
+           <property name="styleSheet">
+            <string notr="true">font: 63 10pt &quot;Cascadia Mono SemiBold&quot;;</string>
+           </property>
+           <property name="text">
+            <string>Tour Type:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QComboBox" name="cb_addevent_year">
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(215, 248, 255);</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QComboBox" name="cb_addevent_tourtype">
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(215, 248, 255);</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QPushButton" name="pb_addevent_newtour">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="geometry">
+         <rect>
+          <x>160</x>
+          <y>150</y>
+          <width>151</width>
+          <height>50</height>
+         </rect>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>151</width>
+          <height>50</height>
+         </size>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">background-color: rgb(167, 255, 226);
+font: 63 11pt &quot;Verdana&quot;;</string>
+        </property>
+        <property name="text">
+         <string>Add New Tour</string>
+        </property>
+       </widget>
+       <widget class="QWidget" name="formLayoutWidget_8">
+        <property name="geometry">
+         <rect>
+          <x>50</x>
+          <y>239</y>
+          <width>361</width>
+          <height>77</height>
+         </rect>
+        </property>
+        <layout class="QFormLayout" name="flayout_addevent_name">
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_addevent_name">
+           <property name="styleSheet">
+            <string notr="true">font: 63 10pt &quot;Cascadia Mono SemiBold&quot;;</string>
+           </property>
+           <property name="text">
+            <string>Name:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_addevent_stop">
+           <property name="styleSheet">
+            <string notr="true">font: 63 10pt &quot;Cascadia Mono SemiBold&quot;;</string>
+           </property>
+           <property name="text">
+            <string>Stop #:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLineEdit" name="line_addevent_name">
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(215, 248, 255);</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLineEdit" name="line_addevent_stop">
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(215, 248, 255);</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </widget>
+      <widget class="QGroupBox" name="gb_addevent_dates">
+       <property name="geometry">
+        <rect>
+         <x>60</x>
+         <y>460</y>
+         <width>281</width>
+         <height>161</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">font: 75 14pt &quot;Verdana&quot;;
+background-color: rgb(185, 131, 255);</string>
+       </property>
+       <property name="title">
+        <string>Dates</string>
+       </property>
+       <widget class="QWidget" name="formLayoutWidget_9">
+        <property name="geometry">
+         <rect>
+          <x>30</x>
+          <y>50</y>
+          <width>221</width>
+          <height>81</height>
+         </rect>
+        </property>
+        <layout class="QFormLayout" name="flayout_addevent_dates">
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_addevent_open">
+           <property name="text">
+            <string>Open:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_addevent_close">
+           <property name="text">
+            <string>Close:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLineEdit" name="line_addevent_open">
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(215, 248, 255);</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QLineEdit" name="line_addevent_close">
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(215, 248, 255);</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </widget>
+      <widget class="QGroupBox" name="gb_addevent_location">
+       <property name="geometry">
+        <rect>
+         <x>580</x>
+         <y>50</y>
+         <width>481</width>
+         <height>351</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">font: 75 14pt &quot;Verdana&quot;;
+background-color: rgb(185, 131, 255);</string>
+       </property>
+       <property name="title">
+        <string>Location</string>
+       </property>
+       <widget class="QWidget" name="formLayoutWidget_10">
+        <property name="geometry">
+         <rect>
+          <x>50</x>
+          <y>60</y>
+          <width>381</width>
+          <height>181</height>
+         </rect>
+        </property>
+        <layout class="QFormLayout" name="flayout_addbreak_location_2">
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_addevent_continent">
+           <property name="styleSheet">
+            <string notr="true">font: 63 10pt &quot;Cascadia Mono SemiBold&quot;;</string>
+           </property>
+           <property name="text">
+            <string>Continent:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="label_addevent_region">
+           <property name="styleSheet">
+            <string notr="true">font: 63 10pt &quot;Cascadia Mono SemiBold&quot;;</string>
+           </property>
+           <property name="text">
+            <string>Region:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0">
+          <widget class="QLabel" name="label_addevent_break">
+           <property name="styleSheet">
+            <string notr="true">font: 63 10pt &quot;Cascadia Mono SemiBold&quot;;</string>
+           </property>
+           <property name="text">
+            <string>Break:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_addevent_country">
+           <property name="styleSheet">
+            <string notr="true">font: 63 10pt &quot;Cascadia Mono SemiBold&quot;;</string>
+           </property>
+           <property name="text">
+            <string>Country:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QComboBox" name="cb_addevent_continent">
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(215, 248, 255);</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QComboBox" name="cb_addevent_country">
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(215, 248, 255);</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QComboBox" name="cb_addevent_region">
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(215, 248, 255);</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="QComboBox" name="cb_addevent_break">
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(215, 248, 255);</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </widget>
+      <widget class="QGroupBox" name="gb_addevent_tour">
+       <property name="geometry">
+        <rect>
+         <x>580</x>
+         <y>460</y>
+         <width>191</width>
+         <height>161</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">font: 75 14pt &quot;Verdana&quot;;
+background-color: rgb(0, 170, 255);</string>
+       </property>
+       <property name="title">
+        <string>Tour</string>
+       </property>
+       <widget class="QWidget" name="verticalLayoutWidget_2">
+        <property name="geometry">
+         <rect>
+          <x>29</x>
+          <y>49</y>
+          <width>131</width>
+          <height>81</height>
+         </rect>
+        </property>
+        <layout class="QVBoxLayout" name="verticalLayout">
+         <item>
+          <widget class="QCheckBox" name="check_addevent_men">
+           <property name="styleSheet">
+            <string notr="true">font: 63 10pt &quot;Cascadia Mono SemiBold&quot;;</string>
+           </property>
+           <property name="text">
+            <string>Men</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="check_addevent_women">
+           <property name="styleSheet">
+            <string notr="true">font: 63 10pt &quot;Cascadia Mono SemiBold&quot;;</string>
+           </property>
+           <property name="text">
+            <string>Women</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </widget>
+      <widget class="QPushButton" name="pb_addevent_clear">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="geometry">
+        <rect>
+         <x>830</x>
+         <y>470</y>
+         <width>151</width>
+         <height>50</height>
+        </rect>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>151</width>
+         <height>50</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(154, 223, 244);
+font: 63 11pt &quot;Verdana&quot;;</string>
+       </property>
+       <property name="text">
+        <string>Clear</string>
+       </property>
+      </widget>
+      <widget class="QPushButton" name="pb_addevent_submit">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="geometry">
+        <rect>
+         <x>830</x>
+         <y>550</y>
+         <width>151</width>
+         <height>50</height>
+        </rect>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>151</width>
+         <height>50</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(253, 192, 255);
+font: 63 11pt &quot;Verdana&quot;;</string>
+       </property>
+       <property name="text">
+        <string>Submit</string>
+       </property>
+      </widget>
+     </widget>
      <widget class="QWidget" name="tab_entry_results">
       <attribute name="title">
-       <string>Heat Resuts</string>
+       <string>Add Heat</string>
       </attribute>
      </widget>
      <widget class="QWidget" name="tab_entry_heat">
       <attribute name="title">
-       <string>Add Heat</string>
+       <string>Add Heat Results</string>
       </attribute>
      </widget>
      <widget class="QWidget" name="tab_entry_break">
@@ -1252,7 +1665,7 @@ font: 75 14pt &quot;Verdana&quot;;</string>
             <string notr="true">font: 63 10pt &quot;Cascadia Mono SemiBold&quot;;</string>
            </property>
            <property name="text">
-            <string>Male</string>
+            <string>Men</string>
            </property>
           </widget>
          </item>
@@ -1262,7 +1675,7 @@ font: 75 14pt &quot;Verdana&quot;;</string>
             <string notr="true">font: 63 10pt &quot;Cascadia Mono SemiBold&quot;;</string>
            </property>
            <property name="text">
-            <string>Female</string>
+            <string>Women</string>
            </property>
           </widget>
          </item>
