@@ -160,6 +160,8 @@ class AddLocation(QDialog, Region):
         self.cb_region.addItems(self.return_regions())
 
 
+
+
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     win = AddLocation(title='Add a New Location',

@@ -121,7 +121,33 @@ class MainWidget(QMainWindow, Ui_Form):
 
             print(f"You have found {city}, {region}, {country}, {continent}.")
 
-            self
+            #Insert new country into country table
+            try:
+                # If New country is entered continue
+                if not dialog.line_country.text() == '':
+                    country = dialog.line_country.text()
+                    # Need to grab continent id tied to country that needs to be added
+                    table = 'wsl.continents'
+                    column = 'id'
+                    col_filter = f"where continent = '{continent}' "
+                    inst = Places.SqlCommands()
+                    continent_id = inst.select_a_column(table=table,
+                                                        column=column,
+                                                        col_filter=col_filter
+                                                        )[0]
+                    # Insert into Country Table
+                    table = 'wsl.countries'
+                    columns = 'country, continent_id'
+                    fields = f"'{country}', {continent_id}"
+                    inst.insert_to_table(table=table,
+                                         columns=columns,
+                                         fields=fields
+                                         )
+            except:
+                print('I went to the fucking except')
+                pass
+
+
 
 
 

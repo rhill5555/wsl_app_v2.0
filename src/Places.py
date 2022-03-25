@@ -194,11 +194,24 @@ class SqlCommands(CommonSQL):
         # Return
         return SqlCommands.my_cursor
 
-    def insert_to_table(self):
-        pass
+    def insert_to_table(self, table: str, columns: str, fields: str):
+        self.my_cursor.execute(f"""INSERT INTO {table} ({columns}) VALUES ({fields});""")
+        self.mysql_connection.commit()
 
-    def select_a_column(self):
-        pass
+    def select_a_column(self, table: str, column: str, col_filter: str):
+        query = f"""SELECT {column} FROM {table} {col_filter}"""
+        self.mycursor.execute(query)
+        result = self.mycursor.fetchall()
+
+        # Since, mysql returns it in the list of tuple format, you take care of this.
+        result_list = []
+        for item in result:
+            # Append the modified version of the current item into the result_list list.
+            result_list.append(
+                item[0]
+            )
+
+        return result_list
 
     def update_table_record(self):
         pass
