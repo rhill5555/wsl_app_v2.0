@@ -59,7 +59,7 @@ class MainWidget(QMainWindow, Ui_Form):
         self.cb_addbreak_continent.currentIndexChanged.connect(self.slot_cb_addbreak_continent_on_index_change)
         self.cb_addbreak_country.currentIndexChanged.connect(self.slot_cb_addbreak_country_on_index_change)
     #   self.cb_addbreak_region.currentIndexChanged.connect(self.slot_cb_addbreak_region_on_index_change)
-    #   self.pb_addbreak_clear.clicked.connect(self.slot_pb_addbreak_clear_clicked)
+        self.pb_addbreak_clear.clicked.connect(self.slot_pb_addbreak_clear_clicked)
         self.pb_addbreak_newloc.clicked.connect(self.slot_pb_addbreak_newloc_clicked)
         self.pb_addbreak_submit.clicked.connect(self.slot_pb_addbreak_submit_clicked)
 
@@ -200,6 +200,27 @@ class MainWidget(QMainWindow, Ui_Form):
                 print('I went to the fucking except')
                 pass
 
+    def slot_pb_addbreak_clear_clicked(self):
+        self.cb_addbreak_country.clear()
+        self.cb_addbreak_region.clear()
+        self.line_addbreak_break.clear()
+        self.check_addbreak_ability_green.setChecked(0)
+        self.check_addbreak_ability_yellow.setChecked(0)
+        self.check_addbreak_ability_red.setChecked(0)
+        self.check_addbreak_burn_green.setChecked(0)
+        self.check_addbreak_burn_yellow.setChecked(0)
+        self.check_addbreak_burn_red.setChecked(0)
+        self.check_addbreak_beach.setChecked(0)
+        self.check_addbreak_point.setChecked(0)
+        self.check_addbreak_reef.setChecked(0)
+        self.check_addbreak_river.setChecked(0)
+        self.check_addbreak_sandbar.setChecked(0)
+        self.check_addbreak_jetty.setChecked(0)
+        self.check_addbreak_eng.setChecked(0)
+        self.line_addbreak_clean.clear()
+        self.line_addbreak_blown.clear()
+        self.line_addbreak_small.clear()
+
     def slot_pb_addbreak_submit_clicked(self):
         if not self.line_addbreak_break.text() == '':
             # Grab Locations from Location Group
@@ -328,6 +349,29 @@ class MainWidget(QMainWindow, Ui_Form):
                                  )
         except:
             print('I went to the fucking except')
+
+        # Clear Form on Submit
+        self.cb_addbreak_country.clear()
+        self.cb_addbreak_region.clear()
+        self.line_addbreak_break.clear()
+        self.check_addbreak_ability_green.setChecked(0)
+        self.check_addbreak_ability_yellow.setChecked(0)
+        self.check_addbreak_ability_red.setChecked(0)
+        self.check_addbreak_burn_green.setChecked(0)
+        self.check_addbreak_burn_yellow.setChecked(0)
+        self.check_addbreak_burn_red.setChecked(0)
+        self.check_addbreak_beach.setChecked(0)
+        self.check_addbreak_point.setChecked(0)
+        self.check_addbreak_reef.setChecked(0)
+        self.check_addbreak_river.setChecked(0)
+        self.check_addbreak_sandbar.setChecked(0)
+        self.check_addbreak_jetty.setChecked(0)
+        self.check_addbreak_eng.setChecked(0)
+        self.line_addbreak_clean.clear()
+        self.line_addbreak_blown.clear()
+        self.line_addbreak_small.clear()
+
+
 
 
 
