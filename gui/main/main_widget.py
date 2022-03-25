@@ -45,15 +45,6 @@ class MainWidget(QMainWindow, Ui_Form):
         # Call to setup everything on the gui.
         self.on_startup()
 
-    # # Function to check numers to make sure they are numbers
-    # def num_check(self, input_num: str):
-    #     try:
-    #         if input_num == '':
-    #             input_num = 0
-    #         float(input_num)
-    #     except:
-    #         print('Invalid Number')
-
     # This defines the event handlers for everything on the Main Widget
     def connect_slots(self):
 
@@ -65,11 +56,22 @@ class MainWidget(QMainWindow, Ui_Form):
         self.pb_addbreak_submit.clicked.connect(self.slot_pb_addbreak_submit_clicked)
 
         # Slots for Add Surfer Tab
-        
+        self.cb_addsurfer_continent.currentIndexChanged.connect(self.slot_cb_addsurfer_continent_on_index_change)
+        self.cb_addsurfer_hcontinent.currentIndexChanged.connect(self.slot_cb_addsurfer_hcontinent_on_index_change)
+        self.cb_addsurfer_hcountry.currentIndexChanged.connect(self.slot_cb_addsurfer_hcountry_on_index_change)
+        self.cb_addsurfer_hregion.currentIndexChanged.connect(self.slot_cb_addsurfer_hregion_on_index_change)
+        self.pb_addsurfer_clear.clicked.connect(self.slot_pb_addsurfer_clear_clicked)
+        self.pb_addsurfer_newloc.clicked.connect(self.slot_pb_addsurfer_newloc_clicked)
+        self.pb_addsurfer_submit.clicked.connect(self.slot_pb_addsurfer_submit_clicked)
 
     # Everything that should happen when the app has started up
     def on_startup(self):
+        # Add Break Tab
         self.cb_addbreak_continent.addItems(self.add_break_region_instance.return_continents())
+
+        # Add Surfer Tab
+        self.cb_addsurfer_continent.addItems(self.add_break_region_instance.return_continents())
+        self.cb_addsurfer_hcontinent.addItems(self.add_break_region_instance.return_continents())
 
     ####################################################################################################################
     # Event Handler Functions for The Add Break Tab
@@ -371,6 +373,36 @@ class MainWidget(QMainWindow, Ui_Form):
         self.line_addbreak_blown.clear()
         self.line_addbreak_small.clear()
 
+    ####################################################################################################################
+    # Event Handler Functions for Add Surfer Tab
+
+    # Change Country List when Continent is Selected
+    def slot_cb_addsurfer_continent_on_index_change(self):
+        pass
+
+    # Change Home Country List when Home Continent is Selected
+    def slot_cb_addsurfer_hcontinent_on_index_change(self):
+        pass
+
+    # Change Home Region List when Home Country is Selected
+    def slot_cb_addsurfer_hcountry_on_index_change(self):
+        pass
+
+    # Change Home City List when Home Region is Selected
+    def slot_cb_addsurfer_hregion_on_index_change(self):
+        pass
+
+    # Event Handler for Clear Button Clicked
+    def slot_pb_addsurfer_clear_clicked(self):
+        pass
+
+    # Event Handler for Add Location Button Clicked
+    def slot_pb_addsurfer_newloc_clicked(self):
+        pass
+
+    # Event Handler for Submit Button Clicked
+    def slot_pb_addsurfer_submit_clicked(self):
+        pass
 
 
 
