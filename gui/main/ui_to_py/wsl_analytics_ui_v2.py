@@ -358,7 +358,7 @@ class Ui_Form(object):
         sizePolicy.setHeightForWidth(self.pb_addbreak_submit.sizePolicy().hasHeightForWidth())
         self.pb_addbreak_submit.setSizePolicy(sizePolicy)
         self.pb_addbreak_submit.setMinimumSize(QtCore.QSize(151, 50))
-        self.pb_addbreak_submit.setStyleSheet("background-color: rgb(154, 223, 244);\n"
+        self.pb_addbreak_submit.setStyleSheet("background-color: rgb(128, 255, 187);\n"
 "font: 63 11pt \"Verdana\";")
         self.pb_addbreak_submit.setObjectName("pb_addbreak_submit")
         self.pb_addbreak_clear = QtWidgets.QPushButton(self.tab_entry_break)
@@ -370,7 +370,8 @@ class Ui_Form(object):
         sizePolicy.setHeightForWidth(self.pb_addbreak_clear.sizePolicy().hasHeightForWidth())
         self.pb_addbreak_clear.setSizePolicy(sizePolicy)
         self.pb_addbreak_clear.setMinimumSize(QtCore.QSize(151, 50))
-        self.pb_addbreak_clear.setStyleSheet("background-color: rgb(154, 223, 244);\n"
+        self.pb_addbreak_clear.setStyleSheet("\n"
+"background-color: rgb(253, 192, 255);\n"
 "font: 63 11pt \"Verdana\";")
         self.pb_addbreak_clear.setObjectName("pb_addbreak_clear")
         self.tab_second_lvl.addTab(self.tab_entry_break, "")
@@ -558,7 +559,7 @@ class Ui_Form(object):
         sizePolicy.setHeightForWidth(self.pb_addbreak_submit_2.sizePolicy().hasHeightForWidth())
         self.pb_addbreak_submit_2.setSizePolicy(sizePolicy)
         self.pb_addbreak_submit_2.setMinimumSize(QtCore.QSize(151, 50))
-        self.pb_addbreak_submit_2.setStyleSheet("background-color: rgb(154, 223, 244);\n"
+        self.pb_addbreak_submit_2.setStyleSheet("background-color: rgb(253, 192, 255);\n"
 "font: 63 11pt \"Verdana\";")
         self.pb_addbreak_submit_2.setObjectName("pb_addbreak_submit_2")
         self.tab_second_lvl.addTab(self.tab_entry_surfer, "")

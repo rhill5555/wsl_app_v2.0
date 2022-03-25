@@ -752,7 +752,7 @@ color: rgb(216, 58, 86);</string>
         </size>
        </property>
        <property name="styleSheet">
-        <string notr="true">background-color: rgb(154, 223, 244);
+        <string notr="true">background-color: rgb(128, 255, 187);
 font: 63 11pt &quot;Verdana&quot;;</string>
        </property>
        <property name="text">
@@ -784,7 +784,8 @@ font: 63 11pt &quot;Verdana&quot;;</string>
         </size>
        </property>
        <property name="styleSheet">
-        <string notr="true">background-color: rgb(154, 223, 244);
+        <string notr="true">
+background-color: rgb(253, 192, 255);
 font: 63 11pt &quot;Verdana&quot;;</string>
        </property>
        <property name="text">
@@ -1274,7 +1275,7 @@ font: 63 11pt &quot;Verdana&quot;;</string>
         </size>
        </property>
        <property name="styleSheet">
-        <string notr="true">background-color: rgb(154, 223, 244);
+        <string notr="true">background-color: rgb(253, 192, 255);
 font: 63 11pt &quot;Verdana&quot;;</string>
        </property>
        <property name="text">

@@ -56,12 +56,16 @@ class MainWidget(QMainWindow, Ui_Form):
 
     # This defines the event handlers for everything on the Main Widget
     def connect_slots(self):
+
         # Slots for Add Break Tab
         self.cb_addbreak_continent.currentIndexChanged.connect(self.slot_cb_addbreak_continent_on_index_change)
         self.cb_addbreak_country.currentIndexChanged.connect(self.slot_cb_addbreak_country_on_index_change)
         self.pb_addbreak_clear.clicked.connect(self.slot_pb_addbreak_clear_clicked)
         self.pb_addbreak_newloc.clicked.connect(self.slot_pb_addbreak_newloc_clicked)
         self.pb_addbreak_submit.clicked.connect(self.slot_pb_addbreak_submit_clicked)
+
+        # Slots for Add Surfer Tab
+
 
     # Everything that should happen when the app has started up
     def on_startup(self):
