@@ -453,7 +453,7 @@ class MainWidget(QMainWindow, Ui_Form):
 
     # Event Handler for Add Location Button Clicked
     def slot_pb_addsurfer_newloc_clicked(self):
-        pass
+        self.slot_pb_addbreak_newloc_clicked()
 
     # Event Handler for Submit Button Clicked
     def slot_pb_addsurfer_submit_clicked(self):
