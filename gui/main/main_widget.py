@@ -453,6 +453,8 @@ class MainWidget(QMainWindow, Ui_Form):
         self.cb_addsurfer_hcountry.clear()
         self.cb_addsurfer_hregion.clear()
         self.cb_addsurfer_hcity.clear()
+        self.check_addsurfer_male.setChecked(0)
+        self.check_addsurfer_female.setChecked(0)
 
     # Event Handler for Add Location Button Clicked
     def slot_pb_addsurfer_newloc_clicked(self):
@@ -565,6 +567,27 @@ class MainWidget(QMainWindow, Ui_Form):
                                  )
         except:
             print('I went to the fucking except')
+
+        # Clear Everything on Submit
+        self.line_addsurfer_firstname.clear()
+        self.line_addsurfer_lastname.clear()
+        self.check_addsurfer_goofy.setChecked(0)
+        self.check_addsurfer_regular.setChecked(0)
+        self.cb_addsurfer_continent.clear()
+        self.cb_addsurfer_continent.addItems([''] + self.add_break_region_instance.return_continents())
+        self.cb_addsurfer_country.clear()
+        self.line_addsurfer_bday.clear()
+        self.line_addsurfer_ht.clear()
+        self.line_addsurfer_wt.clear()
+        self.line_addsurfer_firstseason.clear()
+        self.line_addsurfer_firsttour.clear()
+        self.cb_addsurfer_hcontinent.clear()
+        self.cb_addsurfer_hcontinent.addItems([''] + self.add_break_region_instance.return_continents())
+        self.cb_addsurfer_hcountry.clear()
+        self.cb_addsurfer_hregion.clear()
+        self.cb_addsurfer_hcity.clear()
+        self.check_addsurfer_male.setChecked(0)
+        self.check_addsurfer_female.setChecked(0)
 
 
 ########################################################################################################################
