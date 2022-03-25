@@ -44,6 +44,15 @@ class MainWidget(QMainWindow, Ui_Form):
         # Call to setup everything on the gui.
         self.on_startup()
 
+    # Function to check numers to make sure they are numbers
+    def num_check(self, input_num: str):
+        try:
+            if input_num == '':
+                input_num = 0
+            float(input_num)
+        except:
+            print('Invalid Number')
+
     # This defines the event handlers for everything on the Main Widget
     def connect_slots(self):
         # Slots for Add Break Tab
@@ -211,6 +220,14 @@ class MainWidget(QMainWindow, Ui_Form):
             if self.check_addbreak_ability_red.isChecked():
                 ability.append('Advanced')
 
+            # Turn List of abilities into a string for mysql table
+            ability_str = ""
+            for ind, item in enumerate(ability):
+                if not ind == (len(ability) - 1):
+                    ability_str = ability_str + item + ', '
+                else:
+                    ability_str = ability_str + item
+
             # Grab Shoulder Burn based on which color is checked
             shoulder_burn = []
             if self.check_addbreak_burn_green.isChecked():
@@ -219,6 +236,14 @@ class MainWidget(QMainWindow, Ui_Form):
                 shoulder_burn.append('Medium')
             if self.check_addbreak_burn_red.isChecked():
                 shoulder_burn.append('Exhausting')
+
+            # Turn List of shoulder burn into a string for mysql table
+            shoulder_burn_str = ""
+            for ind, item in enumerate(shoulder_burn):
+                if not ind == (len(shoulder_burn) - 1):
+                    shoulder_burn_str = shoulder_burn_str + item + ', '
+                else:
+                    shoulder_burn_str = shoulder_burn_str + item
 
             # Grab Break Type based on which types are checked
             break_type = []
@@ -237,12 +262,37 @@ class MainWidget(QMainWindow, Ui_Form):
             if self.check_addbreak_eng.isChecked():
                 break_type.append('Engineered')
 
+            # Turn List of breaks into a string for mysql table
+            break_type_str = ""
+            for ind, item in enumerate(break_type):
+                if not ind == (len(break_type) - 1):
+                    break_type_str = break_type_str + item + ', '
+                else:
+                    break_type_str = break_type_str + item
+
             # Grab Surfability
             clean = self.line_addbreak_clean.text()
             blown = self.line_addbreak_blown.text()
             small = self.line_addbreak_small.text()
 
+            # Make sure numbers were entered for surfability
+            if clean == '':
+                clean = 0
+            else:
+                self.num_check(input_num=clean)
+                clean = float(clean)
 
+            if blown == '':
+                blown = 0
+            else:
+                self.num_check(input_num=blown)
+                blown = float(blown)
+
+            if small == '':
+                small = 0
+            else:
+                self.num_check(input_num=small)
+                small = float(small)
 
             print(f'Continent: {continent}, '
                   f'Country: {country}, '
@@ -271,7 +321,7 @@ class MainWidget(QMainWindow, Ui_Form):
             # Insert into Break Table
             table = 'wsl.breaks'
             columns = f"break, region_id, break_type, reliability, ability, shoulder_burn, clean_waves, blown_waves, small_waves"
-            fields = f"'{break_name}', {region_id}, '{break_type[0]}', '{reliability}', '{ability[0]}', '{shoulder_burn[0]},'{int(clean)}, {int(blown)}, {int(small)}"
+            fields = f"'{break_name}', {region_id}, '{break_type_str}', '{reliability}', '{ability_str}', '{shoulder_burn_str}',{int(clean)}, {int(blown)}, {int(small)}"
             inst.insert_to_table(table=table,
                                  columns=columns,
                                  fields=fields
