@@ -115,7 +115,7 @@ class AddLocation(QDialog, Region):
 
         self.on_startup()
 
-        # self.connect_slots()
+        self.connect_slots()
 
     # This defines the event handlers for everything.
     def connect_slots(self):
@@ -129,11 +129,35 @@ class AddLocation(QDialog, Region):
 
     # Change Country when Continent is selected
     def slot_cb_continent_on_index_change(self):
-        pass
+        # Set all the instance variables in the instance of the Region class to None, by calling a function in the
+        # add_break_region_instance instance.
+        self.set_everything_to_none()
+
+        # Clear the country combo boxs.
+        self.cb_country.clear()
+
+        # Set the current value of the selected_continent variable in add_break_region_instance to the current text in the continent
+        # combo box.
+        self.selected_continent = self.cb_continent.currentText()
+
+        # Add the countries to the country combo box.
+        self.cb_country.addItems(self.return_countries())
 
     # Change Region when Country is selected
     def slot_cb_country_on_index_change(self):
-        pass
+        # Set all the instance variables in the instance of the Region class to None, by calling a function in the
+        # add_break_region_instance instance.
+        self.set_everything_to_none()
+
+        # Clear the country combo boxs.
+        self.cb_region.clear()
+
+        # Set the current value of the selected_continent variable in add_break_region_instance to the current text in the continent
+        # combo box.
+        self.selected_country = self.cb_country.currentText()
+
+        # Add the countries to the country combo box.
+        self.cb_region.addItems(self.return_regions())
 
 
 if __name__ == '__main__':

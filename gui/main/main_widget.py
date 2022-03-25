@@ -5,8 +5,9 @@
 ########################################################################################################################
 import sys
 
-from PyQt5.QtWidgets import QMainWindow, QApplication
+from PyQt5.QtWidgets import QMainWindow, QApplication, QDialog
 
+from gui.common_widget.dialog_widget.add_location_popup import AddLocation
 from gui.main.ui_to_py.wsl_analytics_ui_v2 import Ui_Form
 from src.Places import Region
 from src import Places
@@ -87,6 +88,9 @@ class MainWidget(QMainWindow, Ui_Form):
 
     def slot_pb_addbreak_newloc_clicked(self):
         dialog = AddLocation(title="Add a location to the database.")
+
+        if dialog.exec() == QDialog.Accepted:
+            pass
 
 
 ########################################################################################################################
