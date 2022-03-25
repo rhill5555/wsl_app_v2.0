@@ -684,6 +684,31 @@ color: rgb(216, 58, 86);</string>
            <property name="styleSheet">
             <string notr="true">background-color: rgb(251, 248, 241);</string>
            </property>
+           <item>
+            <property name="text">
+             <string>Very Consistent</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Consistent</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Variable</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Inconsistent</string>
+            </property>
+           </item>
+           <item>
+            <property name="text">
+             <string>Very Inconsistent</string>
+            </property>
+           </item>
           </widget>
          </item>
          <item row="1" column="0">

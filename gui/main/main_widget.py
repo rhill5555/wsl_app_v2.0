@@ -46,15 +46,13 @@ class MainWidget(QMainWindow, Ui_Form):
 
     # This defines the event handlers for everything on the Main Widget
     def connect_slots(self):
-        pass
         # Slots for Add Break Tab
-        # Change Country when Continent is selected
         self.cb_addbreak_continent.currentIndexChanged.connect(self.slot_cb_addbreak_continent_on_index_change)
         self.cb_addbreak_country.currentIndexChanged.connect(self.slot_cb_addbreak_country_on_index_change)
-    #     self.cb_addbreak_region.currentIndexChanged.connect(self.slot_cb_addbreak_region_on_index_change)
-    #     self.pb_addbreak_clear.clicked.connect(self.slot_pb_addbreak_clear_clicked)
+    #   self.cb_addbreak_region.currentIndexChanged.connect(self.slot_cb_addbreak_region_on_index_change)
+    #   self.pb_addbreak_clear.clicked.connect(self.slot_pb_addbreak_clear_clicked)
         self.pb_addbreak_newloc.clicked.connect(self.slot_pb_addbreak_newloc_clicked)
-    #     self.pb_addbreak_submit.clicked.connect(self.slot_pb_addbreak_submit_clicked)
+        self.pb_addbreak_submit.clicked.connect(self.slot_pb_addbreak_submit_clicked)
 
     def on_startup(self):
         self.cb_addbreak_continent.addItems(self.add_break_region_instance.return_continents())
@@ -140,6 +138,80 @@ class MainWidget(QMainWindow, Ui_Form):
             except:
                 print('I went to the fucking except')
                 pass
+
+            # Insert new region into region table
+            try:
+                # If New region is entered continue
+                if not dialog.line_region.text() == '':
+                    region = dialog.line_region.text()
+                    # Need to grab country id tied to region that needs to be added
+                    table = 'wsl.countries'
+                    column = 'id'
+                    col_filter = f"where country = '{country}' "
+                    inst = Places.SqlCommands()
+                    country_id = inst.select_a_column(table=table,
+                                                        column=column,
+                                                        col_filter=col_filter
+                                                        )[0]
+                    # Insert into Region Table
+                    table = 'wsl.regions'
+                    columns = 'region, country_id'
+                    fields = f"'{region}', {country_id}"
+                    inst.insert_to_table(table=table,
+                                         columns=columns,
+                                         fields=fields
+                                         )
+            except:
+                print('I went to the fucking except')
+                pass
+
+            # Insert new city into city table
+            try:
+                # If New city is entered continue
+                if not dialog.line_city.text() == '':
+                    city = dialog.line_city.text()
+                    # Need to grab region id tied to city that needs to be added
+                    table = 'wsl.regions'
+                    column = 'id'
+                    col_filter = f"where region = '{region}' "
+                    inst = Places.SqlCommands()
+                    region_id = inst.select_a_column(table=table,
+                                                      column=column,
+                                                      col_filter=col_filter
+                                                      )[0]
+                    # Insert into City Table
+                    table = 'wsl.cities'
+                    columns = 'city, region_id'
+                    fields = f"'{city}', {region_id}"
+                    inst.insert_to_table(table=table,
+                                         columns=columns,
+                                         fields=fields
+                                         )
+            except:
+                print('I went to the fucking except')
+                pass
+
+    def slot_pb_addbreak_submit_clicked(self):
+        if not self.line_addbreak_break.text() == '':
+            # Grab Locations from Location Group
+            continent = self.cb_addbreak_continent.currentText()
+            country = self.cb_addbreak_country.currentText()
+            region = self.cb_addbreak_region.currentText()
+            break_name = self.line_addbreak_break.text()
+
+            # Grab Reliability from Combobox
+            reliability = self.cb_addbreak_reliability.currentText()
+
+
+
+            print(f'Continent: {continent}, '
+                  f'Country: {country}, '
+                  f'Region: {region}, '
+                  f'Break: {break_name}')
+            print(reliability)
+
+        else:
+            print('You should probably enter a break name.')
 
 
 
