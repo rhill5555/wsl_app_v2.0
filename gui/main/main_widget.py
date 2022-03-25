@@ -90,7 +90,41 @@ class MainWidget(QMainWindow, Ui_Form):
         dialog = AddLocation(title="Add a location to the database.")
 
         if dialog.exec() == QDialog.Accepted:
-            pass
+
+            # Assign continent based on continent combobox
+            continent = dialog.cb_continent.currentText()
+
+            # Check to See if Country is Blank for Label and LineEdit
+            if not dialog.line_country.text() == '':
+                country = dialog.line_country.text()
+            elif not dialog.cb_country.currentText() == '':
+                country = dialog.cb_country.currentText()
+            else:
+                print('Country was blank, you dumbshit!')
+                # raise ValueError()
+
+            # Check to See if Region is Blank for Label and LineEdit
+            if not dialog.line_region.text() == '':
+                region = dialog.line_region.text()
+            elif not dialog.cb_region.currentText() == '':
+                region = dialog.cb_region.currentText()
+            else:
+                print('Just put a fucking name for the Region.')
+                # raise ValueError()
+
+            # Check to see if City is Blank for Label and LineEdit
+            if not dialog.line_city.text() == '':
+                city = dialog.line_city.text()
+            else:
+                print('Cities need names too.')
+                # raise ValueError()
+
+            print(f"You have found {city}, {region}, {country}, {continent}.")
+
+
+
+
+
 
 
 ########################################################################################################################
