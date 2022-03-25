@@ -534,20 +534,37 @@ class MainWidget(QMainWindow, Ui_Form):
         print(f"Hometown: {home_city}")
         print(f"Competing in the {gender}'s tour.")
 
+        # Add the Break to wsl.surfers
+        try:
+            # Need to grab country id tied to rep country
+            table = 'wsl.countries'
+            column = 'id'
+            col_filter = f"where country = '{country}'"
+            inst = Places.SqlCommands()
+            country_id = inst.select_a_column(table=table,
+                                              column=column,
+                                              col_filter=col_filter
+                                              )[0]
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+            # Need to grab city id tied to home city
+            table = 'wsl.cities'
+            column = 'id'
+            col_filter = f"where city = '{home_city}' "
+            inst = Places.SqlCommands()
+            home_city_id = inst.select_a_column(table=table,
+                                             column=column,
+                                             col_filter=col_filter
+                                             )[0]
+            # Insert into Surfers Table
+            table = 'wsl.surfers'
+            columns = f"gender, first_name, last_name, stance, country_id, birthday, height, weight, first_season, first_tour, home_city_id"
+            fields = f"'{gender}', '{first_name}', '{last_name}', '{stance}', {country_id}, '{birthday}', {height}, {weight}, '{first_season}', '{first_tour}', {home_city_id}"
+            inst.insert_to_table(table=table,
+                                 columns=columns,
+                                 fields=fields
+                                 )
+        except:
+            print('I went to the fucking except')
 
 
 ########################################################################################################################

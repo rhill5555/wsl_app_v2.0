@@ -37,7 +37,7 @@ CREATE TABLE wsl.countries
 INSERT INTO wsl.countries (country, continent_id) VALUES
 	('South Africa', 1);
 */
- 
+
 -- delete from wsl.countries where id = ;
 
 -- select * from wsl.countries;
@@ -112,9 +112,30 @@ INSERT INTO wsl.breaks (break, region_id, break_type,
 -- select * from wsl.breaks;
 
 ----------------------------------------------------------------------------
+-- Surfer Bio TABLE
+-- DROP TABLE wsl.surfers
+CREATE TABLE wsl.surfers
+(
+	ID						INT unsigned NOT NULL AUTO_INCREMENT,
+	gender				VARCHAR(5),
+	first_name		VARCHAR(50) NOT NULL,
+	last_name			VARCHAR(50) NOT NULL,
+	stance				VARCHAR(7),
+	country_id		INT,
+	birthday			VARCHAR(32),
+	height				INT,
+	weight				INT,
+	first_season	CHAR(4),
+	first_tour		VARCHAR(32)
+	home_city_id	INT,
+	PRIMARY KEY   (ID)
+);
+
+----------------------------------------------------------------------------
 
 select * from wsl.continents;
 select * from wsl.countries;
 select * from wsl.regions;
 select * from wsl.cities;
 select * from wsl.breaks;
+select * from wsl.surfers;
