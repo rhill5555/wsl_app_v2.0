@@ -202,6 +202,46 @@ class MainWidget(QMainWindow, Ui_Form):
             # Grab Reliability from Combobox
             reliability = self.cb_addbreak_reliability.currentText()
 
+            # Grab Ability based on which color is checked
+            ability = []
+            if self.check_addbreak_ability_green.isChecked():
+                ability.append('Beginner')
+            if self.check_addbreak_ability_yellow.isChecked():
+                ability.append('Intermediate')
+            if self.check_addbreak_ability_red.isChecked():
+                ability.append('Advanced')
+
+            # Grab Shoulder Burn based on which color is checked
+            shoulder_burn = []
+            if self.check_addbreak_burn_green.isChecked():
+                shoulder_burn.append('Light')
+            if self.check_addbreak_burn_yellow.isChecked():
+                shoulder_burn.append('Medium')
+            if self.check_addbreak_burn_red.isChecked():
+                shoulder_burn.append('Exhausting')
+
+            # Grab Break Type based on which types are checked
+            break_type = []
+            if self.check_addbreak_beach.isChecked():
+                break_type.append('Beach')
+            if self.check_addbreak_point.isChecked():
+                break_type.append('Point')
+            if self.check_addbreak_reef.isChecked():
+                break_type.append('Reef')
+            if self.check_addbreak_river.isChecked():
+                break_type.apped('River')
+            if self.check_addbreak_sandbar.isChecked():
+                break_type.append('Sandbar')
+            if self.check_addbreak_jetty.isChecked():
+                break_type.append('Jetty')
+            if self.check_addbreak_eng.isChecked():
+                break_type.append('Engineered')
+
+            # Grab Surfability
+            clean = self.line_addbreak_clean.text()
+            blown = self.line_addbreak_blown.text()
+            small = self.line_addbreak_small.text()
+
 
 
             print(f'Continent: {continent}, '
@@ -209,6 +249,10 @@ class MainWidget(QMainWindow, Ui_Form):
                   f'Region: {region}, '
                   f'Break: {break_name}')
             print(reliability)
+            print(ability)
+            print(shoulder_burn)
+            print(break_type)
+            print(f"Clean: {clean}%  Blown: {blown}%  Small: {small}%")
 
         else:
             print('You should probably enter a break name.')
