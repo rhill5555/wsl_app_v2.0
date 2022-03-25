@@ -10,11 +10,12 @@ from PyQt5.QtWidgets import QMainWindow, QApplication, QDialog
 from gui.common_widget.dialog_widget.add_location_popup import AddLocation
 from gui.main.ui_to_py.wsl_analytics_ui_v2 import Ui_Form
 from src.Places import Region
-from src import Places
+from src import Places, Validations
 from src.Places import CommonSQL
 
 
 ########################################################################################################################
+from src.Validations import NumCheck
 
 
 class MainWidget(QMainWindow, Ui_Form):
@@ -44,28 +45,32 @@ class MainWidget(QMainWindow, Ui_Form):
         # Call to setup everything on the gui.
         self.on_startup()
 
-    # Function to check numers to make sure they are numbers
-    def num_check(self, input_num: str):
-        try:
-            if input_num == '':
-                input_num = 0
-            float(input_num)
-        except:
-            print('Invalid Number')
+    # # Function to check numers to make sure they are numbers
+    # def num_check(self, input_num: str):
+    #     try:
+    #         if input_num == '':
+    #             input_num = 0
+    #         float(input_num)
+    #     except:
+    #         print('Invalid Number')
 
     # This defines the event handlers for everything on the Main Widget
     def connect_slots(self):
         # Slots for Add Break Tab
         self.cb_addbreak_continent.currentIndexChanged.connect(self.slot_cb_addbreak_continent_on_index_change)
         self.cb_addbreak_country.currentIndexChanged.connect(self.slot_cb_addbreak_country_on_index_change)
-    #   self.cb_addbreak_region.currentIndexChanged.connect(self.slot_cb_addbreak_region_on_index_change)
         self.pb_addbreak_clear.clicked.connect(self.slot_pb_addbreak_clear_clicked)
         self.pb_addbreak_newloc.clicked.connect(self.slot_pb_addbreak_newloc_clicked)
         self.pb_addbreak_submit.clicked.connect(self.slot_pb_addbreak_submit_clicked)
 
+    # Everything that should happen when the app has started up
     def on_startup(self):
         self.cb_addbreak_continent.addItems(self.add_break_region_instance.return_continents())
 
+    ####################################################################################################################
+    # Event Handler Functions for The Add Break Tab
+
+    # Change Country List when a Continent is selected
     def slot_cb_addbreak_continent_on_index_change(self):
 
         # Set all the instance variables in the instance of the Region class to None, by calling a function in the
@@ -82,6 +87,7 @@ class MainWidget(QMainWindow, Ui_Form):
         # Add the countries to the country combo box.
         self.cb_addbreak_country.addItems(self.add_break_region_instance.return_countries())
 
+    # Change Region List when a Country is selected
     def slot_cb_addbreak_country_on_index_change(self):
         # Clear the add_break_region_instance combo boxs.
         self.cb_addbreak_region.clear()
@@ -93,6 +99,7 @@ class MainWidget(QMainWindow, Ui_Form):
         # Add the regions to the add_break_region_instance combo box.
         self.cb_addbreak_region.addItems(self.add_break_region_instance.return_regions())
 
+    # Open a PopUp to enter new places when The Add Location Button is selected
     def slot_pb_addbreak_newloc_clicked(self):
         dialog = AddLocation(title="Add a location to the database.")
 
@@ -200,6 +207,7 @@ class MainWidget(QMainWindow, Ui_Form):
                 print('I went to the fucking except')
                 pass
 
+    # Clear the form when the Clear button is checked
     def slot_pb_addbreak_clear_clicked(self):
         self.cb_addbreak_country.clear()
         self.cb_addbreak_region.clear()
@@ -221,6 +229,7 @@ class MainWidget(QMainWindow, Ui_Form):
         self.line_addbreak_blown.clear()
         self.line_addbreak_small.clear()
 
+    # When the Submit button is clicked all data should be assigned a variable, prepared, and inserted into mysal db
     def slot_pb_addbreak_submit_clicked(self):
         if not self.line_addbreak_break.text() == '':
             # Grab Locations from Location Group
@@ -297,23 +306,10 @@ class MainWidget(QMainWindow, Ui_Form):
             small = self.line_addbreak_small.text()
 
             # Make sure numbers were entered for surfability
-            if clean == '':
-                clean = 0
-            else:
-                self.num_check(input_num=clean)
-                clean = float(clean)
-
-            if blown == '':
-                blown = 0
-            else:
-                self.num_check(input_num=blown)
-                blown = float(blown)
-
-            if small == '':
-                small = 0
-            else:
-                self.num_check(input_num=small)
-                small = float(small)
+            inst = Validations.NumCheck
+            inst.int_check(self, input_num=clean)
+            inst.int_check(self, input_num=blown)
+            inst.int_check(self, input_num=small)
 
             print(f'Continent: {continent}, '
                   f'Country: {country}, '
