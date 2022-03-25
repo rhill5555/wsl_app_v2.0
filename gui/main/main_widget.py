@@ -378,19 +378,59 @@ class MainWidget(QMainWindow, Ui_Form):
 
     # Change Country List when Continent is Selected
     def slot_cb_addsurfer_continent_on_index_change(self):
-        pass
+        # Set all the instance variables in the instance of the Region class to None, by calling a function in the
+        # add_break_region_instance instance.
+        self.add_break_region_instance.set_everything_to_none()
+
+        # Clear the country combo boxs.
+        self.cb_addsurfer_country.clear()
+
+        # Set the current value of the selected_continent variable in add_break_region_instance to the current text in the continent
+        # combo box.
+        self.add_break_region_instance.selected_continent = self.cb_addsurfer_continent.currentText()
+
+        # Add the countries to the country combo box.
+        self.cb_addsurfer_country.addItems(self.add_break_region_instance.return_countries())
 
     # Change Home Country List when Home Continent is Selected
     def slot_cb_addsurfer_hcontinent_on_index_change(self):
-        pass
+        # Set all the instance variables in the instance of the Region class to None, by calling a function in the
+        # add_break_region_instance instance.
+        self.add_break_region_instance.set_everything_to_none()
+
+        # Clear the country combo boxs.
+        self.cb_addsurfer_hcountry.clear()
+
+        # Set the current value of the selected_continent variable in add_break_region_instance to the current text in the continent
+        # combo box.
+        self.add_break_region_instance.selected_continent = self.cb_addsurfer_hcontinent.currentText()
+
+        # Add the countries to the country combo box.
+        self.cb_addsurfer_hcountry.addItems(self.add_break_region_instance.return_countries())
 
     # Change Home Region List when Home Country is Selected
     def slot_cb_addsurfer_hcountry_on_index_change(self):
-        pass
+        # Clear the add_break_region_instance combo boxs.
+        self.cb_addsurfer_hregion.clear()
+
+        # Set the current value of the selected_country variable in add_break_region_instance to the current text
+        # in the country combo box.
+        self.add_break_region_instance.selected_country = self.cb_addsurfer_hcountry.currentText()
+
+        # Add the regions to the add_break_region_instance combo box.
+        self.cb_addsurfer_hregion.addItems(self.add_break_region_instance.return_regions())
 
     # Change Home City List when Home Region is Selected
     def slot_cb_addsurfer_hregion_on_index_change(self):
-        pass
+        # Clear the add_break_region_instance combo boxs.
+        self.cb_addsurfer_hcity.clear()
+
+        # Set the current value of the selected_country variable in add_break_region_instance to the current text
+        # in the country combo box.
+        self.add_break_region_instance.selected_region = self.cb_addsurfer_hregion.currentText()
+
+        # Add the regions to the add_break_region_instance combo box.
+        self.cb_addsurfer_hcity.addItems(self.add_break_region_instance.return_cities())
 
     # Event Handler for Clear Button Clicked
     def slot_pb_addsurfer_clear_clicked(self):
