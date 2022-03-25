@@ -1,42 +1,59 @@
 import sys
+from typing import Optional
+
 import PyQt5.QtWidgets
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QLabel, QApplication, QDialogButtonBox
+from src.Places import Region
 
 
-
-class AddLocation(QDialog):
-    def __init__(self, title, left=10, top=10, width=520, height=400, parent=None):
+class AddLocation(QDialog, Region):
+    def __init__(self,
+                 title,
+                 left=10,
+                 top=10,
+                 width=520,
+                 height=400,
+                 sql_host_name: Optional[str] = None,
+                 sql_user_name: Optional[str] = None,
+                 sql_password: Optional[str] = None,
+                 parent=None):
         # Calls constructor for QDialog
-        super().__init__(parent=parent)
+        QDialog.__init__(self, parent=parent)
 
-        # Set Title
+        # Calls the constructor for the Region Class
+        Region.__init__(self,
+                        sql_host_name=sql_host_name,
+                        sql_user_name=sql_user_name,
+                        sql_password=sql_password)
+
+        # Set Title of the QDialog.
         self.setWindowTitle(title)
 
-        # Set Geometry
+        # Set Geometry of the QDialog.
         self.left = left
         self.top = top
         self.width = width
         self.height = height
         self.setGeometry(left, top, width, height)
 
-        # Set parent widget
-        if not (parent is None):
-            self.setParent(parent)
-
-        # Create Vertical Layout Box
-        self.layout = QVBoxLayout()
-
-        # Create Horizontal Layouts
-        self.hlayout_continent = QHBoxLayout()
-        self.hlayout_country = QHBoxLayout()
-        self.hlayout_region = QHBoxLayout()
-        self.hlayout_city = QHBoxLayout()
-
         # Disable x button to force "yes" or "no" click
         self.setWindowFlag(Qt.WindowCloseButtonHint, False)
         # Disable help button
         self.setWindowFlag(Qt.WindowContextHelpButtonHint, False)
+
+        # Set this custom widget's parent, if it was passed to the constructor function (not None).
+        if not(parent is None):
+            self.setParent(parent)
+
+        # Create Vertical Layout Box.
+        self.layout = QVBoxLayout()
+
+        # Create Horizontal Layouts.
+        self.hlayout_continent = QHBoxLayout()
+        self.hlayout_country = QHBoxLayout()
+        self.hlayout_region = QHBoxLayout()
+        self.hlayout_city = QHBoxLayout()
 
         # Continent Label and Combobox
         self.hlayout_continent.addWidget(QLabel("Continent:"))
@@ -80,7 +97,6 @@ class AddLocation(QDialog):
 
         self.layout.addLayout(self.hlayout_region)
 
-
         # City Label and Line Edit
         self.hlayout_city.addWidget(QLabel("City:"))
         self.line_city = PyQt5.QtWidgets.QLineEdit()
@@ -97,39 +113,36 @@ class AddLocation(QDialog):
 
         self.setLayout(self.layout)
 
-        # self.on_startup()
-        #
+        self.on_startup()
+
         # self.connect_slots()
 
     # This defines the event handlers for everything.
     def connect_slots(self):
-        self.cb_continent.currentIndexChanged.connect(self.slot_cont_cb_on_index_change)
-        self.cb_country.currentIndexChanged.connect(self.slot_country_cb_on_index_change)
+        self.cb_continent.currentIndexChanged.connect(self.slot_cb_continent_on_index_change)
+        self.cb_country.currentIndexChanged.connect(self.slot_cb_country_on_index_change)
 
-    # # This setups up everything at the first startup.
-    # def on_startup(self):
-    #     # Add Continents to the combobox.
-    #     self.cb_continent.addItems(
-    #         [item for item in Places.continent(mysql_connection=self.mysql)]
-    #     )
-    #
-    # def slot_cont_cb_on_index_change(self):
-    #     self.cb_country.clear()
-    #     self.cb_country.addItems(
-    #         [item for item in Places.countries(mysql_connection=self.mysql,
-    #                                               continent=self.cb_continent.currentText())])
-    #
-    # def slot_country_cb_on_index_change(self):
-    #     self.cb_region.clear()
-    #     self.cb_region.addItems(
-    #         [item for item in Places.region(mysql_connection=self.mysql,
-    #                                            country=self.cb_country.currentText())]
-    #     )
+    # This setups up everything at the first startup.
+    def on_startup(self):
+        # Add Continents to the combobox.
+        self.cb_continent.addItems(self.return_continents())
+
+    # Change Country when Continent is selected
+    def slot_cb_continent_on_index_change(self):
+        pass
+
+    # Change Region when Country is selected
+    def slot_cb_country_on_index_change(self):
+        pass
 
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
-    win = AddLocation(title='Add a New Location')
+    win = AddLocation(title='Add a New Location',
+                      sql_user_name="Heather",
+                      sql_password="#LAwaItly19",
+                      sql_host_name="localhost"
+    )
     win.show()
 
     sys.exit(app.exec())

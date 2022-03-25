@@ -52,7 +52,7 @@ class MainWidget(QMainWindow, Ui_Form):
         self.cb_addbreak_country.currentIndexChanged.connect(self.slot_cb_addbreak_country_on_index_change)
     #     self.cb_addbreak_region.currentIndexChanged.connect(self.slot_cb_addbreak_region_on_index_change)
     #     self.pb_addbreak_clear.clicked.connect(self.slot_pb_addbreak_clear_clicked)
-    #     self.pb_addbreak_newloc.clicked.connect(self.slot_pb_addbreak_newloc_clicked)
+        self.pb_addbreak_newloc.clicked.connect(self.slot_pb_addbreak_newloc_clicked)
     #     self.pb_addbreak_submit.clicked.connect(self.slot_pb_addbreak_submit_clicked)
 
     def on_startup(self):
@@ -84,6 +84,9 @@ class MainWidget(QMainWindow, Ui_Form):
 
         # Add the regions to the add_break_region_instance combo box.
         self.cb_addbreak_region.addItems(self.add_break_region_instance.return_regions())
+
+    def slot_pb_addbreak_newloc_clicked(self):
+        dialog = AddLocation(title="Add a location to the database.")
 
 
 ########################################################################################################################
