@@ -11,7 +11,7 @@ from PyQt5.QtWidgets import QMainWindow, QApplication, QDialog
 from gui.common_widget.dialog_widget import add_tourtype_popup
 from gui.common_widget.dialog_widget.add_location_popup import AddLocation
 from gui.main.ui_to_py.wsl_analytics_ui_v2 import Ui_Form
-from src.Places import Region
+from src.Places import Region, TourType
 from src import Places, Validations
 
 
@@ -37,6 +37,13 @@ class MainWidget(QMainWindow, Ui_Form):
 
         # Instance of the Region Class.
         self.add_break_region_instance: Region = Region(
+            sql_host_name=self.__sql_host,
+            sql_password=self.__sql_password,
+            sql_user_name=self.__sql_user
+        )
+
+        # Instance of TourType Class.
+        self.add_tour_instance: TourType = TourType(
             sql_host_name=self.__sql_host,
             sql_password=self.__sql_password,
             sql_user_name=self.__sql_user
@@ -79,7 +86,7 @@ class MainWidget(QMainWindow, Ui_Form):
 
         # Add Event Tab
         self.cb_addevent_continent.addItems([''] + self.add_break_region_instance.return_continents())
-        self.cb_addevent_tourtype.addItems(['', 'test type1', 'test type2'])
+        self.cb_addevent_tourtype.addItems([''] + self.add_tour_instance.return_tours())
 
         # Add Break Tab
         self.cb_addbreak_continent.addItems(['']+self.add_break_region_instance.return_continents())
@@ -143,31 +150,40 @@ class MainWidget(QMainWindow, Ui_Form):
             # Check to see if Year is Blank for the Label and LineEdit
             if dialog.line_year.text() == '':
                 print (f"You have to tell us the year...")
+                raise ValueError
 
                 # Insert new tour type into  tour type table
             try:
-                # If New tour type and year are entered continue
-                if not dialog.line_tourtype.text() == '':
+                # Tour Type Description
+                tour_type = dialog.line_tourtype.text()
 
-                    # Tour Type Description
-                    tour_type = dialog.line_tourtype.text()
+                # Tour Year
+                year = dialog.line_year.text()
+                inst = Validations.NumCheck(input_num=year)
+                inst.year_check()
 
-                    # Tour Year
-                    year = dialog.line_year.text()
-                    inst = Validations.NumCheck(input_num=year)
-                    inst.year_check()
+                # Check to see whether Men or Women was checked
+                if dialog.chkbox_men.isChecked():
+                    if dialog.chkbox_women.isChecked():
+                        print(f"You checked both Male and Female. If it's both don't check anything.")
+                    else:
+                        gender = 'Men'
+                elif dialog.chkbox_women.isChecked():
+                    gender = 'Women'
+                else:
+                    gender = ''
 
-                    print(f"{year} {tour_type}")
+                print(f"{year} {gender}'s {tour_type}")
 
-                    # Insert into Country Table
-                    table = 'wsl.tour_type'
-                    columns = f"year, tour_name"
-                    fields = f"{year}, '{tour_type}'"
-                    inst = Places.SqlCommands()
-                    inst.insert_to_table(table=table,
-                                         columns=columns,
-                                         fields=fields
-                                         )
+                # Insert into Country Table
+                table = 'wsl.tour_type'
+                columns = f"gender, year, tour_name"
+                fields = f"'{gender}', {year}, '{tour_type}'"
+                inst = Places.SqlCommands()
+                inst.insert_to_table(table=table,
+                                     columns=columns,
+                                     fields=fields
+                                     )
             except:
                 print('I went to the fucking except')
                 raise ValueError
@@ -254,9 +270,9 @@ class MainWidget(QMainWindow, Ui_Form):
                                  )
         except:
             print('I went to the fucking except')
-        #
-        # # Clear Form on Submit
-        # self.slot_pb_addbreak_clear_clicked()
+
+        # Clear Form on Submit
+        self.slot_pb_addbreak_clear_clicked()
 
 
     ########################################################################################################################

@@ -508,11 +508,28 @@ class TourType(CommonSQL):
         )
 
         # This is the instance variable for the selected tour type, which is equal to the passed value.
-        self.selected_continent: Optional[str] = selected_tour_type
+        self.selected_tour_type: Optional[str] = selected_tour_type
 
         # This is the instance variable for the continent_id. I assume this has something to do with the SQL key stuff.
         # Just going to set its default to None.
-        self.selected_continent_id: Optional[int] = None
+        self.selected_tour_type_id: Optional[int] = None
+
+    # Okay, so we need to define a function to return a list of the tours, so you can use it to place it in the
+    # Combo box at startup of the app.
+    def return_tours(self) -> List:
+        # Let's print that we are in this function, so it makes debugging easier.
+        print("We are returning the tours...")
+
+        # Okay, since we inherited the return_places function from the CommonSQL class, we use it here to grab the
+        # list of continents and return it. First, let's create a temporary string with the sql command.
+
+        sql_command: str = "select tour_name from wsl.tour_type"
+
+        return self.return_places(
+            mysql_command=sql_command
+        )
+
+
 
 ########################################################################################################################
 
