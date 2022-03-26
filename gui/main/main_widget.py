@@ -8,6 +8,7 @@ import sys
 
 from PyQt5.QtWidgets import QMainWindow, QApplication, QDialog
 
+from gui.common_widget.dialog_widget import add_tourtype_popup
 from gui.common_widget.dialog_widget.add_location_popup import AddLocation
 from gui.main.ui_to_py.wsl_analytics_ui_v2 import Ui_Form
 from src.Places import Region
@@ -47,6 +48,14 @@ class MainWidget(QMainWindow, Ui_Form):
     # This defines the event handlers for everything on the Main Widget
     def connect_slots(self):
 
+        # Slots for Add Event Tab
+        self.cb_addevent_continent.currentIndexChanged.connect(self.slot_cb_addevent_continent_on_index_change)
+        self.cb_addevent_country.currentIndexChanged.connect(self.slot_cb_addevent_country_on_index_change)
+        self.cb_addevent_region.currentIndexChanged.connect(self.slot_cb_addevent_region_on_index_change)
+        self.pb_addevent_newtour.clicked.connect(self.slot_pb_addevent_newtour_clicked)
+        self.pb_addevent_clear.clicked.connect(self.slot_pb_addevent_clear_clicked)
+        self.pb_addevent_submit.clicked.connect(self.slot_pb_addevent_submit_clicked)
+
         # Slots for Add Break Tab
         self.cb_addbreak_continent.currentIndexChanged.connect(self.slot_cb_addbreak_continent_on_index_change)
         self.cb_addbreak_country.currentIndexChanged.connect(self.slot_cb_addbreak_country_on_index_change)
@@ -63,17 +72,99 @@ class MainWidget(QMainWindow, Ui_Form):
         self.pb_addsurfer_newloc.clicked.connect(self.slot_pb_addsurfer_newloc_clicked)
         self.pb_addsurfer_submit.clicked.connect(self.slot_pb_addsurfer_submit_clicked)
 
+    ####################################################################################################################
+
     # Everything that should happen when the app has started up
     def on_startup(self):
-        # Add Break Tab
 
+        # Add Event Tab
+        self.cb_addevent_continent.addItems([''] + self.add_break_region_instance.return_continents())
+
+        # Add Break Tab
         self.cb_addbreak_continent.addItems(['']+self.add_break_region_instance.return_continents())
 
         # Add Surfer Tab
         self.cb_addsurfer_continent.addItems(['']+self.add_break_region_instance.return_continents())
         self.cb_addsurfer_hcontinent.addItems(['']+self.add_break_region_instance.return_continents())
 
+
     ####################################################################################################################
+    # Event Handler Functions for Add Event Tab
+
+    def slot_cb_addevent_continent_on_index_change(self):
+        # Set all the instance variables in the instance of the Region class to None, by calling a function in the
+        # add_break_region_instance instance.
+        self.add_break_region_instance.set_everything_to_none()
+
+        # Clear the country combo boxs.
+        self.cb_addevent_country.clear()
+
+        # Set the current value of the selected_continent variable in add_break_region_instance to the current text in the continent
+        # combo box.
+        self.add_break_region_instance.selected_continent = self.cb_addevent_continent.currentText()
+
+        # Add the countries to the country combo box.
+        self.cb_addevent_country.addItems([''] + self.add_break_region_instance.return_countries())
+
+    def slot_cb_addevent_country_on_index_change(self):
+        # Clear the add_break_region_instance combo boxs.
+        self.cb_addevent_region.clear()
+
+        # Set the current value of the selected_country variable in add_break_region_instance to the current text
+        # in the country combo box.
+        self.add_break_region_instance.selected_country = self.cb_addevent_country.currentText()
+
+        # Add the regions to the add_break_region_instance combo box.
+        self.cb_addevent_region.addItems([''] + self.add_break_region_instance.return_regions())
+
+    def slot_cb_addevent_region_on_index_change(self):
+        # Clear the add_break_region_instance combo boxs.
+        self.cb_addevent_break.clear()
+
+        # Set the current value of the selected_country variable in add_break_region_instance to the current text
+        # in the country combo box.
+        self.add_break_region_instance.selected_region = self.cb_addevent_region.currentText()
+
+        # Add the regions to the add_break_region_instance combo box.
+        self.cb_addevent_break.addItems([''] + self.add_break_region_instance.return_breaks())
+
+    def slot_pb_addevent_newtour_clicked(self):
+        dialog = add_tourtype_popup.AddTourType(title="Add a Tour Type to database.")
+
+        if dialog.exec() == QDialog.Accepted:
+            tour_type = dialog.line_tourtype.text()
+
+            # Check to see if City is Blank for Label and LineEdit
+            if dialog.line_tourtype.text() == '':
+                print(f"You can't add a blank tour type. Just put other.")
+
+                # Insert new tour type into  tour type table
+            try:
+                # If New tour type is entered continue
+                if not dialog.line_tourtype.text() == '':
+                    tour_type = dialog.line_tourtype.text()
+                    print(tour_type)
+                    # Insert into Country Table
+                    table = 'wsl.tour_type'
+                    columns = 'tour_name'
+                    fields = f"'{tour_type}'"
+                    inst = Places.SqlCommands()
+                    inst.insert_to_table(table=table,
+                                         columns=columns,
+                                         fields=fields
+                                         )
+            except:
+                print('I went to the fucking except')
+                raise ValueError
+
+    def slot_pb_addevent_clear_clicked(self):
+        pass
+
+    def slot_pb_addevent_submit_clicked(self):
+        pass
+
+    ########################################################################################################################
+
     # Event Handler Functions for The Add Break Tab
 
     # Change Country List when a Continent is selected
@@ -159,7 +250,7 @@ class MainWidget(QMainWindow, Ui_Form):
                                          )
             except:
                 print('I went to the fucking except')
-                pass
+                raise ValueError
 
             # Insert new region into region table
             try:
@@ -588,6 +679,8 @@ class MainWidget(QMainWindow, Ui_Form):
         self.cb_addsurfer_hcity.clear()
         self.check_addsurfer_male.setChecked(0)
         self.check_addsurfer_female.setChecked(0)
+
+    ####################################################################################################################
 
 
 ########################################################################################################################

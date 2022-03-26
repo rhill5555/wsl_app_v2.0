@@ -132,6 +132,33 @@ CREATE TABLE wsl.surfers
 );
 
 ----------------------------------------------------------------------------
+-- Tour Type TABLE
+-- DROP TABLE wsl.tour_type
+CREATE TABLE wsl.tour_type
+(
+	ID					INT unsigned NOT NULL AUTO_INCREMENT,
+	tour_name		VARCHAR(50) NOT NULL,
+	Primary Key (ID)
+);
+
+----------------------------------------------------------------------------
+-- Event TABLE
+-- DROP TABLE wsl.events
+CREATE TABLE wsl.events
+(
+	ID						INT unsigned NOT NULL AUTO_INCREMENT,
+	year					CHAR(4) NOT NULL,
+	tour_type_id	INT NOT NULL,
+	event_name		VARCHAR(50),
+	stop_num			INT,
+	open_date			VARCHAR(32),
+	close_date		VARCHAR(32),
+	break_id			INT,
+	Primary KEY		(ID)
+);
+
+
+----------------------------------------------------------------------------
 
 select * from wsl.continents;
 select * from wsl.countries;
