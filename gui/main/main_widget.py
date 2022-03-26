@@ -11,7 +11,7 @@ from PyQt5.QtWidgets import QMainWindow, QApplication, QDialog
 from gui.common_widget.dialog_widget import add_tourtype_popup
 from gui.common_widget.dialog_widget.add_location_popup import AddLocation
 from gui.main.ui_to_py.wsl_analytics_ui_v2 import Ui_Form
-from src.Places import Region, TourType
+from src.Places import Region, TourType, Round
 from src import Places, Validations
 
 
@@ -43,7 +43,7 @@ class MainWidget(QMainWindow, Ui_Form):
         )
 
         # Instance of TourType Class.
-        self.add_tour_instance: TourType = TourType(
+        self.add_heat_round_instance: Round = Round(
             sql_host_name=self.__sql_host,
             sql_password=self.__sql_password,
             sql_user_name=self.__sql_user
@@ -89,7 +89,7 @@ class MainWidget(QMainWindow, Ui_Form):
 
         # Add Event Tab
         self.cb_addevent_continent.addItems([''] + self.add_break_region_instance.return_continents())
-        self.cb_addevent_tourtype.addItems([''] + self.add_tour_instance.return_tours())
+        self.cb_addevent_tourtype.addItems([''] + self.add_heat_round_instance.return_tours())
 
         # Add Break Tab
         self.cb_addbreak_continent.addItems(['']+self.add_break_region_instance.return_continents())
