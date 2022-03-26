@@ -136,8 +136,9 @@ CREATE TABLE wsl.surfers
 -- DROP TABLE wsl.tour_type;
 CREATE TABLE wsl.tour_type
 (
-	ID				INT unsigned NOT NULL AUTO_INCREMENT,
-    year		CHAR(4) NOT NULL,
+	ID					INT unsigned NOT NULL AUTO_INCREMENT,
+	gender			VARCHAR(6),
+  year				CHAR(4) NOT NULL,
 	tour_name		VARCHAR(50) NOT NULL,
 	Primary Key (ID)
 );
@@ -167,3 +168,5 @@ select * from wsl.regions;
 select * from wsl.cities;
 select * from wsl.breaks;
 select * from wsl.surfers;
+select * from wsl.tour_type;
+select * from wsl.events;
