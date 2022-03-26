@@ -487,6 +487,35 @@ class Region(Country):
         self.selected_continent = None
 
 
+class TourType(CommonSQL):
+    # Okay, So here is the constructor class for the continent class. We are going to do the same thing as before and
+    # assign default values of None to all the values passed into the constructor, so we can create an instance of this
+    # class without having that information at the time of creating the instance. We will assign it later, during its
+    # use.
+    def __init__(self,
+                 sql_host_name: Optional[str] = None,
+                 sql_user_name: Optional[str] = None,
+                 sql_password: Optional[str] = None,
+                 selected_tour_type: Optional[str] = None):
+        # Call the constructor for the inherited class, CommonSQL. Remember this runs the constructor function in the
+        # CommonSQL class and all the instance variables of that class are now instance variables of this class.
+        # It also inherits all the functions.
+        CommonSQL.__init__(
+            self,
+            host_name=sql_host_name,
+            user_name=sql_user_name,
+            password=sql_password
+        )
+
+        # This is the instance variable for the selected tour type, which is equal to the passed value.
+        self.selected_continent: Optional[str] = selected_tour_type
+
+        # This is the instance variable for the continent_id. I assume this has something to do with the SQL key stuff.
+        # Just going to set its default to None.
+        self.selected_continent_id: Optional[int] = None
+
+########################################################################################################################
+
 if __name__ == '__main__':
     # Create an instance of the Continent Class
     inst_cont: Continent = Continent(

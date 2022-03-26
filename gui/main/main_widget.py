@@ -135,20 +135,34 @@ class MainWidget(QMainWindow, Ui_Form):
         if dialog.exec() == QDialog.Accepted:
             tour_type = dialog.line_tourtype.text()
 
-            # Check to see if City is Blank for Label and LineEdit
+            # Check to see if Tour Name is Blank for Label and LineEdit
             if dialog.line_tourtype.text() == '':
-                print(f"You can't add a blank tour type. Just put other.")
+                print(f"You can't add a blank tour type. Just make something up.")
+                raise ValueError
+
+            # Check to see if Year is Blank for the Label and LineEdit
+            if dialog.line_year.text() == '':
+                print (f"You have to tell us the year...")
 
                 # Insert new tour type into  tour type table
             try:
-                # If New tour type is entered continue
+                # If New tour type and year are entered continue
                 if not dialog.line_tourtype.text() == '':
+
+                    # Tour Type Description
                     tour_type = dialog.line_tourtype.text()
-                    print(tour_type)
+
+                    # Tour Year
+                    year = dialog.line_year.text()
+                    inst = Validations.NumCheck(input_num=year)
+                    inst.year_check()
+
+                    print(f"{year} {tour_type}")
+
                     # Insert into Country Table
                     table = 'wsl.tour_type'
-                    columns = 'tour_name'
-                    fields = f"'{tour_type}'"
+                    columns = f"year, tour_name"
+                    fields = f"{year}, '{tour_type}'"
                     inst = Places.SqlCommands()
                     inst.insert_to_table(table=table,
                                          columns=columns,
@@ -190,14 +204,10 @@ class MainWidget(QMainWindow, Ui_Form):
         tour_type = self.cb_addevent_tourtype.currentText()
         event_name = self.line_addevent_name.text()
 
-        print(f"Tour: {year}  {tour_type}")
-
         # Grab Stop Nbr and check to make sure it's and integer
         stop_num = self.line_addevent_stop.text()
         inst = Validations.NumCheck(input_num=stop_num)
         stop_num = inst.int_check()
-
-        print(f"Stop: {stop_num}  {event_name}")
 
         # Grab Date Open and Date close and check that they are in the correct format
         open_date = self.line_addevent_open.text()
@@ -206,7 +216,54 @@ class MainWidget(QMainWindow, Ui_Form):
         close_date = self.line_addevent_close.text()
         inst.date_check()
 
+        # Grab Location Data
+        continent = self.cb_addevent_continent.currentText()
+        country = self.cb_addevent_country.currentText()
+        region = self.cb_addevent_region.currentText()
+        break_name = self.cb_addevent_break.currentText()
+
+        print(f"Tour: {year}  {tour_type}")
+        print(f"Stop: {stop_num}  {event_name}")
         print(f"From: {open_date}  to  {close_date}")
+        print(f"Location: {continent}, {country}, {region}, {break_name}")
+
+        # # Add the Events to wsl.events
+        # try:
+        #     # Need to grab region id tied to event that needs to be added
+        #     table = 'wsl.tour_type'
+        #     column = 'id'
+        #     col_filter = f"where tour_type = '{tour_type}' "
+        #     inst = Places.SqlCommands()
+        #     tour_type_id = inst.select_a_column(table=table,
+        #                                      column=column,
+        #                                      col_filter=col_filter
+        #                                      )[0]
+        #
+        #     print(tour_type_id)
+        #
+        #     # Need to grab break_id tied to event that needs to be added
+        #     table = 'wsl.breaks'
+        #     column = 'id'
+        #     col_filter = f"where break = '{break_name}'"
+        #     break_id = inst.select_a_column(table=table,
+        #                                     column=column,
+        #                                     col_filter = col_filter
+        #                                     )[0]
+        #     print(break_id)
+        #
+        #     # Insert into Break Table
+        #     table = 'wsl.events'
+        #     columns = f"'year', tour_type_id, 'event_name', stop_num, 'open_date', 'close_date', break_id"
+        #     fields = f"'{year}', {tour_type_id}, '{event_name}', {stop_num}, '{open_date}', '{close_date}', {break_id}"
+        #     inst.insert_to_table(table=table,
+        #                          columns=columns,
+        #                          fields=fields
+        #                          )
+        # except:
+        #     print('I went to the fucking except')
+        #
+        # # Clear Form on Submit
+        # self.slot_pb_addbreak_clear_clicked()
 
 
     ########################################################################################################################

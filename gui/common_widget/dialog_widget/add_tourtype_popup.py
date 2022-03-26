@@ -50,15 +50,22 @@ class AddTourType(QDialog, Region):
         self.layout = QVBoxLayout()
 
         # Create Horizontal Layouts.
-        self.vlayout_tourtype = QVBoxLayout()
+        self.vlayout_tour = QVBoxLayout()
+
+        # Tour Year Label and Combobox
+        self.vlayout_tour.addWidget(QLabel("Tour Year:"))
+        self.line_year = PyQt5.QtWidgets.QLineEdit()
+        self.vlayout_tour.addWidget(self.line_year)
+        self.line_year.setFixedWidth(200)
+        self.vlayout_tour.addWidget(QLabel(''))
 
         # Continent Label and Combobox
-        self.vlayout_tourtype.addWidget(QLabel("Tour Type:"))
+        self.vlayout_tour.addWidget(QLabel("Tour Type:"))
         self.line_tourtype = PyQt5.QtWidgets.QLineEdit()
-        self.vlayout_tourtype.addWidget(self.line_tourtype)
+        self.vlayout_tour.addWidget(self.line_tourtype)
         self.line_tourtype.setFixedWidth(200)
-        self.vlayout_tourtype.addWidget(QLabel(''))
-        self.layout.addLayout(self.vlayout_tourtype)
+        self.vlayout_tour.addWidget(QLabel(''))
+        self.layout.addLayout(self.vlayout_tour)
 
         Q_Btn = QDialogButtonBox.Ok | QDialogButtonBox.Cancel
         self.ButtonBox = QDialogButtonBox(Q_Btn)
