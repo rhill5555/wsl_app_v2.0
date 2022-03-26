@@ -655,7 +655,7 @@ font: 75 14pt &quot;Verdana&quot;;</string>
         </property>
         <layout class="QFormLayout" name="flayout_addheat_wind">
          <item row="0" column="0">
-          <widget class="QCheckBox" name="check_addhead_calm">
+          <widget class="QCheckBox" name="check_addheat_calm">
            <property name="styleSheet">
             <string notr="true">font: 63 10pt &quot;Cascadia Mono SemiBold&quot;;</string>
            </property>
@@ -810,7 +810,7 @@ font: 75 14pt &quot;Verdana&quot;;</string>
             </widget>
            </item>
            <item>
-            <widget class="QLineEdit" name="line_addheat_maxwave">
+            <widget class="QLineEdit" name="line_addheat_wavemax">
              <property name="styleSheet">
               <string notr="true">background-color: rgb(224, 255, 236);</string>
              </property>
@@ -853,7 +853,7 @@ font: 63 11pt &quot;Verdana&quot;;</string>
         <string>Clear</string>
        </property>
       </widget>
-      <widget class="QPushButton" name="pb_addevent_submit_2">
+      <widget class="QPushButton" name="pb_addheat_submit">
        <property name="enabled">
         <bool>true</bool>
        </property>

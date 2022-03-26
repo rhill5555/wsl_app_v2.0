@@ -8,8 +8,8 @@ import sys
 
 from PyQt5.QtWidgets import QMainWindow, QApplication, QDialog
 
-from gui.common_widget.dialog_widget import add_tourtype_popup
-from gui.common_widget.dialog_widget.add_location_popup import AddLocation
+from gui.common_widget.dialog_widget import popup_add_data
+from gui.common_widget.dialog_widget.popup_add_data import AddLocation, AddTourType, AddRoundType
 from gui.main.ui_to_py.wsl_analytics_ui_v2 import Ui_Form
 from src.Places import Region, TourType, Round
 from src import Places, Validations
@@ -59,16 +59,22 @@ class MainWidget(QMainWindow, Ui_Form):
         self.cb_addevent_continent.currentIndexChanged.connect(self.slot_cb_addevent_continent_on_index_change)
         self.cb_addevent_country.currentIndexChanged.connect(self.slot_cb_addevent_country_on_index_change)
         self.cb_addevent_region.currentIndexChanged.connect(self.slot_cb_addevent_region_on_index_change)
+
         self.pb_addevent_newtour.clicked.connect(self.slot_pb_addevent_newtour_clicked)
         self.pb_addevent_clear.clicked.connect(self.slot_pb_addevent_clear_clicked)
         self.pb_addevent_submit.clicked.connect(self.slot_pb_addevent_submit_clicked)
 
         # Slots for Add Heat Tab
+        self.cb_addheat_tour.currentIndexChanged.connect(self.slot_cb_addheat_tour_on_index_change)
 
+        self.pb_addheat_newround.clicked.connect(self.slot_pb_addheat_newround_clicked)
+        self.pb_addheat_clear.clicked.connect(self.slot_pb_addheat_clear_clicked)
+        self.pb_addheat_submit.clicked.connect(self.slot_pb_addheat_submit_clicked)
 
         # Slots for Add Break Tab
         self.cb_addbreak_continent.currentIndexChanged.connect(self.slot_cb_addbreak_continent_on_index_change)
         self.cb_addbreak_country.currentIndexChanged.connect(self.slot_cb_addbreak_country_on_index_change)
+
         self.pb_addbreak_clear.clicked.connect(self.slot_pb_addbreak_clear_clicked)
         self.pb_addbreak_newloc.clicked.connect(self.slot_pb_addbreak_newloc_clicked)
         self.pb_addbreak_submit.clicked.connect(self.slot_pb_addbreak_submit_clicked)
@@ -78,6 +84,7 @@ class MainWidget(QMainWindow, Ui_Form):
         self.cb_addsurfer_hcontinent.currentIndexChanged.connect(self.slot_cb_addsurfer_hcontinent_on_index_change)
         self.cb_addsurfer_hcountry.currentIndexChanged.connect(self.slot_cb_addsurfer_hcountry_on_index_change)
         self.cb_addsurfer_hregion.currentIndexChanged.connect(self.slot_cb_addsurfer_hregion_on_index_change)
+
         self.pb_addsurfer_clear.clicked.connect(self.slot_pb_addsurfer_clear_clicked)
         self.pb_addsurfer_newloc.clicked.connect(self.slot_pb_addsurfer_newloc_clicked)
         self.pb_addsurfer_submit.clicked.connect(self.slot_pb_addsurfer_submit_clicked)
@@ -90,6 +97,10 @@ class MainWidget(QMainWindow, Ui_Form):
         # Add Event Tab
         self.cb_addevent_continent.addItems([''] + self.add_break_region_instance.return_continents())
         self.cb_addevent_tourtype.addItems([''] + self.add_heat_round_instance.return_tours())
+
+        # Add Heat Tab
+        self.cb_addheat_tour.addItems(['']+ self.add_heat_round_instance.return_tours())
+        self.cb_addheat_round.addItems([''] + self.add_heat_round_instance.return_all_rounds())
 
         # Add Break Tab
         self.cb_addbreak_continent.addItems(['']+self.add_break_region_instance.return_continents())
@@ -140,7 +151,7 @@ class MainWidget(QMainWindow, Ui_Form):
         self.cb_addevent_break.addItems([''] + self.add_break_region_instance.return_breaks())
 
     def slot_pb_addevent_newtour_clicked(self):
-        dialog = add_tourtype_popup.AddTourType(title="Add a Tour Type to database.")
+        dialog = AddTourType(title="Add a Tour Type to database.")
 
         if dialog.exec() == QDialog.Accepted:
             tour_type = dialog.line_tourtype.text()
@@ -283,8 +294,125 @@ class MainWidget(QMainWindow, Ui_Form):
         # Clear Form on Submit
         self.slot_pb_addevent_clear_clicked()
 
+    ####################################################################################################################
+    # Event Handler Functions for the Add Heat Tab
+    def slot_cb_addheat_tour_on_index_change(self):
+        # Set all the instance variables in the instance of the Round class to None, by calling a function in the
+        # add_heat_round_instance instance.
+        self.add_heat_round_instance.set_everything_to_none()
 
-    ########################################################################################################################
+        # Clear the event combo boxs.
+        self.cb_addheat_event.clear()
+
+        # Set the current value of the selected_tour variable in add_break_region_instance to the current text in the tour
+        # combo box.
+        self.add_heat_round_instance.selected_tourname = self.cb_addheat_tour.currentText()
+
+        # Add the events to the event combo box.
+        self.cb_addheat_event.addItems([''] + self.add_heat_round_instance.return_events())
+
+    def slot_pb_addheat_newround_clicked(self):
+        dialog = AddRoundType(title="Add a Tour Type to database.")
+
+        if dialog.exec() == QDialog.Accepted:
+            round_name = dialog.line_round.text()
+
+            # Check to see if Round Name is Blank for Label and LineEdit
+            if dialog.line_round.text() == '':
+                print(f"You can't add a blank round type. WSL even tells you wtf it should be!")
+                raise ValueError
+
+                # Insert new tour type into  tour type table
+            try:
+                # Insert into Round Table
+                table = 'wsl.rounds'
+                columns = f"round_name"
+                fields = f"'{round_name}'"
+                inst = Places.SqlCommands()
+                inst.insert_to_table(table=table,
+                                     columns=columns,
+                                     fields=fields
+                                     )
+            except:
+                print('I went to the fucking except')
+                raise ValueError
+
+    def slot_pb_addheat_clear_clicked(self):
+        pass
+
+    def slot_pb_addheat_submit_clicked(self):
+
+        # Check to Make sure a Tour is Entered
+        if self.cb_addheat_tour.currentText() == '':
+            print("What tour was this?")
+            raise ValueError
+        # Check to Make sure an Event is Entered
+        if self.cb_addheat_event.currentText() == '':
+            print("What Event? If the tour doensn't have an event just repeat the tour name without the date.")
+            raise ValueError
+        # Check to see if Round is Entered
+        if self.cb_addheat_round.currentText() == '':
+            print('What round? If there is only one round then type 1')
+            raise ValueError
+        # Check to see if Heat is Entered
+        if self.line_addheat_heat.text() == '':
+            print('What heat? If there is only one then type 1')
+
+        # Grab Tour, Event, Round, and Heat from Add Heat Tab
+        tour_name = self.cb_addheat_tour.currentText()
+        event_name = self.cb_addheat_event.currentText()
+        round_name = self.cb_addheat_round.currentText()
+        heat_num = self.line_addheat_heat.text()
+
+        # Check that heat_num is an integer
+        inst = Validations.NumCheck(input_num=heat_num)
+        inst.int_check()
+
+        # Grab date from the form
+        heat_date = self.line_addheat_date.text()
+        # Check that date is in the correct format
+        inst = Validations.DateCheck()
+        inst.date_check(input_dt=heat_date)
+
+        # Grab duration from the form
+        duration = self.line_addheat_duration.text()
+        # Check that duration is an int
+        inst = Validations.NumCheck(input_num=duration)
+        inst.int_check()
+
+        # Find Wave Range
+        wave_min = self.line_addheat_wavemin.text()
+        # Check to see if it is an int
+        inst = Validations.NumCheck(input_num=wave_min)
+        inst.int_check()
+        wave_max = self.line_addheat_wavemax.text()
+        # Check to see if it is an int
+        inst = Validations.NumCheck(input_num=wave_max)
+        inst.int_check()
+
+        # Assign Wind Type
+        wind_type = []
+        if self.check_addheat_calm.isChecked():
+            wind_type.append('Calm')
+        if self.check_addheat_light.isChecked():
+            wind_type.append('Light')
+        if self.check_addheat_onshore.isChecked():
+            wind_type.append('Onshore')
+        if self.check_addheat_offshore.isChecked():
+            wind_type.append('Offshore')
+        if self.check_addheat_cross.isChecked():
+            wind_type.append('Cross')
+        if self.check_addheat_storm.isChecked():
+            wind_type.append('Storm')
+
+        print(f"Tour: {tour_name}")
+        print(f"Event: {event_name}")
+        print(f"Round & Heat: {round_name} - Heat {heat_num}")
+        print(f"{duration} minutes")
+        print(f"Waves ranged from {wave_min} to {wave_max}")
+        print(f"Wind: {wind_type}")
+
+    ####################################################################################################################
 
     # Event Handler Functions for The Add Break Tab
 

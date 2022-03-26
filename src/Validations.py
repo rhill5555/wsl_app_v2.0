@@ -46,11 +46,11 @@ class NumCheck():
 
 
 # Class for checking that dates were entered in correct format
-class DateCheck():
+class DateCheck:
     # def __init__(self, input_dt: str):
     #     self.input_dt = input_dt
-
-    def date_check(self, input_dt: str):
+    @staticmethod
+    def date_check(input_dt: str):
         try:
             if input_dt == '':
                 input_dt = '1900-01-01'

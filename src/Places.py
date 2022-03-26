@@ -756,11 +756,30 @@ class Round(Event):
             mysql_command=sql_command
         )
 
+    def return_all_rounds(self):
+        print("We are returning all the rounds...")
+
+        all_round_list: List = []
+
+        # Okay, since we inherited the return_places function from the CommonSQL class, we use it here to grab the
+        # list of cities and return it. First, let's create a temporary string with the sql command.
+        sql_command: str = f"""select distinct round_name
+                                       from wsl.rounds rounds
+                                   """
+
+        # Return the cities, by calling the return_places function from the CommonSQL Class.
+        return self.return_event_hier(
+            mysql_command=sql_command
+        )
+
+
     # This function sets all the instance variables that dealing with selected places back to None.
     def set_everything_to_none(self) -> None:
         self.selected_round = None
         self.selected_event = None
         self.selected_tourname = None
+
+
 
 ########################################################################################################################
 
