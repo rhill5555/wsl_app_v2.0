@@ -177,6 +177,74 @@ class CommonSQL:
             # return
             return places_list
 
+    def return_event_hier(self, mysql_command: str, sort_key: Callable = str.lower) -> List:
+
+        # Define a temporary local list to store the event hier that are returned.
+        event_hier_list: List = []
+
+        # Okay, so, lets do some smart error handling. We are going to use self.mysql_connection to return the mysql
+        # connection, but right now it could return None, which will lead to a most likely fatal error that crashes the
+        # app, we want to prevent this. So, first we will check if it returns None, if it does return an empty list
+        # and print some useful info, to help you debug this error.
+        if self.mysql_connection is None:
+            print(f"OH NOOOO!!! Butters made a boo boo. Butters tried to return the event types and the mysql_connection "
+                  f"returned None. Check everything is correct with settings relating to connection to mysql.")
+            return event_hier_list
+
+        # Okay, another error check, because we know you like to mistype things and shit. Make sure the mysql_command
+        # is a string. We can later add more advanced checks with regular expressions, if you want to.
+        if not isinstance(mysql_command, str):
+            print("DAMN IT, the mysql_command is not a string when you passed it to return_event_hier.")
+            return event_hier_list
+
+        # Okay, so let's wrap this next part into a try except, just in case this causes an error.
+        try:
+
+            # Define the mycursor object.
+            mycursor = self.mysql_connection.cursor()
+
+            # Define the execute command inside the mycursor object, by passing in the variable, mysql_command.
+            mycursor.execute(mysql_command)
+
+            # Grab the results of this.
+            result = mycursor.fetchall()
+
+            # For error debugging lets print what you got that way if an error occurs after this point, we will know it
+            # was due to the loop code.
+            print(f"The mysql results for the command {mysql_command} is: {result}")
+            print()
+
+            # Since, mysql returns it in the list of tuple format, you take care of this.
+            for item in result:
+
+                # Append the modified version of the current item into the places_list list.
+                event_hier_list.append(
+                    item[0]
+                )
+
+            # Okay, so now we sort the place_list, by using the sort key passed to this function. In most cases, we will
+            # use the default value, which is a string function, str.lower. You could use lambda to pass in your own
+            # function, or pass in a reference to another function. For now, just use str.lower. Also, notice that when
+            # you pass a reference to a function into another function you omit the parenthesis, which you use when you
+            # call that function. If you don't omit the parenthesis, it would pass the value returned by the function
+            # and not a reference to use to call the function. Again, if this doesn't make complete sense, that is okay
+            # for now, just remember the rule, if I need to pass a reference to a function to use later than no
+            # parenthesis and if I want it to evaluate and return the value of the function then use parenthesis.
+            return sorted(event_hier_list, key=sort_key)
+
+        except Exception as e:
+            # Print the official error.
+            print(e)
+            # Print a blank space.
+            print()
+            # Print a usable error message
+            print("OH No Cartman was right, the red head infected your code!!!!! There was an error fetching the "
+                  f"the places with the mysql_command: {mysql_command} and for the love of god, check that the sql"
+                  f"syntax has not been infected with the red head gene, aka bad sql syntax. NO REALLY. HEY, HEY, Don't"
+                  f"IGNORE ME, PUT THAT SHIT IN THE SQL COMMAND LINE THING AND CHECK IT, JESUS.")
+            # return
+            return event_hier_list
+
 
 class SqlCommands(CommonSQL):
     def __init__(self,
@@ -495,7 +563,159 @@ class TourType(CommonSQL):
                  sql_host_name: Optional[str] = None,
                  sql_user_name: Optional[str] = None,
                  sql_password: Optional[str] = None,
-                 selected_region: Optional[str] = None):
+                 selected_tourname: Optional[str] = None):
+        # Call the constructor for the inherited class, Country. Remember, this runs the constructor function in the
+        # CommonSQL class and all the instance variables of that class are now instance variables of this class.
+        # It also inherits all the functions.
+        CommonSQL.__init__(
+            self,
+            sql_host_name=sql_host_name,
+            sql_user_name=sql_user_name,
+            sql_password=sql_password
+        )
+
+        # This is the instance variable for the selected region, which is equal to the passed value.
+        self.selected_tourname: Optional[str] = selected_tourname
+
+        # This is the instance variable for the region_id. I assume this has something to do with the SQL key stuff.
+        # Just going to set its default to None.
+        self.selected_tour_id: Optional[int] = None
+
+
+    # Define a function to return a list of the cities, so you can use it to place it in the
+    # Combo box after the region is selected.
+    def return_tours(self) -> List:
+
+        # Let's print that we are in this function, so it makes debugging easier.
+        print("We are returning the tours...")
+
+        # Okay, since we inherited the return_places function from the CommonSQL class, we use it here to grab the
+        # list of continents and return it. First, let's create a temporary string with the sql command.
+
+        sql_command: str = "select tour_name from wsl.tour_type"
+
+        return self.return_event_hier(
+            mysql_command=sql_command
+        )
+
+    # Okay, so we need to define a function to return a list of the countries, so you can use it to place it in the
+    # Combo box after the continent is selected.
+    def return_events(self) -> List:
+        # Let's print that we are in this function, so it makes debugging easier.
+        print("We are returning the events...")
+
+        # Create a temporary list for the countries.
+        events_list: List = []
+
+        # We need to do some quick error handling. When create an instance of this class, we will most likely not pass
+        # a value for the selected_continent to constructor, since, we probably won't know this value. The constructor
+        # just uses the default value which is None. So, when this function is called the selected_continent
+        # MAY be None. So, we
+        # need to check if it is None as this would cause issues, with your sql calls. We could catch it later, but
+        # having a catch here allows, you the programmer, to know what the issue is more easily and spend less time
+        # debugging.
+        # Okay, so probably another check we should do, just in case, probably will never happen but will save alot of
+        # time if this is an error. Let's make sure that the selected_continent is a string, this is returned from the
+        # qt information.
+        # Okay, so as normal, return a useful and funny error message. Then return something that doesn't
+        # crash the program. If you want a fatal crash here, then comment out the return and use the "raise ValueError"
+        # command, but leave the print statement.
+        if self.selected_tourname is None or not isinstance(self.selected_tourname, str):
+            print("Beep Boop Bot... Oh No... You were trying to return a list of events, but the selected tourname"
+                  f"is None or not a string. It has a type of: {type(self.selected_tourname)}")
+            return events_list
+
+        # Okay, since we inherited the return_places function from the CommonSQL class, we use it here to grab the
+        # list of countries and return it. First, let's create a temporary string with the sql command.
+        sql_command: str = f"""select event_name
+                                    from wsl.events events
+                                    join wsl.tour_type tour_type
+                                        on events.tour_type_id = tour_type.id
+                                    where tour_name = '{self.selected_tourname}'
+                                """
+
+        # Return the countries, by calling the return_places function from the CommonSQL Class.
+        return self.return_event_hier(
+            mysql_command=sql_command
+        )
+
+class Event(TourType):
+    # Okay, So here is the constructor class for the country class. We are going to do the same thing as before and
+    # assign default values of None to all the values passed into the constructor, so we can create an instance of this
+    # class without having that information at the time of creating the instance. We will assign it later, during its
+    # use.
+    def __init__(self,
+                 sql_host_name: Optional[str] = None,
+                 sql_user_name: Optional[str] = None,
+                 sql_password: Optional[str] = None,
+                 selected_event: Optional[str] = None):
+        # Call the constructor for the inherited class, Continent. Remember this runs the constructor function in the
+        # CommonSQL class and all the instance variables of that class are now instance variables of this class.
+        # It also inherits all the functions.
+        TourType.__init__(
+            self,
+            sql_host_name=sql_host_name,
+            sql_user_name=sql_user_name,
+            sql_password=sql_password
+        )
+
+        # This is the instance variable for the selected country, which is equal to the passed value.
+        self.selected_event: Optional[str] = selected_event
+
+        # This is the instance variable for the country_id. I assume this has something to do with the SQL key stuff.
+        # Just going to set its default to None.
+        self.selected_event_id: Optional[int] = None
+
+    # Okay, so we need to define a function to return a list of the regions, so you can use it to place it in the
+    # Combo box after the country is selected.
+    def return_rounds(self) -> List:
+        # Let's print that we are in this function, so it makes debugging easier.
+        print("We are returning the rounds...")
+
+        # Create a temporary list for the countries.
+        rounds_list: List = []
+
+        # We need to do some quick error handling. When create an instance of this class, we will most likely not pass
+        # a value for the selected_continent to constructor, since, we probably won't know this value. The constructor
+        # just uses the default value which is None. So, when this function is called the selected_continent
+        # MAY be None. So, we
+        # need to check if it is None as this would cause issues, with your sql calls. We could catch it later, but
+        # having a catch here allows, you the programmer, to know what the issue is more easily and spend less time
+        # debugging.
+        # Okay, so probably another check we should do, just in case, probably will never happen but will save alot of
+        # time if this is an error. Let's make sure that the selected_continent is a string, this is returned from the
+        # qt information.
+        # Okay, so as normal, return a useful and funny error message. Then return something that doesn't
+        # crash the program. If you want a fatal crash here, then comment out the return and use the "raise ValueError"
+        # command, but leave the print statement.
+        if self.selected_event is None or not isinstance(self.selected_event, str):
+            print("Beep Boop Bot... Oh No... You were trying to return a list of rounds, but the selected round"
+                  f"is None or not a string. It has a type of: {type(self.selected_event)}")
+            return rounds_list
+
+        # Okay, since we inherited the return_places function from the CommonSQL class, we use it here to grab the
+        # list of countries and return it. First, let's create a temporary string with the sql command.
+        sql_command: str = f"""select round_name
+                                from wsl.rounds rounds
+                                join wsl.events events
+                                    on rounds.event_id = events.id
+                                where event_name = '{self.selected_event}'
+                            """
+
+        # Return the regions, by calling the return_event_hier function from the CommonSQL Class.
+        return self.return_event_hier(
+            mysql_command=sql_command
+        )
+
+class Round(Event):
+    # This is the constructor class for the region class. We will assign default values of None to all values passed to
+    # the constructor, so that we can create an instance of this class without having all information at the time of
+    # of creating the instance. Values will be assigned later during use.
+    def __init__(self,
+                 sql_host_name: Optional[str] = None,
+                 sql_user_name: Optional[str] = None,
+                 sql_password: Optional[str] = None,
+                 selected_round: Optional[str] = None):
         # Call the constructor for the inherited class, Country. Remember, this runs the constructor function in the
         # CommonSQL class and all the instance variables of that class are now instance variables of this class.
         # It also inherits all the functions.
@@ -507,52 +727,40 @@ class TourType(CommonSQL):
         )
 
         # This is the instance variable for the selected region, which is equal to the passed value.
-        self.selected_region: Optional[str] = selected_region
+        self.selected_round: Optional[str] = selected_round
 
         # This is the instance variable for the region_id. I assume this has something to do with the SQL key stuff.
         # Just going to set its default to None.
-        self.selected_region_id: Optional[int] = None
+        self.selected_round_id: Optional[int] = None
 
     # Define a function to return a list of the cities, so you can use it to place it in the
     # Combo box after the region is selected.
-    def return_tours(self) -> List:
+    def return_heats(self) -> List:
         # Let's print that we are in this function, so it makes debugging easier.
-        print("We are returning the tours...")
+        print("We are returning the heats...")
 
-        # # Create a temporary list for the countries.
-        # tour_list: List = []
-        #
-        # # We need to do some quick error handling. When create an instance of this class, we will most likely not pass
-        # # a value for the selected_region to constructor, since, we probably won't know this value. The constructor
-        # # just uses the default value which is None. So, when this function is called the selected_region
-        # # MAY be None. So, we
-        # # need to check if it is None as this would cause issues, with your sql calls. We could catch it later, but
-        # # having a catch here allows, you the programmer, to know what the issue is more easily and spend less time
-        # # debugging.
-        # # Okay, so probably another check we should do, just in case, probably will never happen but will save alot of
-        # # time if this is an error. Let's make sure that the selected_country is a string, this is returned from the
-        # # qt information.
-        # # Okay, so as normal, return a useful and funny error message. Then return something that doesn't
-        # # crash the program. If you want a fatal crash here, then comment out the return and use the "raise ValueError"
-        # # command, but leave the print statement.
-        # if self.selected_tour is None or not isinstance(self.selected_tour, str):
-        #     print("Beep Boop Bot... Oh No... You were trying to return a list of tours, but the selected region"
-        #           f"is None or not a string. It has a type of: {type(self.selected_tour)}")
-        #     return tour_list
+        # Create a temporary list for the countries.
+        heats_list: List = []
 
         # Okay, since we inherited the return_places function from the CommonSQL class, we use it here to grab the
         # list of cities and return it. First, let's create a temporary string with the sql command.
-        sql_command: str = f"""select tour_name
-                                from wsl.tour_type
+        sql_command: str = f"""select heat_nbr
+                                from wsl.heats heats
+                                join wsl.rounds rounds
+                                    on heats.round_id = rounds.id
+                                where round_name = '{self.selected_round}'
                             """
 
         # Return the cities, by calling the return_places function from the CommonSQL Class.
-        return self.return_places(
+        return self.return_event_hier(
             mysql_command=sql_command
         )
 
-
-
+    # This function sets all the instance variables that dealing with selected places back to None.
+    def set_everything_to_none(self) -> None:
+        self.selected_round = None
+        self.selected_event = None
+        self.selected_tourname = None
 
 ########################################################################################################################
 

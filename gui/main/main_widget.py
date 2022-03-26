@@ -63,6 +63,9 @@ class MainWidget(QMainWindow, Ui_Form):
         self.pb_addevent_clear.clicked.connect(self.slot_pb_addevent_clear_clicked)
         self.pb_addevent_submit.clicked.connect(self.slot_pb_addevent_submit_clicked)
 
+        # Slots for Add Heat Tab
+
+
         # Slots for Add Break Tab
         self.cb_addbreak_continent.currentIndexChanged.connect(self.slot_cb_addbreak_continent_on_index_change)
         self.cb_addbreak_country.currentIndexChanged.connect(self.slot_cb_addbreak_country_on_index_change)
