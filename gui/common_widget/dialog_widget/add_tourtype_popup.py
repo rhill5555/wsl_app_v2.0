@@ -3,9 +3,12 @@ from typing import Optional
 
 import PyQt5.QtWidgets
 from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QLabel, QApplication, QDialogButtonBox
+from PyQt5.QtWidgets import QDialog, QVBoxLayout, QLabel, QApplication, QDialogButtonBox
+from PyQt5.QtWidgets import QCheckBox
+
 from src.Places import Region
 
+########################################################################################################################
 
 class AddTourType(QDialog, Region):
     def __init__(self,
@@ -51,6 +54,14 @@ class AddTourType(QDialog, Region):
 
         # Create Horizontal Layouts.
         self.vlayout_tour = QVBoxLayout()
+
+        # Tour Gender CheckBox
+        self.chkbox_men = PyQt5.QtWidgets.QCheckBox()
+        self.chkbox_men.setText("Men")
+        self.chkbox_women = PyQt5.QtWidgets.QCheckBox()
+        self.chkbox_women.setText("Women")
+        self.vlayout_tour.addWidget(self.chkbox_men)
+        self.vlayout_tour.addWidget(self.chkbox_women)
 
         # Tour Year Label and Combobox
         self.vlayout_tour.addWidget(QLabel("Tour Year:"))

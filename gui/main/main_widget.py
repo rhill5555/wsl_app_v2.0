@@ -173,7 +173,6 @@ class MainWidget(QMainWindow, Ui_Form):
                 raise ValueError
 
     def slot_pb_addevent_clear_clicked(self):
-        self.line_addevent_year.clear()
         self.cb_addevent_tourtype.clear()
         self.line_addevent_name.clear()
         self.line_addevent_stop.clear()
@@ -186,19 +185,13 @@ class MainWidget(QMainWindow, Ui_Form):
         self.cb_addevent_break.clear()
 
     def slot_pb_addevent_submit_clicked(self):
-        # Check to make sure Year and Tour Type have data
-        condition_1 = self.line_addevent_year.text() == ''
-        condition_2 = self.cb_addevent_tourtype.currentText() == ''
-        if not condition_1 and not condition_2:
-            print("Tour and Year Added.")
+        # Check to make sureTour Type have data
+        condition_1 = self.cb_addevent_tourtype.currentText() == ''
+        if not condition_1:
+            print("Tour Added.")
         else:
-            print("You need to enter a Year and a Tour Type.")
+            print("You need to enter a Tour.")
             raise ValueError
-
-        # Grab Year from Add Event Form
-        year = self.line_addevent_year.text()
-        inst = Validations.NumCheck(input_num=year)
-        inst.year_check()
 
         # Grab Tour Type and Name
         tour_type = self.cb_addevent_tourtype.currentText()
@@ -222,45 +215,45 @@ class MainWidget(QMainWindow, Ui_Form):
         region = self.cb_addevent_region.currentText()
         break_name = self.cb_addevent_break.currentText()
 
-        print(f"Tour: {year}  {tour_type}")
+        print(f"Tour: {tour_type}")
         print(f"Stop: {stop_num}  {event_name}")
         print(f"From: {open_date}  to  {close_date}")
         print(f"Location: {continent}, {country}, {region}, {break_name}")
 
-        # # Add the Events to wsl.events
-        # try:
-        #     # Need to grab region id tied to event that needs to be added
-        #     table = 'wsl.tour_type'
-        #     column = 'id'
-        #     col_filter = f"where tour_type = '{tour_type}' "
-        #     inst = Places.SqlCommands()
-        #     tour_type_id = inst.select_a_column(table=table,
-        #                                      column=column,
-        #                                      col_filter=col_filter
-        #                                      )[0]
-        #
-        #     print(tour_type_id)
-        #
-        #     # Need to grab break_id tied to event that needs to be added
-        #     table = 'wsl.breaks'
-        #     column = 'id'
-        #     col_filter = f"where break = '{break_name}'"
-        #     break_id = inst.select_a_column(table=table,
-        #                                     column=column,
-        #                                     col_filter = col_filter
-        #                                     )[0]
-        #     print(break_id)
-        #
-        #     # Insert into Break Table
-        #     table = 'wsl.events'
-        #     columns = f"'year', tour_type_id, 'event_name', stop_num, 'open_date', 'close_date', break_id"
-        #     fields = f"'{year}', {tour_type_id}, '{event_name}', {stop_num}, '{open_date}', '{close_date}', {break_id}"
-        #     inst.insert_to_table(table=table,
-        #                          columns=columns,
-        #                          fields=fields
-        #                          )
-        # except:
-        #     print('I went to the fucking except')
+        # Add the Events to wsl.events
+        try:
+            # Need to grab region id tied to event that needs to be added
+            table = 'wsl.tour_type'
+            column = 'id'
+            col_filter = f"where tour_type = '{tour_type}' "
+            inst = Places.SqlCommands()
+            tour_id = inst.select_a_column(table=table,
+                                             column=column,
+                                             col_filter=col_filter
+                                             )[0]
+
+            print(tour_id)
+
+            # Need to grab break_id tied to event that needs to be added
+            table = 'wsl.breaks'
+            column = 'id'
+            col_filter = f"where break = '{break_name}'"
+            break_id = inst.select_a_column(table=table,
+                                            column=column,
+                                            col_filter = col_filter
+                                            )[0]
+            print(break_id)
+
+            # Insert into Break Table
+            table = 'wsl.events'
+            columns = f"tour_id, 'event_name', stop_num, 'open_date', 'close_date', break_id"
+            fields = f"{tour_id}, '{event_name}', {stop_num}, '{open_date}', '{close_date}', {break_id}"
+            inst.insert_to_table(table=table,
+                                 columns=columns,
+                                 fields=fields
+                                 )
+        except:
+            print('I went to the fucking except')
         #
         # # Clear Form on Submit
         # self.slot_pb_addbreak_clear_clicked()
