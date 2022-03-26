@@ -79,6 +79,7 @@ class MainWidget(QMainWindow, Ui_Form):
 
         # Add Event Tab
         self.cb_addevent_continent.addItems([''] + self.add_break_region_instance.return_continents())
+        self.cb_addevent_tourtype.addItems(['', 'test type1', 'test type2'])
 
         # Add Break Tab
         self.cb_addbreak_continent.addItems(['']+self.add_break_region_instance.return_continents())
@@ -158,10 +159,55 @@ class MainWidget(QMainWindow, Ui_Form):
                 raise ValueError
 
     def slot_pb_addevent_clear_clicked(self):
-        pass
+        self.line_addevent_year.clear()
+        self.cb_addevent_tourtype.clear()
+        self.line_addevent_name.clear()
+        self.line_addevent_stop.clear()
+        self.line_addevent_open.clear()
+        self.line_addevent_close.clear()
+        self.cb_addevent_continent.clear()
+        self.cb_addevent_continent.addItems([''] + self.add_break_region_instance.return_continents())
+        self.cb_addevent_country.clear()
+        self.cb_addevent_region.clear()
+        self.cb_addevent_break.clear()
 
     def slot_pb_addevent_submit_clicked(self):
-        pass
+        # Check to make sure Year and Tour Type have data
+        condition_1 = self.line_addevent_year.text() == ''
+        condition_2 = self.cb_addevent_tourtype.currentText() == ''
+        if not condition_1 and not condition_2:
+            print("Tour and Year Added.")
+        else:
+            print("You need to enter a Year and a Tour Type.")
+            raise ValueError
+
+        # Grab Year from Add Event Form
+        year = self.line_addevent_year.text()
+        inst = Validations.NumCheck(input_num=year)
+        inst.year_check()
+
+        # Grab Tour Type and Name
+        tour_type = self.cb_addevent_tourtype.currentText()
+        event_name = self.line_addevent_name.text()
+
+        print(f"Tour: {year}  {tour_type}")
+
+        # Grab Stop Nbr and check to make sure it's and integer
+        stop_num = self.line_addevent_stop.text()
+        inst = Validations.NumCheck(input_num=stop_num)
+        stop_num = inst.int_check()
+
+        print(f"Stop: {stop_num}  {event_name}")
+
+        # Grab Date Open and Date close and check that they are in the correct format
+        open_date = self.line_addevent_open.text()
+        inst = Validations.DateCheck(input_dt=open_date)
+        inst.date_check()
+        close_date = self.line_addevent_close.text()
+        inst.date_check()
+
+        print(f"From: {open_date}  to  {close_date}")
+
 
     ########################################################################################################################
 
@@ -446,25 +492,7 @@ class MainWidget(QMainWindow, Ui_Form):
             print('I went to the fucking except')
 
         # Clear Form on Submit
-        self.cb_addbreak_country.clear()
-        self.cb_addbreak_region.clear()
-        self.line_addbreak_break.clear()
-        self.check_addbreak_ability_green.setChecked(0)
-        self.check_addbreak_ability_yellow.setChecked(0)
-        self.check_addbreak_ability_red.setChecked(0)
-        self.check_addbreak_burn_green.setChecked(0)
-        self.check_addbreak_burn_yellow.setChecked(0)
-        self.check_addbreak_burn_red.setChecked(0)
-        self.check_addbreak_beach.setChecked(0)
-        self.check_addbreak_point.setChecked(0)
-        self.check_addbreak_reef.setChecked(0)
-        self.check_addbreak_river.setChecked(0)
-        self.check_addbreak_sandbar.setChecked(0)
-        self.check_addbreak_jetty.setChecked(0)
-        self.check_addbreak_eng.setChecked(0)
-        self.line_addbreak_clean.clear()
-        self.line_addbreak_blown.clear()
-        self.line_addbreak_small.clear()
+        self.slot_pb_addbreak_clear_clicked()
 
     ####################################################################################################################
     # Event Handler Functions for Add Surfer Tab
@@ -660,25 +688,7 @@ class MainWidget(QMainWindow, Ui_Form):
             print('I went to the fucking except')
 
         # Clear Everything on Submit
-        self.line_addsurfer_firstname.clear()
-        self.line_addsurfer_lastname.clear()
-        self.check_addsurfer_goofy.setChecked(0)
-        self.check_addsurfer_regular.setChecked(0)
-        self.cb_addsurfer_continent.clear()
-        self.cb_addsurfer_continent.addItems([''] + self.add_break_region_instance.return_continents())
-        self.cb_addsurfer_country.clear()
-        self.line_addsurfer_bday.clear()
-        self.line_addsurfer_ht.clear()
-        self.line_addsurfer_wt.clear()
-        self.line_addsurfer_firstseason.clear()
-        self.line_addsurfer_firsttour.clear()
-        self.cb_addsurfer_hcontinent.clear()
-        self.cb_addsurfer_hcontinent.addItems([''] + self.add_break_region_instance.return_continents())
-        self.cb_addsurfer_hcountry.clear()
-        self.cb_addsurfer_hregion.clear()
-        self.cb_addsurfer_hcity.clear()
-        self.check_addsurfer_male.setChecked(0)
-        self.check_addsurfer_female.setChecked(0)
+        self.slot_pb_addsurfer_clear_clicked()
 
     ####################################################################################################################
 

@@ -194,19 +194,19 @@ font: 75 14pt &quot;Verdana&quot;;</string>
             <string notr="true">font: 63 10pt &quot;Cascadia Mono SemiBold&quot;;</string>
            </property>
            <property name="text">
-            <string>Tour Type:</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <widget class="QComboBox" name="cb_addevent_year">
-           <property name="styleSheet">
-            <string notr="true">background-color: rgb(215, 248, 255);</string>
+            <string>Tour:</string>
            </property>
           </widget>
          </item>
          <item row="1" column="1">
           <widget class="QComboBox" name="cb_addevent_tourtype">
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(215, 248, 255);</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLineEdit" name="line_addevent_year">
            <property name="styleSheet">
             <string notr="true">background-color: rgb(215, 248, 255);</string>
            </property>
@@ -453,7 +453,7 @@ background-color: rgb(185, 131, 255);</string>
        </property>
        <property name="geometry">
         <rect>
-         <x>740</x>
+         <x>750</x>
          <y>470</y>
          <width>151</width>
          <height>50</height>
@@ -485,8 +485,8 @@ font: 63 11pt &quot;Verdana&quot;;</string>
        </property>
        <property name="geometry">
         <rect>
-         <x>740</x>
-         <y>550</y>
+         <x>750</x>
+         <y>560</y>
          <width>151</width>
          <height>50</height>
         </rect>

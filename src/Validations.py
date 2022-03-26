@@ -10,38 +10,47 @@ class NumCheck():
     def __init__(self, input_num: str):
         self.input_num = input_num
 
-    def int_check(self, input_num: str):
+    def int_check(self):
         try:
             # print(f"I'm checking for an integer.")
-            if input_num == '':
-                input_num = 0
-            int(input_num)
+            if self.input_num == '':
+                self.input_num = 0
+            int(self.input_num)
             # print(f"It's an integer.")
             # print(f"I've adjusted the type to int.")
-            return(input_num)
+            return self.input_num
         except:
             print(f"It's not an integer.")
-            return('Invalid Number')
+            raise ValueError
 
-    def float_check(self, input_num: str):
+    def float_check(self):
         try:
             # print(f"I'm checking for an integer.")
-            if input_num == '':
-                input_num = 0
-            float(input_num)
+            if self.input_num == '':
+                self.input_num = 0
+            float(self.input_num)
             # print(f"It's an integer.")
             # print(f"I've adjusted the type to int.")
-            return(input_num)
+            return self.input_num
         except:
             print(f"It's not an integer.")
-            return('Invalid Number')
+            raise ValueError
+
+    def year_check(self):
+        if not self.input_num == '':
+            if len(self.input_num) == 4:
+                self.int_check()
+            else:
+                print("First Season must be a year in form YYYY")
+                raise ValueError
+
 
 # Class for checking that dates were entered in correct format
 class DateCheck():
-    def __init__(selfself, input_dt: str):
+    def __init__(self, input_dt: str):
         self.input_dt = input_dt
 
-    def date_check(self, input_dt: str):
+    def date_check(self):
         try:
             if input_dt == '':
                 input_dt = '1900-01-01'
@@ -53,3 +62,6 @@ class DateCheck():
         except:
             print(f"Date format should be %m/%d/%Y")
             return "Invalid Date"
+
+
+
