@@ -488,46 +488,69 @@ class Region(Country):
 
 
 class TourType(CommonSQL):
-    # Okay, So here is the constructor class for the continent class. We are going to do the same thing as before and
-    # assign default values of None to all the values passed into the constructor, so we can create an instance of this
-    # class without having that information at the time of creating the instance. We will assign it later, during its
-    # use.
+    # This is the constructor class for the region class. We will assign default values of None to all values passed to
+    # the constructor, so that we can create an instance of this class without having all information at the time of
+    # of creating the instance. Values will be assigned later during use.
     def __init__(self,
                  sql_host_name: Optional[str] = None,
                  sql_user_name: Optional[str] = None,
                  sql_password: Optional[str] = None,
-                 selected_tour_type: Optional[str] = None):
-        # Call the constructor for the inherited class, CommonSQL. Remember this runs the constructor function in the
+                 selected_region: Optional[str] = None):
+        # Call the constructor for the inherited class, Country. Remember, this runs the constructor function in the
         # CommonSQL class and all the instance variables of that class are now instance variables of this class.
         # It also inherits all the functions.
-        CommonSQL.__init__(
+        Country.__init__(
             self,
-            host_name=sql_host_name,
-            user_name=sql_user_name,
-            password=sql_password
+            sql_host_name=sql_host_name,
+            sql_user_name=sql_user_name,
+            sql_password=sql_password
         )
 
-        # This is the instance variable for the selected tour type, which is equal to the passed value.
-        self.selected_tour_type: Optional[str] = selected_tour_type
+        # This is the instance variable for the selected region, which is equal to the passed value.
+        self.selected_region: Optional[str] = selected_region
 
-        # This is the instance variable for the continent_id. I assume this has something to do with the SQL key stuff.
+        # This is the instance variable for the region_id. I assume this has something to do with the SQL key stuff.
         # Just going to set its default to None.
-        self.selected_tour_type_id: Optional[int] = None
+        self.selected_region_id: Optional[int] = None
 
-    # Okay, so we need to define a function to return a list of the tours, so you can use it to place it in the
-    # Combo box at startup of the app.
+    # Define a function to return a list of the cities, so you can use it to place it in the
+    # Combo box after the region is selected.
     def return_tours(self) -> List:
         # Let's print that we are in this function, so it makes debugging easier.
         print("We are returning the tours...")
 
+        # # Create a temporary list for the countries.
+        # tour_list: List = []
+        #
+        # # We need to do some quick error handling. When create an instance of this class, we will most likely not pass
+        # # a value for the selected_region to constructor, since, we probably won't know this value. The constructor
+        # # just uses the default value which is None. So, when this function is called the selected_region
+        # # MAY be None. So, we
+        # # need to check if it is None as this would cause issues, with your sql calls. We could catch it later, but
+        # # having a catch here allows, you the programmer, to know what the issue is more easily and spend less time
+        # # debugging.
+        # # Okay, so probably another check we should do, just in case, probably will never happen but will save alot of
+        # # time if this is an error. Let's make sure that the selected_country is a string, this is returned from the
+        # # qt information.
+        # # Okay, so as normal, return a useful and funny error message. Then return something that doesn't
+        # # crash the program. If you want a fatal crash here, then comment out the return and use the "raise ValueError"
+        # # command, but leave the print statement.
+        # if self.selected_tour is None or not isinstance(self.selected_tour, str):
+        #     print("Beep Boop Bot... Oh No... You were trying to return a list of tours, but the selected region"
+        #           f"is None or not a string. It has a type of: {type(self.selected_tour)}")
+        #     return tour_list
+
         # Okay, since we inherited the return_places function from the CommonSQL class, we use it here to grab the
-        # list of continents and return it. First, let's create a temporary string with the sql command.
+        # list of cities and return it. First, let's create a temporary string with the sql command.
+        sql_command: str = f"""select tour_name
+                                from wsl.tour_type
+                            """
 
-        sql_command: str = "select tour_name from wsl.tour_type"
-
+        # Return the cities, by calling the return_places function from the CommonSQL Class.
         return self.return_places(
             mysql_command=sql_command
         )
+
 
 
 

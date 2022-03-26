@@ -173,12 +173,13 @@ class MainWidget(QMainWindow, Ui_Form):
                 else:
                     gender = ''
 
-                print(f"{year} {gender}'s {tour_type}")
+                tour_name = f"{year} {gender}s {tour_type}"
+                print(tour_name)
 
                 # Insert into Country Table
                 table = 'wsl.tour_type'
-                columns = f"gender, year, tour_name"
-                fields = f"'{gender}', {year}, '{tour_type}'"
+                columns = f"gender, year, tour_type, tour_name"
+                fields = f"'{gender}', '{year}', '{tour_type}', '{tour_name}'"
                 inst = Places.SqlCommands()
                 inst.insert_to_table(table=table,
                                      columns=columns,
@@ -210,7 +211,7 @@ class MainWidget(QMainWindow, Ui_Form):
             raise ValueError
 
         # Grab Tour Type and Name
-        tour_type = self.cb_addevent_tourtype.currentText()
+        tour_name = self.cb_addevent_tourtype.currentText()
         event_name = self.line_addevent_name.text()
 
         # Grab Stop Nbr and check to make sure it's and integer
@@ -220,10 +221,15 @@ class MainWidget(QMainWindow, Ui_Form):
 
         # Grab Date Open and Date close and check that they are in the correct format
         open_date = self.line_addevent_open.text()
-        inst = Validations.DateCheck(input_dt=open_date)
-        inst.date_check()
         close_date = self.line_addevent_close.text()
-        inst.date_check()
+        print(open_date)
+        print(close_date)
+        inst = Validations.DateCheck
+        inst.date_check(self, input_dt=open_date)
+        inst = Validations.DateCheck
+        inst.date_check(self, input_dt=close_date)
+
+        print("Dates successful")
 
         # Grab Location Data
         continent = self.cb_addevent_continent.currentText()
@@ -231,7 +237,7 @@ class MainWidget(QMainWindow, Ui_Form):
         region = self.cb_addevent_region.currentText()
         break_name = self.cb_addevent_break.currentText()
 
-        print(f"Tour: {tour_type}")
+        print(f"Tour: {tour_name}")
         print(f"Stop: {stop_num}  {event_name}")
         print(f"From: {open_date}  to  {close_date}")
         print(f"Location: {continent}, {country}, {region}, {break_name}")
@@ -241,7 +247,7 @@ class MainWidget(QMainWindow, Ui_Form):
             # Need to grab region id tied to event that needs to be added
             table = 'wsl.tour_type'
             column = 'id'
-            col_filter = f"where tour_type = '{tour_type}' "
+            col_filter = f"where tour_name = '{tour_name}' "
             inst = Places.SqlCommands()
             tour_id = inst.select_a_column(table=table,
                                              column=column,
@@ -253,16 +259,16 @@ class MainWidget(QMainWindow, Ui_Form):
             # Need to grab break_id tied to event that needs to be added
             table = 'wsl.breaks'
             column = 'id'
-            col_filter = f"where break = '{break_name}'"
+            col_filter = f"where break = '{break_name}' "
             break_id = inst.select_a_column(table=table,
                                             column=column,
                                             col_filter = col_filter
                                             )[0]
             print(break_id)
 
-            # Insert into Break Table
+            # Insert into Events Table
             table = 'wsl.events'
-            columns = f"tour_id, 'event_name', stop_num, 'open_date', 'close_date', break_id"
+            columns = f"tour_type_id, event_name, stop_num, open_date, close_date, break_id"
             fields = f"{tour_id}, '{event_name}', {stop_num}, '{open_date}', '{close_date}', {break_id}"
             inst.insert_to_table(table=table,
                                  columns=columns,
@@ -272,7 +278,7 @@ class MainWidget(QMainWindow, Ui_Form):
             print('I went to the fucking except')
 
         # Clear Form on Submit
-        self.slot_pb_addbreak_clear_clicked()
+        self.slot_pb_addevent_clear_clicked()
 
 
     ########################################################################################################################

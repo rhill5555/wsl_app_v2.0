@@ -133,13 +133,14 @@ CREATE TABLE wsl.surfers
 
 ----------------------------------------------------------------------------
 -- Tour Type TABLE
--- DROP TABLE wsl.tour_type;
+-- drop table wsl.tour_type;
 CREATE TABLE wsl.tour_type
 (
 	ID					INT unsigned NOT NULL AUTO_INCREMENT,
 	gender			VARCHAR(6),
-  year				CHAR(4) NOT NULL,
-	tour_name		VARCHAR(50) NOT NULL,
+	year				CHAR(4) NOT NULL,
+	tour_type		VARCHAR(50) NOT NULL,
+    tour_name		VARCHAR(50) NOT NULL,
 	Primary Key (ID)
 );
 
@@ -149,7 +150,6 @@ CREATE TABLE wsl.tour_type
 CREATE TABLE wsl.events
 (
 	ID						INT unsigned NOT NULL AUTO_INCREMENT,
-	year					CHAR(4) NOT NULL,
 	tour_type_id	INT NOT NULL,
 	event_name		VARCHAR(50),
 	stop_num			INT,
