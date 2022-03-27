@@ -450,7 +450,14 @@ class SurferToHeat(QDialog, Round):
 
     ####################################################################################################################
     def slot_cb_year_on_index_change(self):
-        pass
+        inst = Places.Round()
+        inst.set_everything_to_none()
+
+        self.cb_tour.clear()
+
+        self.cb_tour.addItems([''] + self.return_tour_names(year=self.cb_year.currentText()))
+
+        # inst.selected_year = self.cb_year.currentText()
 
     def slot_add_surfer_clicked(self):
         pass

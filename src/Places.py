@@ -557,7 +557,7 @@ class Region(Country):
         self.selected_continent = None
 
 
-class TourType(CommonSQL):
+class TourType(SqlCommands):
     # This is the constructor class for the region class. We will assign default values of None to all values passed to
     # the constructor, so that we can create an instance of this class without having all information at the time of
     # of creating the instance. Values will be assigned later during use.
@@ -569,11 +569,11 @@ class TourType(CommonSQL):
         # Call the constructor for the inherited class, Country. Remember, this runs the constructor function in the
         # CommonSQL class and all the instance variables of that class are now instance variables of this class.
         # It also inherits all the functions.
-        CommonSQL.__init__(
+        SqlCommands.__init__(
             self,
-            host_name=sql_host_name,
-            user_name=sql_user_name,
-            password=sql_password
+            sql_host_name=sql_host_name,
+            sql_user_name=sql_user_name,
+            sql_password=sql_password
         )
 
         # This is the instance variable for the selected region, which is equal to the passed value.
@@ -649,6 +649,15 @@ class TourType(CommonSQL):
         # Return the countries, by calling the return_places function from the CommonSQL Class.
         return self.return_event_hier(
             mysql_command=sql_command
+        )
+
+    # Return tour names based on a selected year
+    # "select tour_namr from wsl.tour_type where year ='{year}' "
+    def return_tour_names(self, year: str):
+        return self.select_a_column(
+            table="wsl.tour_type",
+            column="tour_name",
+            col_filter=f"where year = '{year}' "
         )
 
 
@@ -785,7 +794,6 @@ class Round(Event):
         return self.return_event_hier(
             mysql_command=sql_command
         )
-
 
     # This function sets all the instance variables that dealing with selected places back to None.
     def set_everything_to_none(self) -> None:
