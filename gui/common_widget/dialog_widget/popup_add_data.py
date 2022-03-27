@@ -455,9 +455,9 @@ class SurferToHeat(QDialog, Round):
 
         self.cb_tour.clear()
 
-        self.cb_tour.addItems([''] + self.return_tour_names(year=self.cb_year.currentText()))
+        self.cb_tour.addItems([''] + self.return_tour_names_by_year(year=self.cb_year.currentText()))
 
-        # inst.selected_year = self.cb_year.currentText()
+
 
     def slot_add_surfer_clicked(self):
         pass

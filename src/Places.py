@@ -653,7 +653,7 @@ class TourType(SqlCommands):
 
     # Return tour names based on a selected year
     # "select tour_namr from wsl.tour_type where year ='{year}' "
-    def return_tour_names(self, year: str):
+    def return_tour_names_by_year(self, year: str):
         return self.select_a_column(
             table="wsl.tour_type",
             column="tour_name",
