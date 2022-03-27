@@ -338,7 +338,22 @@ class MainWidget(QMainWindow, Ui_Form):
                 raise ValueError
 
     def slot_pb_addheat_clear_clicked(self):
-        pass
+        self.cb_addheat_tour.clear()
+        self.cb_addheat_tour.addItems([''] + self.add_heat_round_instance.return_tours())
+        self.cb_addheat_event.clear()
+        self.cb_addheat_round.clear()
+        self.cb_addheat_round.addItems([''] + self.add_heat_round_instance.return_all_rounds())
+        self.line_addheat_heat.clear()
+        self.line_addheat_date.clear()
+        self.line_addheat_duration.clear()
+        self.line_addheat_wavemin.clear()
+        self.line_addheat_wavemax.clear()
+        self.check_addheat_calm.setChecked(0)
+        self.check_addheat_light.setChecked(0)
+        self.check_addheat_onshore.setChecked(0)
+        self.check_addheat_offshore.setChecked(0)
+        self.check_addheat_cross.setChecked(0)
+        self.check_addheat_storm.setChecked(0)
 
     def slot_pb_addheat_submit_clicked(self):
 
@@ -405,12 +420,55 @@ class MainWidget(QMainWindow, Ui_Form):
         if self.check_addheat_storm.isChecked():
             wind_type.append('Storm')
 
+        # Turn wind_type into a string
+        wind_type_str = ""
+        for ind, item in enumerate(wind_type):
+            if not ind == (len(wind_type) - 1):
+                wind_type_str = wind_type_str + item + ', '
+            else:
+                wind_type_str = wind_type_str + item
+
         print(f"Tour: {tour_name}")
         print(f"Event: {event_name}")
         print(f"Round & Heat: {round_name} - Heat {heat_num}")
         print(f"{duration} minutes")
         print(f"Waves ranged from {wave_min} to {wave_max}")
         print(f"Wind: {wind_type}")
+
+        # Add the Heat to wsl.heats
+        try:
+            # Need to grab event_id
+            table = 'wsl.events'
+            column = 'id'
+            col_filter = f"where event_name = '{event_name}' "
+            inst = Places.SqlCommands()
+            event_id = inst.select_a_column(table=table,
+                                             column=column,
+                                             col_filter=col_filter
+                                             )[0]
+            # Need to grab round_id
+            table = 'wsl.rounds'
+            column = 'id'
+            col_filter = f"where round_name = '{round_name}' "
+            inst = Places.SqlCommands()
+            round_id = inst.select_a_column(table=table,
+                                             column=column,
+                                             col_filter=col_filter
+                                             )[0]
+
+            # Insert into Heat Table
+            table = 'wsl.heats'
+            columns = f"event_id, round_id, heat_nbr, heat_date, duration, wave_min, wave_max, wind"
+            fields = f"{event_id}, {round_id}, {heat_num}, '{heat_date}', {duration}, {wave_min}, {wave_max}, '{wind_type_str}' "
+            inst.insert_to_table(table=table,
+                                 columns=columns,
+                                 fields=fields
+                                 )
+        except:
+            print('I went to the fucking except')
+
+        # Clear Form on Submit
+        self.slot_pb_addheat_clear_clicked()
 
     ####################################################################################################################
 
