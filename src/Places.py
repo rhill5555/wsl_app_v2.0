@@ -327,7 +327,6 @@ class Continent(CommonSQL):
 
         sql_command: str = "select continent from wsl.continents"
 
-
         return self.return_places(
             mysql_command=sql_command
         )
@@ -572,9 +571,9 @@ class TourType(CommonSQL):
         # It also inherits all the functions.
         CommonSQL.__init__(
             self,
-            sql_host_name=sql_host_name,
-            sql_user_name=sql_user_name,
-            sql_password=sql_password
+            host_name=sql_host_name,
+            user_name=sql_user_name,
+            password=sql_password
         )
 
         # This is the instance variable for the selected region, which is equal to the passed value.
@@ -583,7 +582,6 @@ class TourType(CommonSQL):
         # This is the instance variable for the region_id. I assume this has something to do with the SQL key stuff.
         # Just going to set its default to None.
         self.selected_tour_id: Optional[int] = None
-
 
     # Define a function to return a list of the cities, so you can use it to place it in the
     # Combo box after the region is selected.
@@ -641,6 +639,7 @@ class TourType(CommonSQL):
         return self.return_event_hier(
             mysql_command=sql_command
         )
+
 
 class Event(TourType):
     # Okay, So here is the constructor class for the country class. We are going to do the same thing as before and
@@ -710,6 +709,7 @@ class Event(TourType):
             mysql_command=sql_command
         )
 
+
 class Round(Event):
     # This is the constructor class for the region class. We will assign default values of None to all values passed to
     # the constructor, so that we can create an instance of this class without having all information at the time of
@@ -722,7 +722,7 @@ class Round(Event):
         # Call the constructor for the inherited class, Country. Remember, this runs the constructor function in the
         # CommonSQL class and all the instance variables of that class are now instance variables of this class.
         # It also inherits all the functions.
-        Country.__init__(
+        Event.__init__(
             self,
             sql_host_name=sql_host_name,
             sql_user_name=sql_user_name,

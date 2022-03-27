@@ -5,8 +5,6 @@ import PyQt5.QtWidgets
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QLabel, QApplication, QDialogButtonBox
 
-from gui.main.main_widget import MainWidget
-from src import Places
 from src.Places import Region, Round
 
 
@@ -166,6 +164,7 @@ class AddLocation(QDialog, Region):
 
 ########################################################################################################################
 
+
 class AddTourType(QDialog, Region):
     def __init__(self,
                  title,
@@ -242,6 +241,7 @@ class AddTourType(QDialog, Region):
 
         self.setLayout(self.layout)
 
+
 class AddRoundType(QDialog, Round):
     def __init__(self,
                  title,
@@ -257,7 +257,7 @@ class AddRoundType(QDialog, Round):
         QDialog.__init__(self, parent=parent)
 
         # Calls the constructor for the Round Class
-        Region.__init__(self,
+        Round.__init__(self,
                         sql_host_name=sql_host_name,
                         sql_user_name=sql_user_name,
                         sql_password=sql_password)
@@ -304,6 +304,7 @@ class AddRoundType(QDialog, Round):
         self.setLayout(self.layout)
 
         ################################################################################################################
+
 
 class SurferToHeat(QDialog, Region):
     def __init__(self,
@@ -439,6 +440,7 @@ class SurferToHeat(QDialog, Region):
 
     ####################################################################################################################
     def on_startup(self):
+        inst = AddTourType
         # self.cb_year.addItems([''] + )
         pass
 

@@ -8,10 +8,9 @@ import sys
 
 from PyQt5.QtWidgets import QMainWindow, QApplication, QDialog
 
-from gui.common_widget.dialog_widget import popup_add_data
 from gui.common_widget.dialog_widget.popup_add_data import AddLocation, AddTourType, AddRoundType, SurferToHeat
 from gui.main.ui_to_py.wsl_analytics_ui_v2 import Ui_Form
-from src.Places import Region, TourType, Round
+from src.Places import Region, Round
 from src import Places, Validations
 
 
@@ -19,7 +18,7 @@ from src import Places, Validations
 
 
 class MainWidget(QMainWindow, Ui_Form):
-    def __init__(self) -> object:
+    def __init__(self):
         # Call the constructor for the inherited QWidget class.
         QMainWindow.__init__(self)
 
@@ -100,16 +99,15 @@ class MainWidget(QMainWindow, Ui_Form):
         self.cb_addevent_tourtype.addItems([''] + self.add_heat_round_instance.return_tours())
 
         # Add Heat Tab
-        self.cb_addheat_tour.addItems(['']+ self.add_heat_round_instance.return_tours())
+        self.cb_addheat_tour.addItems([''] + self.add_heat_round_instance.return_tours())
         self.cb_addheat_round.addItems([''] + self.add_heat_round_instance.return_all_rounds())
 
         # Add Break Tab
-        self.cb_addbreak_continent.addItems(['']+self.add_break_region_instance.return_continents())
+        self.cb_addbreak_continent.addItems([''] + self.add_break_region_instance.return_continents())
 
         # Add Surfer Tab
-        self.cb_addsurfer_continent.addItems(['']+self.add_break_region_instance.return_continents())
-        self.cb_addsurfer_hcontinent.addItems(['']+self.add_break_region_instance.return_continents())
-
+        self.cb_addsurfer_continent.addItems([''] + self.add_break_region_instance.return_continents())
+        self.cb_addsurfer_hcontinent.addItems([''] + self.add_break_region_instance.return_continents())
 
     ####################################################################################################################
     # Event Handler Functions for Add Event Tab
@@ -151,6 +149,7 @@ class MainWidget(QMainWindow, Ui_Form):
         # Add the regions to the add_break_region_instance combo box.
         self.cb_addevent_break.addItems([''] + self.add_break_region_instance.return_breaks())
 
+    # noinspection PyMethodMayBeStatic
     def slot_pb_addevent_newtour_clicked(self):
         dialog = AddTourType(title="Add a Tour Type to database.")
 
@@ -164,7 +163,7 @@ class MainWidget(QMainWindow, Ui_Form):
 
             # Check to see if Year is Blank for the Label and LineEdit
             if dialog.line_year.text() == '':
-                print (f"You have to tell us the year...")
+                print(f"You have to tell us the year...")
                 raise ValueError
 
                 # Insert new tour type into  tour type table
@@ -188,6 +187,7 @@ class MainWidget(QMainWindow, Ui_Form):
                 else:
                     gender = ''
 
+                # noinspection PyUnboundLocalVariable
                 tour_name = f"{year} {gender}s {tour_type}"
                 print(tour_name)
 
@@ -239,10 +239,10 @@ class MainWidget(QMainWindow, Ui_Form):
         close_date = self.line_addevent_close.text()
         print(open_date)
         print(close_date)
-        inst = Validations.DateCheck
-        inst.date_check(self, input_dt=open_date)
-        inst = Validations.DateCheck
-        inst.date_check(self, input_dt=close_date)
+        inst = Validations.DateCheck()
+        inst.date_check(input_dt=open_date)
+        inst = Validations.DateCheck()
+        inst.date_check(input_dt=close_date)
 
         print("Dates successful")
 
@@ -265,9 +265,9 @@ class MainWidget(QMainWindow, Ui_Form):
             col_filter = f"where tour_name = '{tour_name}' "
             inst = Places.SqlCommands()
             tour_id = inst.select_a_column(table=table,
-                                             column=column,
-                                             col_filter=col_filter
-                                             )[0]
+                                           column=column,
+                                           col_filter=col_filter
+                                           )[0]
 
             print(tour_id)
 
@@ -277,7 +277,7 @@ class MainWidget(QMainWindow, Ui_Form):
             col_filter = f"where break = '{break_name}' "
             break_id = inst.select_a_column(table=table,
                                             column=column,
-                                            col_filter = col_filter
+                                            col_filter=col_filter
                                             )[0]
             print(break_id)
 
@@ -295,12 +295,12 @@ class MainWidget(QMainWindow, Ui_Form):
         # Clear Form on Submit
         self.slot_pb_addevent_clear_clicked()
 
+    # noinspection PyMethodMayBeStatic
     def slot_pb_addheat_surfers_clicked(self):
         dialog = SurferToHeat(title="Add a location to the database.")
 
         if dialog.exec() == QDialog.Accepted:
             pass
-
 
     ####################################################################################################################
     # Event Handler Functions for the Add Heat Tab
@@ -319,6 +319,7 @@ class MainWidget(QMainWindow, Ui_Form):
         # Add the events to the event combo box.
         self.cb_addheat_event.addItems([''] + self.add_heat_round_instance.return_events())
 
+    # noinspection PyMethodMayBeStatic
     def slot_pb_addheat_newround_clicked(self):
         dialog = AddRoundType(title="Add a Tour Type to database.")
 
@@ -451,18 +452,18 @@ class MainWidget(QMainWindow, Ui_Form):
             col_filter = f"where event_name = '{event_name}' "
             inst = Places.SqlCommands()
             event_id = inst.select_a_column(table=table,
-                                             column=column,
-                                             col_filter=col_filter
-                                             )[0]
+                                            column=column,
+                                            col_filter=col_filter
+                                            )[0]
             # Need to grab round_id
             table = 'wsl.rounds'
             column = 'id'
             col_filter = f"where round_name = '{round_name}' "
             inst = Places.SqlCommands()
             round_id = inst.select_a_column(table=table,
-                                             column=column,
-                                             col_filter=col_filter
-                                             )[0]
+                                            column=column,
+                                            col_filter=col_filter
+                                            )[0]
 
             # Insert into Heat Table
             table = 'wsl.heats'
@@ -497,7 +498,7 @@ class MainWidget(QMainWindow, Ui_Form):
         self.add_break_region_instance.selected_continent = self.cb_addbreak_continent.currentText()
 
         # Add the countries to the country combo box.
-        self.cb_addbreak_country.addItems(['']+self.add_break_region_instance.return_countries())
+        self.cb_addbreak_country.addItems([''] + self.add_break_region_instance.return_countries())
 
     # Change Region List when a Country is selected
     def slot_cb_addbreak_country_on_index_change(self):
@@ -509,9 +510,10 @@ class MainWidget(QMainWindow, Ui_Form):
         self.add_break_region_instance.selected_country = self.cb_addbreak_country.currentText()
 
         # Add the regions to the add_break_region_instance combo box.
-        self.cb_addbreak_region.addItems(['']+self.add_break_region_instance.return_regions())
+        self.cb_addbreak_region.addItems([''] + self.add_break_region_instance.return_regions())
 
     # Open a PopUp to enter new places when The Add Location Button is selected
+    # noinspection PyMethodMayBeStatic
     def slot_pb_addbreak_newloc_clicked(self):
         dialog = AddLocation(title="Add a location to the database.")
 
@@ -539,9 +541,10 @@ class MainWidget(QMainWindow, Ui_Form):
                 print('Cities need names too.')
                 # raise ValueError()
 
+            # noinspection PyUnboundLocalVariable
             print(f"You have found {city}, {region}, {country}, {continent}.")
 
-            #Insert new country into country table
+            # Insert new country into country table
             try:
                 # If New country is entered continue
                 if not dialog.line_country.text() == '':
@@ -578,9 +581,9 @@ class MainWidget(QMainWindow, Ui_Form):
                     col_filter = f"where country = '{country}' "
                     inst = Places.SqlCommands()
                     country_id = inst.select_a_column(table=table,
-                                                        column=column,
-                                                        col_filter=col_filter
-                                                        )[0]
+                                                      column=column,
+                                                      col_filter=col_filter
+                                                      )[0]
                     # Insert into Region Table
                     table = 'wsl.regions'
                     columns = 'region, country_id'
@@ -604,9 +607,9 @@ class MainWidget(QMainWindow, Ui_Form):
                     col_filter = f"where region = '{region}' "
                     inst = Places.SqlCommands()
                     region_id = inst.select_a_column(table=table,
-                                                      column=column,
-                                                      col_filter=col_filter
-                                                      )[0]
+                                                     column=column,
+                                                     col_filter=col_filter
+                                                     )[0]
                     # Insert into City Table
                     table = 'wsl.cities'
                     columns = 'city, region_id'
@@ -698,7 +701,7 @@ class MainWidget(QMainWindow, Ui_Form):
             if self.check_addbreak_reef.isChecked():
                 break_type.append('Reef')
             if self.check_addbreak_river.isChecked():
-                break_type.apped('River')
+                break_type.append('River')
             if self.check_addbreak_sandbar.isChecked():
                 break_type.append('Sandbar')
             if self.check_addbreak_jetty.isChecked():
@@ -720,10 +723,12 @@ class MainWidget(QMainWindow, Ui_Form):
             small = self.line_addbreak_small.text()
 
             # Make sure numbers were entered for surfability
-            inst = Validations.NumCheck
-            inst.int_check(self, input_num=clean)
-            inst.int_check(self, input_num=blown)
-            inst.int_check(self, input_num=small)
+            inst = Validations.NumCheck(input_num=clean)
+            inst.int_check()
+            inst = Validations.NumCheck(input_num=blown)
+            inst.int_check()
+            inst = Validations.NumCheck(input_num=small)
+            inst.int_check()
 
             print(f'Continent: {continent}, '
                   f'Country: {country}, '
@@ -739,19 +744,22 @@ class MainWidget(QMainWindow, Ui_Form):
             print('You should probably enter a break name.')
 
         # Add the Break to wsl.breaks
+        # noinspection PyBroadException
         try:
             # Need to grab region id tied to break that needs to be added
             table = 'wsl.regions'
             column = 'id'
+            # noinspection PyBroadException,PyUnboundLocalVariable
             col_filter = f"where region = '{region}' "
             inst = Places.SqlCommands()
             region_id = inst.select_a_column(table=table,
-                                                column=column,
-                                                col_filter=col_filter
-                                                )[0]
+                                             column=column,
+                                             col_filter=col_filter
+                                             )[0]
             # Insert into Break Table
             table = 'wsl.breaks'
             columns = f"break, region_id, break_type, reliability, ability, shoulder_burn, clean_waves, blown_waves, small_waves"
+            # noinspection PyBroadException,PyUnboundLocalVariable
             fields = f"'{break_name}', {region_id}, '{break_type_str}', '{reliability}', '{ability_str}', '{shoulder_burn_str}',{int(clean)}, {int(blown)}, {int(small)}"
             inst.insert_to_table(table=table,
                                  columns=columns,
@@ -780,7 +788,7 @@ class MainWidget(QMainWindow, Ui_Form):
         self.add_break_region_instance.selected_continent = self.cb_addsurfer_continent.currentText()
 
         # Add the countries to the country combo box.
-        self.cb_addsurfer_country.addItems(['']+self.add_break_region_instance.return_countries())
+        self.cb_addsurfer_country.addItems([''] + self.add_break_region_instance.return_countries())
 
     # Change Home Country List when Home Continent is Selected
     def slot_cb_addsurfer_hcontinent_on_index_change(self):
@@ -796,7 +804,7 @@ class MainWidget(QMainWindow, Ui_Form):
         self.add_break_region_instance.selected_continent = self.cb_addsurfer_hcontinent.currentText()
 
         # Add the countries to the country combo box.
-        self.cb_addsurfer_hcountry.addItems(['']+self.add_break_region_instance.return_countries())
+        self.cb_addsurfer_hcountry.addItems([''] + self.add_break_region_instance.return_countries())
 
     # Change Home Region List when Home Country is Selected
     def slot_cb_addsurfer_hcountry_on_index_change(self):
@@ -808,7 +816,7 @@ class MainWidget(QMainWindow, Ui_Form):
         self.add_break_region_instance.selected_country = self.cb_addsurfer_hcountry.currentText()
 
         # Add the regions to the add_break_region_instance combo box.
-        self.cb_addsurfer_hregion.addItems(['']+self.add_break_region_instance.return_regions())
+        self.cb_addsurfer_hregion.addItems([''] + self.add_break_region_instance.return_regions())
 
     # Change Home City List when Home Region is Selected
     def slot_cb_addsurfer_hregion_on_index_change(self):
@@ -820,7 +828,7 @@ class MainWidget(QMainWindow, Ui_Form):
         self.add_break_region_instance.selected_region = self.cb_addsurfer_hregion.currentText()
 
         # Add the regions to the add_break_region_instance combo box.
-        self.cb_addsurfer_hcity.addItems(['']+self.add_break_region_instance.return_cities())
+        self.cb_addsurfer_hcity.addItems([''] + self.add_break_region_instance.return_cities())
 
     # Event Handler for Clear Button Clicked
     def slot_pb_addsurfer_clear_clicked(self):
@@ -857,6 +865,7 @@ class MainWidget(QMainWindow, Ui_Form):
             print(f"You're not a complete fuck up. You entered a first and last name!")
         else:
             print(f"Enter a first and last name. Don't be a piece of shit.")
+            return None
 
         # Grab First and Last Name
         first_name = self.line_addsurfer_firstname.text()
@@ -874,31 +883,30 @@ class MainWidget(QMainWindow, Ui_Form):
         country = self.cb_addsurfer_country.currentText()
 
         # Grab birthday and turn into correct format for sql
-        birthday = self.line_addsurfer_bday.text()
-        inst = Validations.DateCheck
-        birthday = inst.date_check(self, input_dt=birthday)
+        birthday = Validations.DateCheck.date_check(input_dt=self.line_addsurfer_bday.text())
 
         # Grab Height and Weight and check to see if they are numbers
         height = self.line_addsurfer_ht.text()
         weight = self.line_addsurfer_wt.text()
 
         # Check to Make sure height and weight were entered as numbers
-        inst = Validations.NumCheck
-        inst.int_check(self, input_num=height)
-        inst.int_check(self, input_num=weight)
+        inst = Validations.NumCheck(input_num=height)
+        inst.int_check()
+        inst = Validations.NumCheck(input_num=weight)
+        inst.int_check()
 
         # Grab first season and tour
         first_season = self.line_addsurfer_firstseason.text()
         first_tour = self.line_addsurfer_firsttour.text()
 
         # Make sure first season has a length of 4 and is an integer
-        if not first_season =='':
+        if not first_season == '':
             if len(first_season) == 4:
                 pass
             else:
                 "First Season must be a year in form YYYY"
-        inst = Validations.NumCheck
-        inst.int_check(self, input_num=first_season)
+        inst = Validations.NumCheck(input_num=first_season)
+        inst.int_check()
 
         # Grab Home City
         home_city = self.cb_addsurfer_hcity.currentText()
@@ -942,9 +950,9 @@ class MainWidget(QMainWindow, Ui_Form):
             col_filter = f"where city = '{home_city}' "
             inst = Places.SqlCommands()
             home_city_id = inst.select_a_column(table=table,
-                                             column=column,
-                                             col_filter=col_filter
-                                             )[0]
+                                                column=column,
+                                                col_filter=col_filter
+                                                )[0]
             # Insert into Surfers Table
             table = 'wsl.surfers'
             columns = f"gender, first_name, last_name, stance, country_id, birthday, height, weight, first_season, first_tour, home_city_id"
