@@ -267,11 +267,10 @@ class SqlCommands(CommonSQL):
 
     def select_a_column(self, table: str, column: str, col_filter: str):
         query = f"""SELECT {column} FROM {table} {col_filter}"""
-        print('This is before cursor executes')
+
         self.mycursor.execute(query)
-        print("This is before result")
+
         result = self.mycursor.fetchall()
-        print("This is after result)")
 
         # Since, mysql returns it in the list of tuple format, you take care of this.
         result_list = []

@@ -433,13 +433,27 @@ class SurferToHeat(QDialog, Round):
 
         self.connect_slots()
 
+        # Sql Connection Variables
+        self.__sql_user: str = "Heather"
+        self.__sql_password: str = "#LAwaItly19"
+        self.__sql_host: str = "localhost"
+
+        # Instance of TourType Class.
+        self.add_heat_round_instance: Round = Round(
+            sql_host_name=self.__sql_host,
+            sql_password=self.__sql_password,
+            sql_user_name=self.__sql_user
+        )
+
         self.on_startup()
 
     ####################################################################################################################
     def connect_slots(self):
-        self.add_surfer.clicked.connect(self.slot_add_surfer_clicked)
-        self.cb_year.currentIndexChanged.connect(self.slot_cb_year_on_index_change)
 
+        self.cb_year.currentIndexChanged.connect(self.slot_cb_year_on_index_change)
+        self.cb_tour.currentIndexChanged.connect(self.slot_cb_tour_name_on_index_change)
+
+        self.add_surfer.clicked.connect(self.slot_add_surfer_clicked)
 
     ####################################################################################################################
     def on_startup(self):
@@ -457,7 +471,12 @@ class SurferToHeat(QDialog, Round):
 
         self.cb_tour.addItems([''] + self.return_tour_names_by_year(year=self.cb_year.currentText()))
 
+    def slot_cb_tour_name_on_index_change(self):
+        self.cb_event.clear()
 
+        self.add_heat_round_instance.selected_tourname = self.cb_tour.currentText()
+
+        self.cb_event.addItems([''] + self.add_heat_round_instance.return_events())
 
     def slot_add_surfer_clicked(self):
         pass
