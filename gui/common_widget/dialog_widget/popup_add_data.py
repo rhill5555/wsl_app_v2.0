@@ -4,6 +4,9 @@ from typing import Optional
 import PyQt5.QtWidgets
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QLabel, QApplication, QDialogButtonBox
+
+from gui.main.main_widget import MainWidget
+from src import Places
 from src.Places import Region, Round
 
 
@@ -300,6 +303,148 @@ class AddRoundType(QDialog, Round):
 
         self.setLayout(self.layout)
 
+        ################################################################################################################
+
+class SurferToHeat(QDialog, Region):
+    def __init__(self,
+                 title,
+                 left=10,
+                 top=10,
+                 width=520,
+                 height=400,
+                 sql_host_name: Optional[str] = None,
+                 sql_user_name: Optional[str] = None,
+                 sql_password: Optional[str] = None,
+                 parent=None):
+        # Calls constructor for QDialog
+        QDialog.__init__(self, parent=parent)
+
+        # Calls the constructor for the Region Class
+        Region.__init__(self,
+                        sql_host_name=sql_host_name,
+                        sql_user_name=sql_user_name,
+                        sql_password=sql_password)
+
+        # Set Title of the QDialog.
+        self.setWindowTitle(title)
+
+        # Set Geometry of the QDialog.
+        self.left = left
+        self.top = top
+        self.width = width
+        self.height = height
+        self.setGeometry(left, top, width, height)
+
+        # Disable x button to force "yes" or "no" click
+        self.setWindowFlag(Qt.WindowCloseButtonHint, False)
+        # Disable help button
+        self.setWindowFlag(Qt.WindowContextHelpButtonHint, False)
+
+        # Set this custom widget's parent, if it was passed to the constructor function (not None).
+        if not (parent is None):
+            self.setParent(parent)
+
+        # Create Vertical Layout Box.
+        self.layout = QVBoxLayout()
+
+        # Create Horizontal Layouts.
+        self.hlayout_year = QHBoxLayout()
+
+        # Tour Year Label and Combobox
+        self.hlayout_year.addWidget(QLabel("Tour Year:"))
+        self.cb_year = PyQt5.QtWidgets.QComboBox()
+        self.hlayout_year.addWidget(self.cb_year)
+        self.cb_year.setFixedWidth(200)
+        self.hlayout_year.addWidget(QLabel(''))
+        self.layout.addLayout(self.hlayout_year)
+
+        # Create Horizontal Layouts.
+        self.hlayout_tour = QHBoxLayout()
+
+        # Tour Year Label and Combobox
+        self.hlayout_tour.addWidget(QLabel("Tour Name:"))
+        self.cb_tour = PyQt5.QtWidgets.QComboBox()
+        self.hlayout_tour.addWidget(self.cb_tour)
+        self.cb_tour.setFixedWidth(200)
+        self.hlayout_tour.addWidget(QLabel(''))
+        self.layout.addLayout(self.hlayout_tour)
+
+        # Create Horizontal Layouts.
+        self.hlayout_event = QHBoxLayout()
+
+        # Tour Year Label and Combobox
+        self.hlayout_event.addWidget(QLabel("Event:"))
+        self.cb_event = PyQt5.QtWidgets.QComboBox()
+        self.hlayout_event.addWidget(self.cb_event)
+        self.cb_event.setFixedWidth(200)
+        self.hlayout_event.addWidget(QLabel(''))
+        self.layout.addLayout(self.hlayout_event)
+
+        # Create Horizontal Layouts.
+        self.hlayout_round = QHBoxLayout()
+
+        # Tour Year Label and Combobox
+        self.hlayout_round.addWidget(QLabel("Round:"))
+        self.cb_round = PyQt5.QtWidgets.QComboBox()
+        self.hlayout_round.addWidget(self.cb_round)
+        self.cb_round.setFixedWidth(200)
+        self.hlayout_round.addWidget(QLabel(''))
+        self.layout.addLayout(self.hlayout_round)
+
+        # Create Horizontal Layouts.
+        self.hlayout_heat = QHBoxLayout()
+
+        # Tour Year Label and Combobox
+        self.hlayout_heat.addWidget(QLabel("Heat:"))
+        self.cb_heat = PyQt5.QtWidgets.QComboBox()
+        self.hlayout_heat.addWidget(self.cb_heat)
+        self.cb_heat.setFixedWidth(200)
+        self.hlayout_heat.addWidget(QLabel(''))
+        self.layout.addLayout(self.hlayout_heat)
+
+        # Create Horizontal Layouts.
+        self.hlayout_surfer = QHBoxLayout()
+
+        # Tour Year Label and Combobox
+        self.hlayout_surfer.addWidget(QLabel("Surfer:"))
+        self.cb_surfer = PyQt5.QtWidgets.QComboBox()
+        self.hlayout_surfer.addWidget(self.cb_surfer)
+        self.cb_surfer.setFixedWidth(200)
+        self.hlayout_surfer.addWidget(QLabel(''))
+        self.layout.addLayout(self.hlayout_surfer)
+
+        # Add Button To Submit Data to Table
+        self.add_surfer = PyQt5.QtWidgets.QPushButton("Add to Heat")
+        self.add_surfer.setFixedWidth(200)
+        self.add_surfer.setFixedHeight(50)
+        self.add_surfer.setDefault(True)
+        # self.add_surfer.clicked.connect(lambda: self.whichbtn(self.b4))
+        self.layout.addWidget(self.add_surfer)
+
+        Q_Btn = QDialogButtonBox.Ok | QDialogButtonBox.Cancel
+        self.ButtonBox = QDialogButtonBox(Q_Btn)
+        self.ButtonBox.accepted.connect(self.accept)
+        self.ButtonBox.rejected.connect(self.reject)
+        self.layout.addWidget(self.ButtonBox)
+
+        self.setLayout(self.layout)
+
+        self.connect_slots()
+
+        self.on_startup()
+
+    ####################################################################################################################
+    def connect_slots(self):
+        self.add_surfer.clicked.connect(self.slot_add_surfer_clicked)
+
+    ####################################################################################################################
+    def on_startup(self):
+        # self.cb_year.addItems([''] + )
+        pass
+
+    ####################################################################################################################
+    def slot_add_surfer_clicked(self):
+        pass
 ########################################################################################################################
 
 if __name__ == '__main__':

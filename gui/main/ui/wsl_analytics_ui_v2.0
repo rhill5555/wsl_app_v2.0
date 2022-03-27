@@ -143,7 +143,7 @@ QTabBar::tab:!selected {
 }</string>
      </property>
      <property name="currentIndex">
-      <number>1</number>
+      <number>2</number>
      </property>
      <property name="documentMode">
       <bool>true</bool>
@@ -827,8 +827,8 @@ font: 75 14pt &quot;Verdana&quot;;</string>
        </property>
        <property name="geometry">
         <rect>
-         <x>730</x>
-         <y>400</y>
+         <x>570</x>
+         <y>440</y>
          <width>151</width>
          <height>50</height>
         </rect>
@@ -859,8 +859,8 @@ font: 63 11pt &quot;Verdana&quot;;</string>
        </property>
        <property name="geometry">
         <rect>
-         <x>730</x>
-         <y>520</y>
+         <x>570</x>
+         <y>510</y>
          <width>151</width>
          <height>50</height>
         </rect>
@@ -885,11 +885,174 @@ font: 63 11pt &quot;Verdana&quot;;</string>
         <string>Submit</string>
        </property>
       </widget>
+      <widget class="QPushButton" name="pb_addheat_surfers">
+       <property name="enabled">
+        <bool>true</bool>
+       </property>
+       <property name="geometry">
+        <rect>
+         <x>780</x>
+         <y>440</y>
+         <width>221</width>
+         <height>111</height>
+        </rect>
+       </property>
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="minimumSize">
+        <size>
+         <width>151</width>
+         <height>50</height>
+        </size>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(254, 131, 198);
+font: 63 11pt &quot;Verdana&quot;;</string>
+       </property>
+       <property name="text">
+        <string>Add Surfers to Heat</string>
+       </property>
+      </widget>
      </widget>
      <widget class="QWidget" name="tab_entry_results">
       <attribute name="title">
        <string>Add Heat Results</string>
       </attribute>
+      <widget class="QGroupBox" name="gb_addresults_heat">
+       <property name="geometry">
+        <rect>
+         <x>60</x>
+         <y>50</y>
+         <width>351</width>
+         <height>311</height>
+        </rect>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">background-color: rgb(254, 131, 198);
+font: 75 14pt &quot;Verdana&quot;;</string>
+       </property>
+       <property name="title">
+        <string>Heat and Surfer</string>
+       </property>
+       <widget class="QWidget" name="formLayoutWidget_14">
+        <property name="geometry">
+         <rect>
+          <x>30</x>
+          <y>50</y>
+          <width>291</width>
+          <height>231</height>
+         </rect>
+        </property>
+        <layout class="QFormLayout" name="flayout_addresults_heat">
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_addresults_year">
+           <property name="styleSheet">
+            <string notr="true">font: 63 10pt &quot;Cascadia Mono SemiBold&quot;;</string>
+           </property>
+           <property name="text">
+            <string>Year:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_addresults_tour">
+           <property name="styleSheet">
+            <string notr="true">font: 63 10pt &quot;Cascadia Mono SemiBold&quot;;</string>
+           </property>
+           <property name="text">
+            <string>Tour:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QLabel" name="label_addresults_event">
+           <property name="styleSheet">
+            <string notr="true">font: 63 10pt &quot;Cascadia Mono SemiBold&quot;;</string>
+           </property>
+           <property name="text">
+            <string>Event:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0">
+          <widget class="QLabel" name="label_addresults_round">
+           <property name="styleSheet">
+            <string notr="true">font: 63 10pt &quot;Cascadia Mono SemiBold&quot;;</string>
+           </property>
+           <property name="text">
+            <string>Round:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="0">
+          <widget class="QLabel" name="label_addresults_heat">
+           <property name="styleSheet">
+            <string notr="true">font: 63 10pt &quot;Cascadia Mono SemiBold&quot;;</string>
+           </property>
+           <property name="text">
+            <string>Heat:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="0">
+          <widget class="QLabel" name="label_addresults_surfer">
+           <property name="styleSheet">
+            <string notr="true">font: 63 10pt &quot;Cascadia Mono SemiBold&quot;;</string>
+           </property>
+           <property name="text">
+            <string>Surfer:</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QComboBox" name="cb_addresults_year">
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(251, 248, 241);</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QComboBox" name="cb_addresults_tour">
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(251, 248, 241);</string>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="1">
+          <widget class="QComboBox" name="cb_addresults_event">
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(251, 248, 241);</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="QComboBox" name="cb_addresults_round">
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(251, 248, 241);</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="1">
+          <widget class="QComboBox" name="cb_addresults_heat">
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(251, 248, 241);</string>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="1">
+          <widget class="QComboBox" name="cb_addresults_surfer">
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(251, 248, 241);</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
+      </widget>
      </widget>
      <widget class="QWidget" name="tab_entry_break">
       <attribute name="title">

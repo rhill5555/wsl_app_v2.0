@@ -9,7 +9,7 @@ import sys
 from PyQt5.QtWidgets import QMainWindow, QApplication, QDialog
 
 from gui.common_widget.dialog_widget import popup_add_data
-from gui.common_widget.dialog_widget.popup_add_data import AddLocation, AddTourType, AddRoundType
+from gui.common_widget.dialog_widget.popup_add_data import AddLocation, AddTourType, AddRoundType, SurferToHeat
 from gui.main.ui_to_py.wsl_analytics_ui_v2 import Ui_Form
 from src.Places import Region, TourType, Round
 from src import Places, Validations
@@ -70,6 +70,7 @@ class MainWidget(QMainWindow, Ui_Form):
         self.pb_addheat_newround.clicked.connect(self.slot_pb_addheat_newround_clicked)
         self.pb_addheat_clear.clicked.connect(self.slot_pb_addheat_clear_clicked)
         self.pb_addheat_submit.clicked.connect(self.slot_pb_addheat_submit_clicked)
+        self.pb_addheat_surfers.clicked.connect(self.slot_pb_addheat_surfers_clicked)
 
         # Slots for Add Break Tab
         self.cb_addbreak_continent.currentIndexChanged.connect(self.slot_cb_addbreak_continent_on_index_change)
@@ -293,6 +294,13 @@ class MainWidget(QMainWindow, Ui_Form):
 
         # Clear Form on Submit
         self.slot_pb_addevent_clear_clicked()
+
+    def slot_pb_addheat_surfers_clicked(self):
+        dialog = SurferToHeat(title="Add a location to the database.")
+
+        if dialog.exec() == QDialog.Accepted:
+            pass
+
 
     ####################################################################################################################
     # Event Handler Functions for the Add Heat Tab
