@@ -5,6 +5,7 @@ import PyQt5.QtWidgets
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QLabel, QApplication, QDialogButtonBox
 
+from src import Places
 from src.Places import Region, Round
 
 
@@ -306,7 +307,7 @@ class AddRoundType(QDialog, Round):
         ################################################################################################################
 
 
-class SurferToHeat(QDialog, Region):
+class SurferToHeat(QDialog, Round):
     def __init__(self,
                  title,
                  left=10,
@@ -321,7 +322,7 @@ class SurferToHeat(QDialog, Region):
         QDialog.__init__(self, parent=parent)
 
         # Calls the constructor for the Region Class
-        Region.__init__(self,
+        Round.__init__(self,
                         sql_host_name=sql_host_name,
                         sql_user_name=sql_user_name,
                         sql_password=sql_password)
@@ -437,16 +438,24 @@ class SurferToHeat(QDialog, Region):
     ####################################################################################################################
     def connect_slots(self):
         self.add_surfer.clicked.connect(self.slot_add_surfer_clicked)
+        self.cb_year.currentIndexChanged.connect(self.slot_cb_year_on_index_change)
+
 
     ####################################################################################################################
     def on_startup(self):
-        inst = AddTourType
-        # self.cb_year.addItems([''] + )
-        pass
+
+        # Add Tour Years
+        inst = Places.Round()
+        self.cb_year.addItems([''] + inst.return_tour_years())
 
     ####################################################################################################################
+    def slot_cb_year_on_index_change(self):
+        pass
+
     def slot_add_surfer_clicked(self):
         pass
+
+
 ########################################################################################################################
 
 if __name__ == '__main__':

@@ -6,7 +6,7 @@
 import datetime
 
 
-class NumCheck():
+class NumCheck:
     def __init__(self, input_num: str):
         self.input_num = input_num
 

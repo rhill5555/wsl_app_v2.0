@@ -599,6 +599,17 @@ class TourType(CommonSQL):
             mysql_command=sql_command
         )
 
+    # Define a function to return tour years
+    def return_tour_years(self) -> List:
+
+        print("We are returning tour years...")
+
+        sql_command: str = "select distinct year from wsl.tour_type"
+
+        return self.return_event_hier(
+            mysql_command=sql_command
+        )
+
     # Okay, so we need to define a function to return a list of the countries, so you can use it to place it in the
     # Combo box after the continent is selected.
     def return_events(self) -> List:
