@@ -1303,7 +1303,7 @@ font: 63 11pt &quot;Verdana&quot;;</string>
         <string>Clear</string>
        </property>
       </widget>
-      <widget class="QPushButton" name="pb_addresult_submit">
+      <widget class="QPushButton" name="pb_addresults_submit">
        <property name="enabled">
         <bool>true</bool>
        </property>

@@ -79,6 +79,8 @@ class MainWidget(QMainWindow, Ui_Form):
         self.cb_addresults_round.currentIndexChanged.connect(self.slot_cb_addresults_heat_on_index_change)
         self.cb_addresults_heat.currentIndexChanged.connect(self.slot_cb_addresults_surfer_on_index_change)
 
+        self.pb_addresults_clear.clicked.connect(self.slot_pb_addresults_clear_clicked)
+
         # Slots for Add Break Tab
         self.cb_addbreak_continent.currentIndexChanged.connect(self.slot_cb_addbreak_continent_on_index_change)
         self.cb_addbreak_country.currentIndexChanged.connect(self.slot_cb_addbreak_country_on_index_change)
@@ -201,7 +203,7 @@ class MainWidget(QMainWindow, Ui_Form):
                     gender = ''
 
                 # noinspection PyUnboundLocalVariable
-                tour_name = f"{year} {gender}s {tour_type}"
+                tour_name = f"{year} {gender} {tour_type}"
                 print(tour_name)
 
                 # Insert into Country Table
@@ -533,9 +535,27 @@ class MainWidget(QMainWindow, Ui_Form):
     def slot_cb_addresults_surfer_on_index_change(self):
         self.cb_addresults_surfer.clear()
 
+        self.add_heat_round_instance.selected_tourname = self.cb_addresults_tour.currentText()
+        print(self.add_heat_round_instance.selected_tourname)
+        self.add_heat_round_instance.selected_event = self.cb_addresults_event.currentText()
+        print(self.add_heat_round_instance.selected_event)
+        self.add_heat_round_instance.selected_round = self.cb_addresults_round.currentText()
+        print(self.add_heat_round_instance.selected_round)
         self.add_heat_round_instance.selected_heat = self.cb_addresults_heat.currentText()
+        print(self.add_heat_round_instance.selected_heat)
 
         self.cb_addresults_surfer.addItems([''] + self.add_heat_round_instance.return_surfers())
+
+    def slot_pb_addresults_clear_clicked(self):
+        self.cb_addresults_year.clear()
+        inst = Places.Round()
+        self.cb_addresults_year.addItems([''] + inst.return_tour_years())
+
+        self.cb_addresults_tour.clear()
+        self.cb_addresults_event.clear()
+        self.cb_addresults_round.clear()
+        self.cb_addresults_heat.clear()
+        self.cb_addresults_surfer.clear()
 
 
     ####################################################################################################################

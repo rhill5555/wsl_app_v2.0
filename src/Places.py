@@ -836,11 +836,20 @@ class Heat(Round):
 
         # Okay, since we inherited the return_places function from the CommonSQL class, we use it here to grab the
         # list of cities and return it. First, let's create a temporary string with the sql command.
-        sql_command: str = f"""select surfer 
+        sql_command: str = f"""select surfers.surfer 
                                 from wsl.heat_surfers surfers 
                                 join wsl.heats heats 
                                     on surfers.heat_id = heats.id
-                                where heat_nbr = {self.selected_heat}  
+                                join wsl.rounds rounds
+                                    on heats.round_id = rounds.id
+                                join wsl.events events
+                                    on heats.event_id = events.id
+                                join wsl.tour_type tour
+                                    on events.tour_type_id = tour.id
+                                where heats.heat_nbr = {self.selected_heat}
+                                and rounds.round_name = '{self.selected_round}'
+                                and events.event_name = '{self.selected_event}'
+                                and tour.tour_name = '{self.selected_tourname}'
                             """
 
         # Return the cities, by calling the return_places function from the CommonSQL Class.
