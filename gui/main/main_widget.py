@@ -11,7 +11,7 @@ from PyQt5.QtWidgets import QMainWindow, QApplication, QDialog
 from gui.common_widget.dialog_widget.popup_add_data import AddLocation, AddTourType, AddRoundType, SurferToHeat
 from gui.main.ui_to_py.wsl_analytics_ui_v2 import Ui_Form
 
-from src.Places import Region, Round
+from src.Places import Region, Round, Heat
 from src import Places, Validations
 
 
@@ -43,7 +43,7 @@ class MainWidget(QMainWindow, Ui_Form):
         )
 
         # Instance of TourType Class.
-        self.add_heat_round_instance: Round = Round(
+        self.add_heat_round_instance: Heat = Heat(
             sql_host_name=self.__sql_host,
             sql_password=self.__sql_password,
             sql_user_name=self.__sql_user
@@ -75,6 +75,9 @@ class MainWidget(QMainWindow, Ui_Form):
         # Slots for Add Heat Results Tab
         self.cb_addresults_year.currentIndexChanged.connect(self.slot_cb_addresults_year_on_index_change)
         self.cb_addresults_tour.currentIndexChanged.connect(self.slot_cb_addresults_tour_on_index_change)
+        self.cb_addresults_event.currentIndexChanged.connect(self.slot_cb_addresults_round_on_index_change)
+        self.cb_addresults_round.currentIndexChanged.connect(self.slot_cb_addresults_heat_on_index_change)
+        self.cb_addresults_heat.currentIndexChanged.connect(self.slot_cb_addresults_surfer_on_index_change)
 
         # Slots for Add Break Tab
         self.cb_addbreak_continent.currentIndexChanged.connect(self.slot_cb_addbreak_continent_on_index_change)
@@ -501,7 +504,38 @@ class MainWidget(QMainWindow, Ui_Form):
         self.cb_addresults_tour.addItems([''] + inst.return_tour_names_by_year(year=self.cb_addresults_year.currentText()))
 
     def slot_cb_addresults_tour_on_index_change(self):
-        pass
+
+        self.add_heat_round_instance.set_everything_to_none()
+
+        self.cb_addresults_event.clear()
+
+        # Set the current value of the selected_continent variable in add_break_region_instance to the current text in the continent
+        # combo box.
+        self.add_heat_round_instance.selected_tourname = self.cb_addresults_tour.currentText()
+
+        # Add the countries to the country combo box.
+        self.cb_addresults_event.addItems([''] + self.add_heat_round_instance.return_events())
+
+    def slot_cb_addresults_round_on_index_change(self):
+        self.cb_addresults_round.clear()
+
+        self.cb_addresults_round.addItems([''] + self.add_heat_round_instance.return_rounds())
+
+    def slot_cb_addresults_heat_on_index_change(self):
+        self.cb_addresults_heat.clear()
+
+        self.add_heat_round_instance.selected_event = self.cb_addresults_event.currentText()
+        self.add_heat_round_instance.selected_round = self.cb_addresults_round.currentText()
+
+        # Add the countries to the country combo box.
+        self.cb_addresults_heat.addItems([''] + self.add_heat_round_instance.return_heats())
+
+    def slot_cb_addresults_surfer_on_index_change(self):
+        self.cb_addresults_surfer.clear()
+
+        self.add_heat_round_instance.selected_heat = self.cb_addresults_heat.currentText()
+
+        self.cb_addresults_surfer.addItems([''] + self.add_heat_round_instance.return_surfers())
 
 
     ####################################################################################################################
