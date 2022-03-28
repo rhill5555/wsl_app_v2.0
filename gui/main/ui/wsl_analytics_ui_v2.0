@@ -143,7 +143,7 @@ QTabBar::tab:!selected {
 }</string>
      </property>
      <property name="currentIndex">
-      <number>2</number>
+      <number>0</number>
      </property>
      <property name="documentMode">
       <bool>true</bool>
@@ -191,7 +191,8 @@ font: 75 14pt &quot;Verdana&quot;;</string>
          <item row="0" column="1">
           <widget class="QComboBox" name="cb_addevent_tourtype">
            <property name="styleSheet">
-            <string notr="true">background-color: rgb(215, 248, 255);</string>
+            <string notr="true">background-color: rgb(215, 248, 255);
+font: 75 10pt &quot;Verdana&quot;;</string>
            </property>
           </widget>
          </item>
@@ -304,6 +305,9 @@ background-color: rgb(185, 131, 255);</string>
         <layout class="QFormLayout" name="flayout_addevent_dates">
          <item row="0" column="0">
           <widget class="QLabel" name="label_addevent_open">
+           <property name="styleSheet">
+            <string notr="true">font: 63 10pt &quot;Cascadia Mono SemiBold&quot;;</string>
+           </property>
            <property name="text">
             <string>Open:</string>
            </property>
@@ -311,6 +315,9 @@ background-color: rgb(185, 131, 255);</string>
          </item>
          <item row="1" column="0">
           <widget class="QLabel" name="label_addevent_close">
+           <property name="styleSheet">
+            <string notr="true">font: 63 10pt &quot;Cascadia Mono SemiBold&quot;;</string>
+           </property>
            <property name="text">
             <string>Close:</string>
            </property>
@@ -369,7 +376,7 @@ background-color: rgb(185, 131, 255);</string>
            </property>
           </widget>
          </item>
-         <item row="2" column="0">
+         <item row="4" column="0">
           <widget class="QLabel" name="label_addevent_region">
            <property name="styleSheet">
             <string notr="true">font: 63 10pt &quot;Cascadia Mono SemiBold&quot;;</string>
@@ -379,7 +386,7 @@ background-color: rgb(185, 131, 255);</string>
            </property>
           </widget>
          </item>
-         <item row="3" column="0">
+         <item row="6" column="0">
           <widget class="QLabel" name="label_addevent_break">
            <property name="styleSheet">
             <string notr="true">font: 63 10pt &quot;Cascadia Mono SemiBold&quot;;</string>
@@ -389,7 +396,7 @@ background-color: rgb(185, 131, 255);</string>
            </property>
           </widget>
          </item>
-         <item row="1" column="0">
+         <item row="2" column="0">
           <widget class="QLabel" name="label_addevent_country">
            <property name="styleSheet">
             <string notr="true">font: 63 10pt &quot;Cascadia Mono SemiBold&quot;;</string>
@@ -402,30 +409,73 @@ background-color: rgb(185, 131, 255);</string>
          <item row="0" column="1">
           <widget class="QComboBox" name="cb_addevent_continent">
            <property name="styleSheet">
-            <string notr="true">background-color: rgb(215, 248, 255);</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="1">
-          <widget class="QComboBox" name="cb_addevent_country">
-           <property name="styleSheet">
-            <string notr="true">background-color: rgb(215, 248, 255);</string>
+            <string notr="true">background-color: rgb(215, 248, 255);
+font: 75 10pt &quot;Verdana&quot;;</string>
            </property>
           </widget>
          </item>
          <item row="2" column="1">
-          <widget class="QComboBox" name="cb_addevent_region">
+          <widget class="QComboBox" name="cb_addevent_country">
            <property name="styleSheet">
-            <string notr="true">background-color: rgb(215, 248, 255);</string>
+            <string notr="true">background-color: rgb(215, 248, 255);
+font: 75 10pt &quot;Verdana&quot;;</string>
            </property>
           </widget>
          </item>
-         <item row="3" column="1">
-          <widget class="QComboBox" name="cb_addevent_break">
+         <item row="4" column="1">
+          <widget class="QComboBox" name="cb_addevent_region">
            <property name="styleSheet">
-            <string notr="true">background-color: rgb(215, 248, 255);</string>
+            <string notr="true">background-color: rgb(215, 248, 255);
+font: 75 10pt &quot;Verdana&quot;;</string>
            </property>
           </widget>
+         </item>
+         <item row="6" column="1">
+          <widget class="QComboBox" name="cb_addevent_break">
+           <property name="styleSheet">
+            <string notr="true">background-color: rgb(215, 248, 255);
+font: 75 10pt &quot;Verdana&quot;;</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <spacer name="vspacer_addevent_01">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="3" column="0">
+          <spacer name="vspacer_addevent_02">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item row="5" column="0">
+          <spacer name="vpsacer_addevent_03">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
          </item>
         </layout>
        </widget>
@@ -568,28 +618,32 @@ font: 75 14pt &quot;Verdana&quot;;</string>
          <item row="0" column="1">
           <widget class="QComboBox" name="cb_addheat_tour">
            <property name="styleSheet">
-            <string notr="true">background-color: rgb(224, 255, 236);</string>
+            <string notr="true">background-color: rgb(224, 255, 236);
+font: 75 10pt &quot;Verdana&quot;;</string>
            </property>
           </widget>
          </item>
          <item row="1" column="1">
           <widget class="QComboBox" name="cb_addheat_event">
            <property name="styleSheet">
-            <string notr="true">background-color: rgb(224, 255, 236);</string>
+            <string notr="true">background-color: rgb(224, 255, 236);
+font: 75 10pt &quot;Verdana&quot;;</string>
            </property>
           </widget>
          </item>
          <item row="2" column="1">
           <widget class="QComboBox" name="cb_addheat_round">
            <property name="styleSheet">
-            <string notr="true">background-color: rgb(224, 255, 236);</string>
+            <string notr="true">background-color: rgb(224, 255, 236);
+font: 75 10pt &quot;Verdana&quot;;</string>
            </property>
           </widget>
          </item>
          <item row="3" column="1">
           <widget class="QLineEdit" name="line_addheat_heat">
            <property name="styleSheet">
-            <string notr="true">background-color: rgb(224, 255, 236);</string>
+            <string notr="true">background-color: rgb(224, 255, 236);
+font: 75 10pt &quot;Verdana&quot;;</string>
            </property>
           </widget>
          </item>
@@ -1011,42 +1065,48 @@ font: 75 14pt &quot;Verdana&quot;;</string>
          <item row="0" column="1">
           <widget class="QComboBox" name="cb_addresults_year">
            <property name="styleSheet">
-            <string notr="true">background-color: rgb(251, 248, 241);</string>
+            <string notr="true">background-color: rgb(251, 248, 241);
+font: 75 10pt &quot;Verdana&quot;;</string>
            </property>
           </widget>
          </item>
          <item row="1" column="1">
           <widget class="QComboBox" name="cb_addresults_tour">
            <property name="styleSheet">
-            <string notr="true">background-color: rgb(251, 248, 241);</string>
+            <string notr="true">background-color: rgb(251, 248, 241);
+font: 75 10pt &quot;Verdana&quot;;</string>
            </property>
           </widget>
          </item>
          <item row="2" column="1">
           <widget class="QComboBox" name="cb_addresults_event">
            <property name="styleSheet">
-            <string notr="true">background-color: rgb(251, 248, 241);</string>
+            <string notr="true">background-color: rgb(251, 248, 241);
+font: 75 10pt &quot;Verdana&quot;;</string>
            </property>
           </widget>
          </item>
          <item row="3" column="1">
           <widget class="QComboBox" name="cb_addresults_round">
            <property name="styleSheet">
-            <string notr="true">background-color: rgb(251, 248, 241);</string>
+            <string notr="true">background-color: rgb(251, 248, 241);
+font: 75 10pt &quot;Verdana&quot;;</string>
            </property>
           </widget>
          </item>
          <item row="4" column="1">
           <widget class="QComboBox" name="cb_addresults_heat">
            <property name="styleSheet">
-            <string notr="true">background-color: rgb(251, 248, 241);</string>
+            <string notr="true">background-color: rgb(251, 248, 241);
+font: 75 10pt &quot;Verdana&quot;;</string>
            </property>
           </widget>
          </item>
          <item row="5" column="1">
           <widget class="QComboBox" name="cb_addresults_surfer">
            <property name="styleSheet">
-            <string notr="true">background-color: rgb(251, 248, 241);</string>
+            <string notr="true">background-color: rgb(251, 248, 241);
+font: 75 10pt &quot;Verdana&quot;;</string>
            </property>
           </widget>
          </item>
@@ -2219,7 +2279,8 @@ font: 63 10pt &quot;Cascadia Mono SemiBold&quot;;</string>
          <item row="1" column="1">
           <widget class="QComboBox" name="cb_addbreak_country">
            <property name="styleSheet">
-            <string notr="true">background-color: rgb(251, 248, 241);</string>
+            <string notr="true">background-color: rgb(251, 248, 241);
+font: 75 10pt &quot;Verdana&quot;;</string>
            </property>
           </widget>
          </item>
@@ -2237,7 +2298,8 @@ font: 63 10pt &quot;Cascadia Mono SemiBold&quot;;</string>
          <item row="2" column="1">
           <widget class="QComboBox" name="cb_addbreak_region">
            <property name="styleSheet">
-            <string notr="true">background-color: rgb(251, 248, 241);</string>
+            <string notr="true">background-color: rgb(251, 248, 241);
+font: 75 10pt &quot;Verdana&quot;;</string>
            </property>
           </widget>
          </item>
@@ -2255,14 +2317,16 @@ font: 63 10pt &quot;Cascadia Mono SemiBold&quot;;</string>
          <item row="3" column="1">
           <widget class="QLineEdit" name="line_addbreak_break">
            <property name="styleSheet">
-            <string notr="true">background-color: rgb(251, 248, 241);</string>
+            <string notr="true">background-color: rgb(251, 248, 241);
+font: 75 10pt &quot;Verdana&quot;;</string>
            </property>
           </widget>
          </item>
          <item row="0" column="1">
           <widget class="QComboBox" name="cb_addbreak_continent">
            <property name="styleSheet">
-            <string notr="true">background-color: rgb(251, 248, 241);</string>
+            <string notr="true">background-color: rgb(251, 248, 241);
+font: 75 10pt &quot;Verdana&quot;;</string>
            </property>
           </widget>
          </item>
@@ -2655,7 +2719,8 @@ color: rgb(216, 58, 86);</string>
          <item row="0" column="1">
           <widget class="QComboBox" name="cb_addbreak_reliability">
            <property name="styleSheet">
-            <string notr="true">background-color: rgb(251, 248, 241);</string>
+            <string notr="true">background-color: rgb(251, 248, 241);
+font: 75 10pt &quot;Verdana&quot;;</string>
            </property>
            <item>
             <property name="text">
@@ -3123,21 +3188,24 @@ font: 75 14pt &quot;Verdana&quot;;</string>
          <item row="0" column="1">
           <widget class="QComboBox" name="cb_addsurfer_hcontinent">
            <property name="styleSheet">
-            <string notr="true">background-color: rgb(215, 248, 255);</string>
+            <string notr="true">background-color: rgb(215, 248, 255);
+font: 75 10pt &quot;Verdana&quot;;</string>
            </property>
           </widget>
          </item>
          <item row="1" column="1">
           <widget class="QComboBox" name="cb_addsurfer_hcountry">
            <property name="styleSheet">
-            <string notr="true">background-color: rgb(215, 248, 255);</string>
+            <string notr="true">background-color: rgb(215, 248, 255);
+font: 75 10pt &quot;Verdana&quot;;</string>
            </property>
           </widget>
          </item>
          <item row="2" column="1">
           <widget class="QComboBox" name="cb_addsurfer_hregion">
            <property name="styleSheet">
-            <string notr="true">background-color: rgb(215, 248, 255);</string>
+            <string notr="true">background-color: rgb(215, 248, 255);
+font: 75 10pt &quot;Verdana&quot;;</string>
            </property>
           </widget>
          </item>
@@ -3154,7 +3222,8 @@ font: 75 14pt &quot;Verdana&quot;;</string>
          <item row="3" column="1">
           <widget class="QComboBox" name="cb_addsurfer_hcity">
            <property name="styleSheet">
-            <string notr="true">background-color: rgb(215, 248, 255);</string>
+            <string notr="true">background-color: rgb(215, 248, 255);
+font: 75 10pt &quot;Verdana&quot;;</string>
            </property>
           </widget>
          </item>

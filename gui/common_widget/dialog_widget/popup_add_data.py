@@ -479,8 +479,8 @@ class SurferToHeat(QDialog, Round):
         self.cb_heat.addItems([''])
         self.cb_surfer.addItems([''])
 
-
     ####################################################################################################################
+
     def slot_cb_year_on_index_change(self):
         inst = Places.Round()
         inst.set_everything_to_none()
@@ -500,7 +500,6 @@ class SurferToHeat(QDialog, Round):
         self.cb_round.clear()
 
         self.cb_round.addItems(([''] + self.add_heat_round_instance.return_rounds()))
-
 
     def slot_cb_event_heat_name_on_index_change(self):
         self.cb_heat.clear()
@@ -554,8 +553,8 @@ class SurferToHeat(QDialog, Round):
 
         self.cb_surfer.clear()
 
-
 ########################################################################################################################
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

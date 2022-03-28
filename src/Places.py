@@ -4,12 +4,11 @@
 
 ########################################################################################################################
 # Select Continents
-from typing import Optional, List, Callable
+
 import mysql
 from mysql.connector import MySQLConnection
-
-from mysql.connector import MySQLConnection
 from mysql.connector.cursor import MySQLCursor
+from typing import Optional, List, Callable
 
 
 class CommonSQL:
@@ -794,9 +793,8 @@ class Round(Event):
         self.selected_event = None
         self.selected_tourname = None
 
-
-
 ########################################################################################################################
+
 
 if __name__ == '__main__':
     # Create an instance of the Continent Class

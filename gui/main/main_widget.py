@@ -10,6 +10,7 @@ from PyQt5.QtWidgets import QMainWindow, QApplication, QDialog
 
 from gui.common_widget.dialog_widget.popup_add_data import AddLocation, AddTourType, AddRoundType, SurferToHeat
 from gui.main.ui_to_py.wsl_analytics_ui_v2 import Ui_Form
+
 from src.Places import Region, Round
 from src import Places, Validations
 
