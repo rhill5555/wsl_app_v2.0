@@ -219,7 +219,7 @@ class CommonSQL:
 
                 # Append the modified version of the current item into the places_list list.
                 event_hier_list.append(
-                    item[0]
+                    str(item[0])
                 )
 
             # Okay, so now we sort the place_list, by using the sort key passed to this function. In most cases, we will
@@ -716,12 +716,9 @@ class Event(TourType):
 
         # Okay, since we inherited the return_places function from the CommonSQL class, we use it here to grab the
         # list of countries and return it. First, let's create a temporary string with the sql command.
-        sql_command: str = f"""select round_name
-                                from wsl.rounds rounds
-                                join wsl.events events
-                                    on rounds.event_id = events.id
-                                where event_name = '{self.selected_event}'
-                            """
+        sql_command: str = f"""select distinct round_name
+                                       from wsl.rounds rounds
+                                   """
 
         # Return the regions, by calling the return_event_hier function from the CommonSQL Class.
         return self.return_event_hier(
@@ -766,11 +763,8 @@ class Round(Event):
 
         # Okay, since we inherited the return_places function from the CommonSQL class, we use it here to grab the
         # list of cities and return it. First, let's create a temporary string with the sql command.
-        sql_command: str = f"""select heat_nbr
-                                from wsl.heats heats
-                                join wsl.rounds rounds
-                                    on heats.round_id = rounds.id
-                                where round_name = '{self.selected_round}'
+        sql_command: str = f"""select heat_nbr from wsl.heats heats join wsl.rounds rounds on heats.round_id = rounds.id join wsl.events events on heats.event_id = events.id
+ where round_name = '{self.selected_round}' and event_name = '{self.selected_event}' 
                             """
 
         # Return the cities, by calling the return_places function from the CommonSQL Class.

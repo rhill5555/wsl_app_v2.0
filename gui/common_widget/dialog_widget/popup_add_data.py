@@ -452,7 +452,8 @@ class SurferToHeat(QDialog, Round):
 
         self.cb_year.currentIndexChanged.connect(self.slot_cb_year_on_index_change)
         self.cb_tour.currentIndexChanged.connect(self.slot_cb_tour_name_on_index_change)
-        self.cb_event.currentIndexChanged.connect(self.slot_cb_event_name_on_index_change)
+        self.cb_event.currentIndexChanged.connect(self.slot_cb_event_round_name_on_index_change)
+        self.cb_round.currentIndexChanged.connect(self.slot_cb_event_heat_name_on_index_change)
 
         self.add_surfer.clicked.connect(self.slot_add_surfer_clicked)
 
@@ -462,6 +463,15 @@ class SurferToHeat(QDialog, Round):
         # Add Tour Years
         inst = Places.Round()
         self.cb_year.addItems([''] + inst.return_tour_years())
+
+        # Add Surfers to Drop Down
+        inst = Places.SqlCommands
+        self.cb_surfer.addItems([''] + inst.select_a_column(self,
+            table='wsl.surfers',
+            column=f"concat(first_name, ' ', last_name) as name",
+            col_filter=''
+        ))
+
 
     ####################################################################################################################
     def slot_cb_year_on_index_change(self):
@@ -479,12 +489,19 @@ class SurferToHeat(QDialog, Round):
 
         self.cb_event.addItems([''] + self.add_heat_round_instance.return_events())
 
-    def slot_cb_event_name_on_index_change(self):
+    def slot_cb_event_round_name_on_index_change(self):
         self.cb_round.clear()
 
-        self.add_heat_round_instance.selected_event = self.cb_event.currentText()
+        self.cb_round.addItems(([''] + self.add_heat_round_instance.return_rounds()))
 
-        self.cb_round.addItems([''] + self.add_heat_round_instance.return_all_rounds())
+
+    def slot_cb_event_heat_name_on_index_change(self):
+        self.cb_heat.clear()
+
+        self.add_heat_round_instance.selected_event = self.cb_event.currentText()
+        self.add_heat_round_instance.selected_round = self.cb_round.currentText()
+
+        self.cb_heat.addItems([''] + self.add_heat_round_instance.return_heats())
 
     def slot_add_surfer_clicked(self):
         pass
