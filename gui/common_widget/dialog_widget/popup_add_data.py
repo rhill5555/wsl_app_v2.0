@@ -472,6 +472,13 @@ class SurferToHeat(QDialog, Round):
             col_filter=''
         ))
 
+        # put blank stings in all combo boxes besides year
+        self.cb_tour.addItems([''])
+        self.cb_event.addItems([''])
+        self.cb_round.addItems([''])
+        self.cb_heat.addItems([''])
+        self.cb_surfer.addItems([''])
+
 
     ####################################################################################################################
     def slot_cb_year_on_index_change(self):
@@ -504,7 +511,46 @@ class SurferToHeat(QDialog, Round):
         self.cb_heat.addItems([''] + self.add_heat_round_instance.return_heats())
 
     def slot_add_surfer_clicked(self):
-        pass
+
+        # Check that tour name, event, round, heat, and surfer are entered
+        if self.cb_tour.currentText() == '':
+            print("How the fuck do I know which tour to add the surfer to?")
+        if self.cb_event.currentText() == '':
+            print(f"Which event in {self.cb_tour} should I add the surfer to?")
+        if self.cb_round.currentText() == '':
+            print(f"Which round in {self.cb_event} should I add the surfer to?")
+        if self.cb_heat.currentText() == '':
+            print(f"Which heat in {self.cb_event} in the {self.cb_round} should the surfer be added to?")
+        if self.cb_surfer.currentText() == '':
+            print(f"What's the surfer's name, dude?")
+
+        # Assign Value to Heat and Surfer
+        heat_nbr = self.cb_heat.currentText()
+        surfer = self.cb_surfer.currentText()
+
+        try:
+            # Need to grab event_id tied to event that needs to be added
+            inst = Places.SqlCommands()
+            table = 'wsl.heats'
+            column = 'event_id'
+            col_filter = f"where heat_nbr = {heat_nbr} "
+            heat_id = inst.select_a_column(table=table,
+                                            column=column,
+                                            col_filter=col_filter
+                                            )[0]
+
+            print(f"Heat ID: {heat_id}")
+
+            # Insert into Events Table
+            table = 'wsl.heat_surfers'
+            columns = f"heat_id, surfer"
+            fields = f"{heat_id}, '{surfer}'"
+            inst.insert_to_table(table=table,
+                                 columns=columns,
+                                 fields=fields
+                                 )
+        except:
+            print('I went to the goddamn except')
 
 
 ########################################################################################################################
