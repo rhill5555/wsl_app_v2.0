@@ -148,11 +148,13 @@ class Ui_Form(object):
         self.label_addevent_stop.setObjectName("label_addevent_stop")
         self.flayout_addevent_name.setWidget(1, QtWidgets.QFormLayout.LabelRole, self.label_addevent_stop)
         self.line_addevent_name = QtWidgets.QLineEdit(self.formLayoutWidget_8)
-        self.line_addevent_name.setStyleSheet("background-color: rgb(215, 248, 255);")
+        self.line_addevent_name.setStyleSheet("background-color: rgb(215, 248, 255);\n"
+"font: 75 10pt \"Verdana\";")
         self.line_addevent_name.setObjectName("line_addevent_name")
         self.flayout_addevent_name.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.line_addevent_name)
         self.line_addevent_stop = QtWidgets.QLineEdit(self.formLayoutWidget_8)
-        self.line_addevent_stop.setStyleSheet("background-color: rgb(215, 248, 255);")
+        self.line_addevent_stop.setStyleSheet("background-color: rgb(215, 248, 255);\n"
+"font: 75 10pt \"Verdana\";")
         self.line_addevent_stop.setObjectName("line_addevent_stop")
         self.flayout_addevent_name.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.line_addevent_stop)
         self.gb_addevent_dates = QtWidgets.QGroupBox(self.tab_entry_event)
@@ -175,11 +177,13 @@ class Ui_Form(object):
         self.label_addevent_close.setObjectName("label_addevent_close")
         self.flayout_addevent_dates.setWidget(1, QtWidgets.QFormLayout.LabelRole, self.label_addevent_close)
         self.line_addevent_open = QtWidgets.QLineEdit(self.formLayoutWidget_9)
-        self.line_addevent_open.setStyleSheet("background-color: rgb(215, 248, 255);")
+        self.line_addevent_open.setStyleSheet("background-color: rgb(215, 248, 255);\n"
+"font: 75 10pt \"Verdana\";")
         self.line_addevent_open.setObjectName("line_addevent_open")
         self.flayout_addevent_dates.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.line_addevent_open)
         self.line_addevent_close = QtWidgets.QLineEdit(self.formLayoutWidget_9)
-        self.line_addevent_close.setStyleSheet("background-color: rgb(215, 248, 255);")
+        self.line_addevent_close.setStyleSheet("background-color: rgb(215, 248, 255);\n"
+"font: 75 10pt \"Verdana\";")
         self.line_addevent_close.setObjectName("line_addevent_close")
         self.flayout_addevent_dates.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.line_addevent_close)
         self.gb_addevent_location = QtWidgets.QGroupBox(self.tab_entry_event)
@@ -373,7 +377,8 @@ class Ui_Form(object):
         self.label_addheat_date.setObjectName("label_addheat_date")
         self.flayout_addheat_details.setWidget(0, QtWidgets.QFormLayout.LabelRole, self.label_addheat_date)
         self.line_addheat_date = QtWidgets.QLineEdit(self.formLayoutWidget_13)
-        self.line_addheat_date.setStyleSheet("background-color: rgb(224, 255, 236);")
+        self.line_addheat_date.setStyleSheet("background-color: rgb(224, 255, 236);\n"
+"font: 75 10pt \"Verdana\";")
         self.line_addheat_date.setObjectName("line_addheat_date")
         self.flayout_addheat_details.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.line_addheat_date)
         self.label_addheat_duration = QtWidgets.QLabel(self.formLayoutWidget_13)
@@ -381,7 +386,8 @@ class Ui_Form(object):
         self.label_addheat_duration.setObjectName("label_addheat_duration")
         self.flayout_addheat_details.setWidget(1, QtWidgets.QFormLayout.LabelRole, self.label_addheat_duration)
         self.line_addheat_duration = QtWidgets.QLineEdit(self.formLayoutWidget_13)
-        self.line_addheat_duration.setStyleSheet("background-color: rgb(224, 255, 236);")
+        self.line_addheat_duration.setStyleSheet("background-color: rgb(224, 255, 236);\n"
+"font: 75 10pt \"Verdana\";")
         self.line_addheat_duration.setObjectName("line_addheat_duration")
         self.flayout_addheat_details.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.line_addheat_duration)
         self.label_addheat_range = QtWidgets.QLabel(self.formLayoutWidget_13)
@@ -391,7 +397,8 @@ class Ui_Form(object):
         self.horizontalLayout = QtWidgets.QHBoxLayout()
         self.horizontalLayout.setObjectName("horizontalLayout")
         self.line_addheat_wavemin = QtWidgets.QLineEdit(self.formLayoutWidget_13)
-        self.line_addheat_wavemin.setStyleSheet("background-color: rgb(224, 255, 236);")
+        self.line_addheat_wavemin.setStyleSheet("background-color: rgb(224, 255, 236);\n"
+"font: 75 10pt \"Verdana\";")
         self.line_addheat_wavemin.setObjectName("line_addheat_wavemin")
         self.horizontalLayout.addWidget(self.line_addheat_wavemin)
         self.label_addheat_to = QtWidgets.QLabel(self.formLayoutWidget_13)
@@ -399,7 +406,8 @@ class Ui_Form(object):
         self.label_addheat_to.setObjectName("label_addheat_to")
         self.horizontalLayout.addWidget(self.label_addheat_to)
         self.line_addheat_wavemax = QtWidgets.QLineEdit(self.formLayoutWidget_13)
-        self.line_addheat_wavemax.setStyleSheet("background-color: rgb(224, 255, 236);")
+        self.line_addheat_wavemax.setStyleSheet("background-color: rgb(224, 255, 236);\n"
+"font: 75 10pt \"Verdana\";")
         self.line_addheat_wavemax.setObjectName("line_addheat_wavemax")
         self.horizontalLayout.addWidget(self.line_addheat_wavemax)
         self.flayout_addheat_details.setLayout(2, QtWidgets.QFormLayout.FieldRole, self.horizontalLayout)
@@ -531,7 +539,8 @@ class Ui_Form(object):
         self.line_addresults_picks.setSizePolicy(sizePolicy)
         self.line_addresults_picks.setMinimumSize(QtCore.QSize(65, 0))
         self.line_addresults_picks.setMaximumSize(QtCore.QSize(75, 16777215))
-        self.line_addresults_picks.setStyleSheet("background-color: rgb(215, 248, 255);")
+        self.line_addresults_picks.setStyleSheet("background-color: rgb(215, 248, 255);\n"
+"font: 75 10pt \"Verdana\";")
         self.line_addresults_picks.setObjectName("line_addresults_picks")
         self.flayout_addresults_picks.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.line_addresults_picks)
         self.gb_addresults_jersey = QtWidgets.QGroupBox(self.gb_addresults_other)
@@ -727,7 +736,8 @@ class Ui_Form(object):
         self.line_addresults_1.setSizePolicy(sizePolicy)
         self.line_addresults_1.setMinimumSize(QtCore.QSize(50, 0))
         self.line_addresults_1.setMaximumSize(QtCore.QSize(50, 16777215))
-        self.line_addresults_1.setStyleSheet("background-color: rgb(215, 248, 255);")
+        self.line_addresults_1.setStyleSheet("background-color: rgb(215, 248, 255);\n"
+"font: 75 10pt \"Verdana\";")
         self.line_addresults_1.setObjectName("line_addresults_1")
         self.gridLayout.addWidget(self.line_addresults_1, 1, 0, 1, 1)
         self.label_addresults_14 = QtWidgets.QLabel(self.gridLayoutWidget)
@@ -793,7 +803,8 @@ class Ui_Form(object):
         self.line_addresults_2.setSizePolicy(sizePolicy)
         self.line_addresults_2.setMinimumSize(QtCore.QSize(50, 0))
         self.line_addresults_2.setMaximumSize(QtCore.QSize(50, 16777215))
-        self.line_addresults_2.setStyleSheet("background-color: rgb(215, 248, 255);")
+        self.line_addresults_2.setStyleSheet("background-color: rgb(215, 248, 255);\n"
+"font: 75 10pt \"Verdana\";")
         self.line_addresults_2.setObjectName("line_addresults_2")
         self.gridLayout.addWidget(self.line_addresults_2, 1, 1, 1, 1)
         self.line_addresults_3 = QtWidgets.QLineEdit(self.gridLayoutWidget)
@@ -804,7 +815,8 @@ class Ui_Form(object):
         self.line_addresults_3.setSizePolicy(sizePolicy)
         self.line_addresults_3.setMinimumSize(QtCore.QSize(50, 0))
         self.line_addresults_3.setMaximumSize(QtCore.QSize(50, 16777215))
-        self.line_addresults_3.setStyleSheet("background-color: rgb(215, 248, 255);")
+        self.line_addresults_3.setStyleSheet("background-color: rgb(215, 248, 255);\n"
+"font: 75 10pt \"Verdana\";")
         self.line_addresults_3.setObjectName("line_addresults_3")
         self.gridLayout.addWidget(self.line_addresults_3, 1, 2, 1, 1)
         self.line_addresults_4 = QtWidgets.QLineEdit(self.gridLayoutWidget)
@@ -815,7 +827,8 @@ class Ui_Form(object):
         self.line_addresults_4.setSizePolicy(sizePolicy)
         self.line_addresults_4.setMinimumSize(QtCore.QSize(50, 0))
         self.line_addresults_4.setMaximumSize(QtCore.QSize(50, 16777215))
-        self.line_addresults_4.setStyleSheet("background-color: rgb(215, 248, 255);")
+        self.line_addresults_4.setStyleSheet("background-color: rgb(215, 248, 255);\n"
+"font: 75 10pt \"Verdana\";")
         self.line_addresults_4.setObjectName("line_addresults_4")
         self.gridLayout.addWidget(self.line_addresults_4, 1, 3, 1, 1)
         self.line_addresults_5 = QtWidgets.QLineEdit(self.gridLayoutWidget)
@@ -826,7 +839,8 @@ class Ui_Form(object):
         self.line_addresults_5.setSizePolicy(sizePolicy)
         self.line_addresults_5.setMinimumSize(QtCore.QSize(50, 0))
         self.line_addresults_5.setMaximumSize(QtCore.QSize(50, 16777215))
-        self.line_addresults_5.setStyleSheet("background-color: rgb(215, 248, 255);")
+        self.line_addresults_5.setStyleSheet("background-color: rgb(215, 248, 255);\n"
+"font: 75 10pt \"Verdana\";")
         self.line_addresults_5.setObjectName("line_addresults_5")
         self.gridLayout.addWidget(self.line_addresults_5, 1, 4, 1, 1)
         self.line_addresults_6 = QtWidgets.QLineEdit(self.gridLayoutWidget)
@@ -837,7 +851,8 @@ class Ui_Form(object):
         self.line_addresults_6.setSizePolicy(sizePolicy)
         self.line_addresults_6.setMinimumSize(QtCore.QSize(50, 0))
         self.line_addresults_6.setMaximumSize(QtCore.QSize(50, 16777215))
-        self.line_addresults_6.setStyleSheet("background-color: rgb(215, 248, 255);")
+        self.line_addresults_6.setStyleSheet("background-color: rgb(215, 248, 255);\n"
+"font: 75 10pt \"Verdana\";")
         self.line_addresults_6.setObjectName("line_addresults_6")
         self.gridLayout.addWidget(self.line_addresults_6, 1, 5, 1, 1)
         self.line_addresults_7 = QtWidgets.QLineEdit(self.gridLayoutWidget)
@@ -848,7 +863,8 @@ class Ui_Form(object):
         self.line_addresults_7.setSizePolicy(sizePolicy)
         self.line_addresults_7.setMinimumSize(QtCore.QSize(50, 0))
         self.line_addresults_7.setMaximumSize(QtCore.QSize(50, 16777215))
-        self.line_addresults_7.setStyleSheet("background-color: rgb(215, 248, 255);")
+        self.line_addresults_7.setStyleSheet("background-color: rgb(215, 248, 255);\n"
+"font: 75 10pt \"Verdana\";")
         self.line_addresults_7.setObjectName("line_addresults_7")
         self.gridLayout.addWidget(self.line_addresults_7, 1, 6, 1, 1)
         self.line_addresults_8 = QtWidgets.QLineEdit(self.gridLayoutWidget)
@@ -859,7 +875,8 @@ class Ui_Form(object):
         self.line_addresults_8.setSizePolicy(sizePolicy)
         self.line_addresults_8.setMinimumSize(QtCore.QSize(50, 0))
         self.line_addresults_8.setMaximumSize(QtCore.QSize(50, 16777215))
-        self.line_addresults_8.setStyleSheet("background-color: rgb(215, 248, 255);")
+        self.line_addresults_8.setStyleSheet("background-color: rgb(215, 248, 255);\n"
+"font: 75 10pt \"Verdana\";")
         self.line_addresults_8.setObjectName("line_addresults_8")
         self.gridLayout.addWidget(self.line_addresults_8, 1, 7, 1, 1)
         self.line_addresults_9 = QtWidgets.QLineEdit(self.gridLayoutWidget)
@@ -870,7 +887,8 @@ class Ui_Form(object):
         self.line_addresults_9.setSizePolicy(sizePolicy)
         self.line_addresults_9.setMinimumSize(QtCore.QSize(50, 0))
         self.line_addresults_9.setMaximumSize(QtCore.QSize(50, 16777215))
-        self.line_addresults_9.setStyleSheet("background-color: rgb(215, 248, 255);")
+        self.line_addresults_9.setStyleSheet("background-color: rgb(215, 248, 255);\n"
+"font: 75 10pt \"Verdana\";")
         self.line_addresults_9.setObjectName("line_addresults_9")
         self.gridLayout.addWidget(self.line_addresults_9, 1, 8, 1, 1)
         self.line_addresults_10 = QtWidgets.QLineEdit(self.gridLayoutWidget)
@@ -881,7 +899,8 @@ class Ui_Form(object):
         self.line_addresults_10.setSizePolicy(sizePolicy)
         self.line_addresults_10.setMinimumSize(QtCore.QSize(50, 0))
         self.line_addresults_10.setMaximumSize(QtCore.QSize(50, 16777215))
-        self.line_addresults_10.setStyleSheet("background-color: rgb(215, 248, 255);")
+        self.line_addresults_10.setStyleSheet("background-color: rgb(215, 248, 255);\n"
+"font: 75 10pt \"Verdana\";")
         self.line_addresults_10.setObjectName("line_addresults_10")
         self.gridLayout.addWidget(self.line_addresults_10, 1, 9, 1, 1)
         self.line_addresults_11 = QtWidgets.QLineEdit(self.gridLayoutWidget)
@@ -892,7 +911,8 @@ class Ui_Form(object):
         self.line_addresults_11.setSizePolicy(sizePolicy)
         self.line_addresults_11.setMinimumSize(QtCore.QSize(50, 0))
         self.line_addresults_11.setMaximumSize(QtCore.QSize(50, 16777215))
-        self.line_addresults_11.setStyleSheet("background-color: rgb(215, 248, 255);")
+        self.line_addresults_11.setStyleSheet("background-color: rgb(215, 248, 255);\n"
+"font: 75 10pt \"Verdana\";")
         self.line_addresults_11.setObjectName("line_addresults_11")
         self.gridLayout.addWidget(self.line_addresults_11, 1, 10, 1, 1)
         self.line_addresults_12 = QtWidgets.QLineEdit(self.gridLayoutWidget)
@@ -903,7 +923,8 @@ class Ui_Form(object):
         self.line_addresults_12.setSizePolicy(sizePolicy)
         self.line_addresults_12.setMinimumSize(QtCore.QSize(50, 0))
         self.line_addresults_12.setMaximumSize(QtCore.QSize(50, 16777215))
-        self.line_addresults_12.setStyleSheet("background-color: rgb(215, 248, 255);")
+        self.line_addresults_12.setStyleSheet("background-color: rgb(215, 248, 255);\n"
+"font: 75 10pt \"Verdana\";")
         self.line_addresults_12.setObjectName("line_addresults_12")
         self.gridLayout.addWidget(self.line_addresults_12, 1, 11, 1, 1)
         self.line_addresults_13 = QtWidgets.QLineEdit(self.gridLayoutWidget)
@@ -914,7 +935,8 @@ class Ui_Form(object):
         self.line_addresults_13.setSizePolicy(sizePolicy)
         self.line_addresults_13.setMinimumSize(QtCore.QSize(50, 0))
         self.line_addresults_13.setMaximumSize(QtCore.QSize(50, 16777215))
-        self.line_addresults_13.setStyleSheet("background-color: rgb(215, 248, 255);")
+        self.line_addresults_13.setStyleSheet("background-color: rgb(215, 248, 255);\n"
+"font: 75 10pt \"Verdana\";")
         self.line_addresults_13.setObjectName("line_addresults_13")
         self.gridLayout.addWidget(self.line_addresults_13, 1, 12, 1, 1)
         self.line_addresults_14 = QtWidgets.QLineEdit(self.gridLayoutWidget)
@@ -925,7 +947,8 @@ class Ui_Form(object):
         self.line_addresults_14.setSizePolicy(sizePolicy)
         self.line_addresults_14.setMinimumSize(QtCore.QSize(50, 0))
         self.line_addresults_14.setMaximumSize(QtCore.QSize(50, 16777215))
-        self.line_addresults_14.setStyleSheet("background-color: rgb(215, 248, 255);")
+        self.line_addresults_14.setStyleSheet("background-color: rgb(215, 248, 255);\n"
+"font: 75 10pt \"Verdana\";")
         self.line_addresults_14.setObjectName("line_addresults_14")
         self.gridLayout.addWidget(self.line_addresults_14, 1, 13, 1, 1)
         self.line_addresults_15 = QtWidgets.QLineEdit(self.gridLayoutWidget)
@@ -936,7 +959,8 @@ class Ui_Form(object):
         self.line_addresults_15.setSizePolicy(sizePolicy)
         self.line_addresults_15.setMinimumSize(QtCore.QSize(50, 0))
         self.line_addresults_15.setMaximumSize(QtCore.QSize(50, 16777215))
-        self.line_addresults_15.setStyleSheet("background-color: rgb(215, 248, 255);")
+        self.line_addresults_15.setStyleSheet("background-color: rgb(215, 248, 255);\n"
+"font: 75 10pt \"Verdana\";")
         self.line_addresults_15.setObjectName("line_addresults_15")
         self.gridLayout.addWidget(self.line_addresults_15, 1, 14, 1, 1)
         self.gb_addresults_status = QtWidgets.QGroupBox(self.tab_entry_results)
@@ -1051,15 +1075,18 @@ class Ui_Form(object):
         self.label_addbreak_blown.setObjectName("label_addbreak_blown")
         self.flayout_addbreak_surfability.setWidget(1, QtWidgets.QFormLayout.LabelRole, self.label_addbreak_blown)
         self.line_addbreak_clean = QtWidgets.QLineEdit(self.formLayoutWidget_2)
-        self.line_addbreak_clean.setStyleSheet("background-color: rgb(251, 248, 241);")
+        self.line_addbreak_clean.setStyleSheet("background-color: rgb(251, 248, 241);\n"
+"font: 75 10pt \"Verdana\";")
         self.line_addbreak_clean.setObjectName("line_addbreak_clean")
         self.flayout_addbreak_surfability.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.line_addbreak_clean)
         self.line_addbreak_blown = QtWidgets.QLineEdit(self.formLayoutWidget_2)
-        self.line_addbreak_blown.setStyleSheet("background-color: rgb(251, 248, 241);")
+        self.line_addbreak_blown.setStyleSheet("background-color: rgb(251, 248, 241);\n"
+"font: 75 10pt \"Verdana\";")
         self.line_addbreak_blown.setObjectName("line_addbreak_blown")
         self.flayout_addbreak_surfability.setWidget(1, QtWidgets.QFormLayout.FieldRole, self.line_addbreak_blown)
         self.line_addbreak_small = QtWidgets.QLineEdit(self.formLayoutWidget_2)
-        self.line_addbreak_small.setStyleSheet("background-color: rgb(251, 248, 241);")
+        self.line_addbreak_small.setStyleSheet("background-color: rgb(251, 248, 241);\n"
+"font: 75 10pt \"Verdana\";")
         self.line_addbreak_small.setObjectName("line_addbreak_small")
         self.flayout_addbreak_surfability.setWidget(2, QtWidgets.QFormLayout.FieldRole, self.line_addbreak_small)
         self.gb_addbreak_type = QtWidgets.QGroupBox(self.tab_entry_break)
@@ -1261,11 +1288,13 @@ class Ui_Form(object):
         self.label_addsurfer_country.setObjectName("label_addsurfer_country")
         self.flayout_addsurfer_basic.setWidget(5, QtWidgets.QFormLayout.LabelRole, self.label_addsurfer_country)
         self.line_addsurfer_firstname = QtWidgets.QLineEdit(self.formLayoutWidget_5)
-        self.line_addsurfer_firstname.setStyleSheet("background-color: rgb(224, 255, 236);")
+        self.line_addsurfer_firstname.setStyleSheet("background-color: rgb(224, 255, 236);\n"
+"font: 75 10pt \"Verdana\";")
         self.line_addsurfer_firstname.setObjectName("line_addsurfer_firstname")
         self.flayout_addsurfer_basic.setWidget(0, QtWidgets.QFormLayout.FieldRole, self.line_addsurfer_firstname)
         self.line_addsurfer_lastname = QtWidgets.QLineEdit(self.formLayoutWidget_5)
-        self.line_addsurfer_lastname.setStyleSheet("background-color: rgb(224, 255, 236);")
+        self.line_addsurfer_lastname.setStyleSheet("background-color: rgb(224, 255, 236);\n"
+"font: 75 10pt \"Verdana\";")
         self.line_addsurfer_lastname.setObjectName("line_addsurfer_lastname")
         self.flayout_addsurfer_basic.setWidget(2, QtWidgets.QFormLayout.FieldRole, self.line_addsurfer_lastname)
         spacerItem4 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
@@ -1301,23 +1330,28 @@ class Ui_Form(object):
         spacerItem9 = QtWidgets.QSpacerItem(20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
         self.flayout_addsurfer_basic.setItem(8, QtWidgets.QFormLayout.FieldRole, spacerItem9)
         self.cb_addsurfer_country = QtWidgets.QComboBox(self.formLayoutWidget_5)
-        self.cb_addsurfer_country.setStyleSheet("background-color: rgb(224, 255, 236);")
+        self.cb_addsurfer_country.setStyleSheet("background-color: rgb(224, 255, 236);\n"
+"font: 75 10pt \"Verdana\";")
         self.cb_addsurfer_country.setObjectName("cb_addsurfer_country")
         self.flayout_addsurfer_basic.setWidget(5, QtWidgets.QFormLayout.FieldRole, self.cb_addsurfer_country)
         self.line_addsurfer_bday = QtWidgets.QLineEdit(self.formLayoutWidget_5)
-        self.line_addsurfer_bday.setStyleSheet("background-color: rgb(224, 255, 236);")
+        self.line_addsurfer_bday.setStyleSheet("background-color: rgb(224, 255, 236);\n"
+"font: 75 10pt \"Verdana\";")
         self.line_addsurfer_bday.setObjectName("line_addsurfer_bday")
         self.flayout_addsurfer_basic.setWidget(7, QtWidgets.QFormLayout.FieldRole, self.line_addsurfer_bday)
         self.line_addsurfer_ht = QtWidgets.QLineEdit(self.formLayoutWidget_5)
-        self.line_addsurfer_ht.setStyleSheet("background-color: rgb(224, 255, 236);")
+        self.line_addsurfer_ht.setStyleSheet("background-color: rgb(224, 255, 236);\n"
+"font: 75 10pt \"Verdana\";")
         self.line_addsurfer_ht.setObjectName("line_addsurfer_ht")
         self.flayout_addsurfer_basic.setWidget(9, QtWidgets.QFormLayout.FieldRole, self.line_addsurfer_ht)
         self.line_addsurfer_wt = QtWidgets.QLineEdit(self.formLayoutWidget_5)
-        self.line_addsurfer_wt.setStyleSheet("background-color: rgb(224, 255, 236);")
+        self.line_addsurfer_wt.setStyleSheet("background-color: rgb(224, 255, 236);\n"
+"font: 75 10pt \"Verdana\";")
         self.line_addsurfer_wt.setObjectName("line_addsurfer_wt")
         self.flayout_addsurfer_basic.setWidget(10, QtWidgets.QFormLayout.FieldRole, self.line_addsurfer_wt)
         self.line_addsurfer_firsttour = QtWidgets.QLineEdit(self.formLayoutWidget_5)
-        self.line_addsurfer_firsttour.setStyleSheet("background-color: rgb(224, 255, 236);")
+        self.line_addsurfer_firsttour.setStyleSheet("background-color: rgb(224, 255, 236);\n"
+"font: 75 10pt \"Verdana\";")
         self.line_addsurfer_firsttour.setObjectName("line_addsurfer_firsttour")
         self.flayout_addsurfer_basic.setWidget(13, QtWidgets.QFormLayout.FieldRole, self.line_addsurfer_firsttour)
         self.label_addsurfer_continent = QtWidgets.QLabel(self.formLayoutWidget_5)
@@ -1325,11 +1359,13 @@ class Ui_Form(object):
         self.label_addsurfer_continent.setObjectName("label_addsurfer_continent")
         self.flayout_addsurfer_basic.setWidget(4, QtWidgets.QFormLayout.LabelRole, self.label_addsurfer_continent)
         self.cb_addsurfer_continent = QtWidgets.QComboBox(self.formLayoutWidget_5)
-        self.cb_addsurfer_continent.setStyleSheet("background-color: rgb(224, 255, 236);")
+        self.cb_addsurfer_continent.setStyleSheet("background-color: rgb(224, 255, 236);\n"
+"font: 75 10pt \"Verdana\";")
         self.cb_addsurfer_continent.setObjectName("cb_addsurfer_continent")
         self.flayout_addsurfer_basic.setWidget(4, QtWidgets.QFormLayout.FieldRole, self.cb_addsurfer_continent)
         self.line_addsurfer_firstseason = QtWidgets.QLineEdit(self.formLayoutWidget_5)
-        self.line_addsurfer_firstseason.setStyleSheet("background-color: rgb(224, 255, 236);")
+        self.line_addsurfer_firstseason.setStyleSheet("background-color: rgb(224, 255, 236);\n"
+"font: 75 10pt \"Verdana\";")
         self.line_addsurfer_firstseason.setObjectName("line_addsurfer_firstseason")
         self.flayout_addsurfer_basic.setWidget(12, QtWidgets.QFormLayout.FieldRole, self.line_addsurfer_firstseason)
         self.label_addsurfer_stance = QtWidgets.QLabel(self.formLayoutWidget_5)
@@ -1454,7 +1490,7 @@ class Ui_Form(object):
 
         self.retranslateUi(Form)
         self.tab_top_lvl.setCurrentIndex(3)
-        self.tab_second_lvl.setCurrentIndex(2)
+        self.tab_second_lvl.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(Form)
 
     def retranslateUi(self, Form):
