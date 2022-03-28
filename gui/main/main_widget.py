@@ -80,6 +80,7 @@ class MainWidget(QMainWindow, Ui_Form):
         self.cb_addresults_heat.currentIndexChanged.connect(self.slot_cb_addresults_surfer_on_index_change)
 
         self.pb_addresults_clear.clicked.connect(self.slot_pb_addresults_clear_clicked)
+        self.pb_addresults_submit.clicked.connect(self.slot_pb_addresults_submit_clicked)
 
         # Slots for Add Break Tab
         self.cb_addbreak_continent.currentIndexChanged.connect(self.slot_cb_addbreak_continent_on_index_change)
@@ -556,6 +557,126 @@ class MainWidget(QMainWindow, Ui_Form):
         self.cb_addresults_round.clear()
         self.cb_addresults_heat.clear()
         self.cb_addresults_surfer.clear()
+
+        self.line_addresults_picks.clear()
+
+        self.check_addresults_jersey_yellow.setChecked(0)
+        self.check_addresults_jersey_red.setChecked(0)
+        self.check_addresults_jersey_black.setChecked(0)
+        self.check_addresults_jersey_white.setChecked(0)
+        self.check_addresults_jersey_blue.setChecked(0)
+        self.check_addresults_jersey_pink.setChecked(0)
+
+        self.check_addresults_advanced.setChecked(0)
+        self.check_addresults_eliminated.setChecked(0)
+
+    def slot_pb_addresults_submit_clicked(self):
+
+        # Get Tour down through heat and surfer from Form
+        year = self.cb_addresults_year.currentText()
+        tour_name = self.cb_addresults_tour.currentText()
+        event_name = self.cb_addresults_event.currentText()
+        round_name = self.cb_addresults_round.currentText()
+        heat_nbr = self.cb_addresults_heat.currentText()
+        surfer = self.cb_addresults_surfer.currentText()
+
+        # Get picked % from form and check that it's float
+        picked_percent = self.line_addresults_picks.text()
+        inst = Validations.NumCheck(input_num=picked_percent)
+        inst.float_check()
+
+        # Find the Jersey Color
+        if self.check_addresults_jersey_yellow.isChecked():
+            jersey_color = 'Yellow'
+        if self.check_addresults_jersey_red.isChecked():
+            jersey_color = 'Red'
+        if self.check_addresults_jersey_black.isChecked():
+            jersey_color = 'Black'
+        if self.check_addresults_jersey_white.isChecked():
+            jersey_color = 'White'
+        if self.check_addresults_jersey_blue.isChecked():
+            jersey_color = 'Blue'
+        if self.check_addresults_jersey_pink.isChecked():
+            jersey_color = 'Pink'
+
+        # Check To Make sure Advanced or Eliminated are checked but not both
+        cond_advanced = self.check_addresults_advanced.isChecked()
+        cond_eliminated = self.check_addresults_eliminated.isChecked()
+        if cond_advanced and cond_eliminated:
+            print("This isn't Schrodinger's Tournament. Was the surfer observed Advancing or being Eliminated?")
+            raise ValueError
+        if not cond_advanced and not cond_eliminated:
+            print("This isn't Schrodinger's Tournament. Was the surfer observed Advancing or being Eliminated?")
+            raise ValueError
+
+        # Set Advanced or Eliminated based on which is checked
+        if cond_advanced:
+            advancement = 'Advanced'
+        if cond_eliminated:
+            advancement = 'Eliminated'
+
+        # Grab wave scores from form
+
+        wave_1 = self.line_addresults_1.text()
+        inst = Validations.NumCheck(input_num=wave_1)
+        inst.float_check()
+
+        wave_2 = self.line_addresults_2.text()
+        inst = Validations.NumCheck(input_num=wave_2)
+        inst.float_check()
+
+        wave_3 = self.line_addresults_3.text()
+        inst = Validations.NumCheck(input_num=wave_3)
+        inst.float_check()
+
+        wave_4 = self.line_addresults_4.text()
+        inst = Validations.NumCheck(input_num=wave_4)
+        inst.float_check()
+
+        wave_5 = self.line_addresults_5.text()
+        inst = Validations.NumCheck(input_num=wave_5)
+        inst.float_check()
+
+        wave_6 = self.line_addresults_6.text()
+        inst = Validations.NumCheck(input_num=wave_6)
+        inst.float_check()
+
+        wave_7 = self.line_addresults_7.text()
+        inst = Validations.NumCheck(input_num=wave_7)
+        inst.float_check()
+
+        wave_8 = self.line_addresults_8.text()
+        inst = Validations.NumCheck(input_num=wave_8)
+        inst.float_check()
+
+        wave_9 = self.line_addresults_9.text()
+        inst = Validations.NumCheck(input_num=wave_9)
+        inst.float_check()
+
+        wave_10 = self.line_addresults_10.text()
+        inst = Validations.NumCheck(input_num=wave_10)
+        inst.float_check()
+
+        wave_11 = self.line_addresults_11.text()
+        inst = Validations.NumCheck(input_num=wave_11)
+        inst.float_check()
+
+        wave_12 = self.line_addresults_12.text()
+        inst = Validations.NumCheck(input_num=wave_12)
+        inst.float_check()
+
+        wave_13 = self.line_addresults_13.text()
+        inst = Validations.NumCheck(input_num=wave_13)
+        inst.float_check()
+
+        wave_14 = self.line_addresults_14.text()
+        inst = Validations.NumCheck(input_num=wave_14)
+        inst.float_check()
+
+        wave_15 = self.line_addresults_15.text()
+        inst = Validations.NumCheck(input_num=wave_15)
+        inst.float_check()
+
 
 
     ####################################################################################################################
