@@ -552,6 +552,8 @@ class SurferToHeat(QDialog, Round):
         except:
             print('I went to the goddamn except')
 
+        self.cb_surfer.clear()
+
 
 ########################################################################################################################
 
