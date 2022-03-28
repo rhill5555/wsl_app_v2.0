@@ -72,6 +72,10 @@ class MainWidget(QMainWindow, Ui_Form):
         self.pb_addheat_submit.clicked.connect(self.slot_pb_addheat_submit_clicked)
         self.pb_addheat_surfers.clicked.connect(self.slot_pb_addheat_surfers_clicked)
 
+        # Slots for Add Heat Results Tab
+        self.cb_addresults_year.currentIndexChanged.connect(self.slot_cb_addresults_year_on_index_change)
+        self.cb_addresults_tour.currentIndexChanged.connect(self.slot_cb_addresults_tour_on_index_change)
+
         # Slots for Add Break Tab
         self.cb_addbreak_continent.currentIndexChanged.connect(self.slot_cb_addbreak_continent_on_index_change)
         self.cb_addbreak_country.currentIndexChanged.connect(self.slot_cb_addbreak_country_on_index_change)
@@ -102,6 +106,11 @@ class MainWidget(QMainWindow, Ui_Form):
         # Add Heat Tab
         self.cb_addheat_tour.addItems([''] + self.add_heat_round_instance.return_tours())
         self.cb_addheat_round.addItems([''] + self.add_heat_round_instance.return_all_rounds())
+
+        # Add Heat Results Tab
+        # Add Tour Years
+        inst = Places.Round()
+        self.cb_addresults_year.addItems([''] + inst.return_tour_years())
 
         # Add Break Tab
         self.cb_addbreak_continent.addItems([''] + self.add_break_region_instance.return_continents())
@@ -481,7 +490,21 @@ class MainWidget(QMainWindow, Ui_Form):
         self.slot_pb_addheat_clear_clicked()
 
     ####################################################################################################################
+    # Event Handler Functions for the Add Heat Results Tab
 
+    def slot_cb_addresults_year_on_index_change(self):
+        inst = Places.Round()
+        inst.set_everything_to_none()
+
+        self.cb_addresults_tour.clear()
+
+        self.cb_addresults_tour.addItems([''] + inst.return_tour_names_by_year(year=self.cb_addresults_year.currentText()))
+
+    def slot_cb_addresults_tour_on_index_change(self):
+        pass
+
+
+    ####################################################################################################################
     # Event Handler Functions for The Add Break Tab
 
     # Change Country List when a Continent is selected
