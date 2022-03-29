@@ -807,7 +807,8 @@ class Heat(Round):
                  sql_host_name: Optional[str] = None,
                  sql_user_name: Optional[str] = None,
                  sql_password: Optional[str] = None,
-                 selected_heat: Optional[str] = None):
+                 selected_heat: Optional[str] = None,
+                 selected_surfer: Optional[str] = None):
         # Call the constructor for the inherited class, Country. Remember, this runs the constructor function in the
         # CommonSQL class and all the instance variables of that class are now instance variables of this class.
         # It also inherits all the functions.
@@ -820,6 +821,7 @@ class Heat(Round):
 
         # This is the instance variable for the selected region, which is equal to the passed value.
         self.selected_heat: Optional[str] = selected_heat
+        self.selected_surfer: Optional[str] = selected_surfer
 
         # This is the instance variable for the region_id. I assume this has something to do with the SQL key stuff.
         # Just going to set its default to None.
@@ -857,6 +859,45 @@ class Heat(Round):
             mysql_command=sql_command
         )
 
+        # # This function sets all the instance variables that dealing with selected places back to None.
+        # def set_everything_to_none(self) -> None:
+        #     self.selected_round = None
+        #     self.selected_event = None
+        #     self.selected_tourname = None
+        #     self.selected_round = None
+
+
+    def return_heat_and_surfer(self) -> List:
+        # Let's print that we are in this function, so it makes debugging easier.
+        print("We are returning the heat and surfer...")
+
+        # Create a temporary list for the countries.
+        heat_and_surfer_list: List = []
+
+        # Okay, since we inherited the return_places function from the CommonSQL class, we use it here to grab the
+        # list of cities and return it. First, let's create a temporary string with the sql command.
+        sql_command: str = f"""select surfers.id 
+                                from wsl.heat_surfers surfers 
+                                join wsl.heats heats 
+                                    on surfers.heat_id = heats.id
+                                join wsl.rounds rounds
+                                    on heats.round_id = rounds.id
+                                join wsl.events events
+                                    on heats.event_id = events.id
+                                join wsl.tour_type tour
+                                    on events.tour_type_id = tour.id
+                                where heats.heat_nbr = {self.selected_heat}
+                                and surfers.surfer = '{self.selected_surfer}'
+                                and rounds.round_name = '{self.selected_round}'
+                                and events.event_name = '{self.selected_event}'
+                                and tour.tour_name = '{self.selected_tourname}'
+                            """
+
+        # Return the cities, by calling the return_places function from the CommonSQL Class.
+        return self.return_event_hier(
+            mysql_command=sql_command
+        )
+
 
     # This function sets all the instance variables that dealing with selected places back to None.
     def set_everything_to_none(self) -> None:
@@ -864,6 +905,9 @@ class Heat(Round):
         self.selected_event = None
         self.selected_tourname = None
         self.selected_round = None
+
+
+
 
 ########################################################################################################################
 

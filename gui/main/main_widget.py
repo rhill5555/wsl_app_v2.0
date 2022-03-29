@@ -570,6 +570,23 @@ class MainWidget(QMainWindow, Ui_Form):
         self.check_addresults_advanced.setChecked(0)
         self.check_addresults_eliminated.setChecked(0)
 
+        self.line_addresults_1.clear()
+        self.line_addresults_2.clear()
+        self.line_addresults_3.clear()
+        self.line_addresults_4.clear()
+        self.line_addresults_5.clear()
+        self.line_addresults_6.clear()
+        self.line_addresults_7.clear()
+        self.line_addresults_8.clear()
+        self.line_addresults_9.clear()
+        self.line_addresults_10.clear()
+        self.line_addresults_11.clear()
+        self.line_addresults_12.clear()
+        self.line_addresults_13.clear()
+        self.line_addresults_14.clear()
+        self.line_addresults_15.clear()
+
+
     def slot_pb_addresults_submit_clicked(self):
 
         # Get Tour down through heat and surfer from Form
@@ -579,6 +596,7 @@ class MainWidget(QMainWindow, Ui_Form):
         round_name = self.cb_addresults_round.currentText()
         heat_nbr = self.cb_addresults_heat.currentText()
         surfer = self.cb_addresults_surfer.currentText()
+        self.add_heat_round_instance.selected_surfer = self.cb_addresults_surfer.currentText()
 
         # Get picked % from form and check that it's float
         picked_percent = self.line_addresults_picks.text()
@@ -617,66 +635,159 @@ class MainWidget(QMainWindow, Ui_Form):
 
         # Grab wave scores from form
 
-        wave_1 = self.line_addresults_1.text()
-        inst = Validations.NumCheck(input_num=wave_1)
-        inst.float_check()
+        if self.line_addresults_1.text() == '':
+            wave_1 = 0
+        else:
+            wave_1 = self.line_addresults_1.text()
+            inst = Validations.NumCheck(input_num=wave_1)
+            inst.float_check()
 
-        wave_2 = self.line_addresults_2.text()
-        inst = Validations.NumCheck(input_num=wave_2)
-        inst.float_check()
+        if self.line_addresults_2.text() == '':
+            wave_2 = 0
+        else:
+            wave_2 = self.line_addresults_2.text()
+            inst = Validations.NumCheck(input_num=wave_2)
+            inst.float_check()
 
-        wave_3 = self.line_addresults_3.text()
-        inst = Validations.NumCheck(input_num=wave_3)
-        inst.float_check()
+        if self.line_addresults_3.text() == '':
+            wave_3 = 0
+        else:
+            wave_3 = self.line_addresults_3.text()
+            inst = Validations.NumCheck(input_num=wave_3)
+            inst.float_check()
 
-        wave_4 = self.line_addresults_4.text()
-        inst = Validations.NumCheck(input_num=wave_4)
-        inst.float_check()
+        if self.line_addresults_4.text() == '':
+            wave_4 = 0
+        else:
+            wave_4 = self.line_addresults_4.text()
+            inst = Validations.NumCheck(input_num=wave_4)
+            inst.float_check()
 
-        wave_5 = self.line_addresults_5.text()
-        inst = Validations.NumCheck(input_num=wave_5)
-        inst.float_check()
+        if self.line_addresults_5.text() == '':
+            wave_5 = 0
+        else:
+            wave_5 = self.line_addresults_5.text()
+            inst = Validations.NumCheck(input_num=wave_5)
+            inst.float_check()
 
-        wave_6 = self.line_addresults_6.text()
-        inst = Validations.NumCheck(input_num=wave_6)
-        inst.float_check()
+        if self.line_addresults_6.text() == '':
+            wave_6 = 0
+        else:
+            wave_6 = self.line_addresults_6.text()
+            inst = Validations.NumCheck(input_num=wave_6)
+            inst.float_check()
 
-        wave_7 = self.line_addresults_7.text()
-        inst = Validations.NumCheck(input_num=wave_7)
-        inst.float_check()
+        if self.line_addresults_7.text() == '':
+            wave_7 = 0
+        else:
+            wave_7 = self.line_addresults_7.text()
+            inst = Validations.NumCheck(input_num=wave_7)
+            inst.float_check()
 
-        wave_8 = self.line_addresults_8.text()
-        inst = Validations.NumCheck(input_num=wave_8)
-        inst.float_check()
+        if self.line_addresults_8.text() == '':
+            wave_8 = 0
+        else:
+            wave_8 = self.line_addresults_8.text()
+            inst = Validations.NumCheck(input_num=wave_8)
+            inst.float_check()
 
-        wave_9 = self.line_addresults_9.text()
-        inst = Validations.NumCheck(input_num=wave_9)
-        inst.float_check()
+        if self.line_addresults_9.text() == '':
+            wave_9 = 0
+        else:
+            wave_9 = self.line_addresults_9.text()
+            inst = Validations.NumCheck(input_num=wave_9)
+            inst.float_check()
 
-        wave_10 = self.line_addresults_10.text()
-        inst = Validations.NumCheck(input_num=wave_10)
-        inst.float_check()
+        if self.line_addresults_10.text() == '':
+            wave_10 = 0
+        else:
+            wave_10 = self.line_addresults_10.text()
+            inst = Validations.NumCheck(input_num=wave_10)
+            inst.float_check()
 
-        wave_11 = self.line_addresults_11.text()
-        inst = Validations.NumCheck(input_num=wave_11)
-        inst.float_check()
+        if self.line_addresults_11.text() == '':
+            wave_11 = 0
+        else:
+            wave_11 = self.line_addresults_11.text()
+            inst = Validations.NumCheck(input_num=wave_11)
+            inst.float_check()
 
-        wave_12 = self.line_addresults_12.text()
-        inst = Validations.NumCheck(input_num=wave_12)
-        inst.float_check()
+        if self.line_addresults_12.text() == '':
+            wave_12 = 0
+        else:
+            wave_12 = self.line_addresults_12.text()
+            inst = Validations.NumCheck(input_num=wave_12)
+            inst.float_check()
 
-        wave_13 = self.line_addresults_13.text()
-        inst = Validations.NumCheck(input_num=wave_13)
-        inst.float_check()
+        if self.line_addresults_13.text() == '':
+            wave_13 = 0
+        else:
+            wave_13 = self.line_addresults_13.text()
+            inst = Validations.NumCheck(input_num=wave_13)
+            inst.float_check()
 
-        wave_14 = self.line_addresults_14.text()
-        inst = Validations.NumCheck(input_num=wave_14)
-        inst.float_check()
+        if self.line_addresults_14.text() == '':
+            wave_14 = 0
+        else:
+            wave_14 = self.line_addresults_14.text()
+            inst = Validations.NumCheck(input_num=wave_14)
+            inst.float_check()
 
-        wave_15 = self.line_addresults_15.text()
-        inst = Validations.NumCheck(input_num=wave_15)
-        inst.float_check()
+        if self.line_addresults_15.text() == '':
+            wave_15 = 0
+        else:
+            wave_15 = self.line_addresults_15.text()
+            inst = Validations.NumCheck(input_num=wave_15)
+            inst.float_check()
 
+        # Add To Table
+        try:
+            # Need to grab id from wsl.heat_surfers
+            heat_surfer_id = self.add_heat_round_instance.return_heat_and_surfer()[0]
+
+            # Insert into Break Table
+            inst = Places.SqlCommands()
+            table = 'wsl.heat_results'
+            columns = f"heat_surfer_id, picked_percent, jersey_color, advancement, wave_1, wave_2, wave_3, wave_4, wave_5, wave_6, wave_7, wave_8, wave_9, wave_10, wave_11, wave_12, wave_13, wave_14, wave_15"
+            # noinspection PyBroadException,PyUnboundLocalVariable
+            fields = f"{heat_surfer_id}, {picked_percent}, '{jersey_color}', '{advancement}', {wave_1}, {wave_2}, {wave_3}, {wave_4}, {wave_5}, {wave_6}, {wave_7}, {wave_8}, {wave_9}, {wave_10}, {wave_11}, {wave_12}, {wave_13}, {wave_14}, {wave_15}"
+            inst.insert_to_table(table=table,
+                                 columns=columns,
+                                 fields=fields
+                                 )
+        except:
+            print('I went to the fucking except')
+
+        # Clear Everything except tour info
+        self.cb_addresults_surfer.clear()
+
+        self.line_addresults_picks.clear()
+
+        self.check_addresults_jersey_yellow.setChecked(0)
+        self.check_addresults_jersey_red.setChecked(0)
+        self.check_addresults_jersey_black.setChecked(0)
+        self.check_addresults_jersey_white.setChecked(0)
+        self.check_addresults_jersey_blue.setChecked(0)
+        self.check_addresults_jersey_pink.setChecked(0)
+
+        self.check_addresults_advanced.setChecked(0)
+        self.check_addresults_eliminated.setChecked(0)
+
+        self.line_addresults_1.clear()
+        self.line_addresults_2.clear()
+        self.line_addresults_3.clear()
+        self.line_addresults_4.clear()
+        self.line_addresults_5.clear()
+        self.line_addresults_6.clear()
+        self.line_addresults_7.clear()
+        self.line_addresults_8.clear()
+        self.line_addresults_9.clear()
+        self.line_addresults_10.clear()
+        self.line_addresults_11.clear()
+        self.line_addresults_12.clear()
+        self.line_addresults_13.clear()
+        self.line_addresults_14.clear()
+        self.line_addresults_15.clear()
 
 
     ####################################################################################################################
