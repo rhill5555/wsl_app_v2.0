@@ -159,6 +159,72 @@ CREATE TABLE wsl.events
 	Primary KEY		(ID)
 );
 
+---------------------------------------------------------------------------
+-- Round TABLE
+-- drop table wsl.rounds;
+CREATE TABLE wsl.rounds
+(
+	ID					INT unsigned NOT NULL AUTO_INCREMENT,
+	round_name	VARCHAR(50),
+	Primary Key (ID)
+);
+
+---------------------------------------------------------------------------
+-- Heat TABLE
+-- drop table wsl.heats;
+CREATE TABLE wsl.heats
+(
+	ID					INT unsigned NOT NULL AUTO_INCREMENT,
+	event_id		INT NOT NULL,
+  round_id		INT NOT NULL,
+	heat_nbr		INT NOT NULL,
+	heat_date		VARCHAR(32),
+	duration		INT,
+	wave_min		INT,
+	wave_max		INT,
+	wind  			varchar(50),
+	Primary Key (ID)
+);
+
+---------------------------------------------------------------------------
+-- Surfers in a heats
+-- DROP TABLE wsl.heat_surfers;
+CREATE TABLE wsl.heat_surfers
+(
+	ID					INT unsigned NOT NULL AUTO_INCREMENT,
+	heat_id			INT NOT NULL,
+	surfer			VARCHAR(100),
+	Primary Key (ID)
+);
+
+---------------------------------------------------------------------------
+-- Heat Results TABLE
+-- DROP TABLE wsl.heat_results
+CREATE TABLE wsl.heat_results
+(
+	ID							INT unsigned NOT NULL AUTO_INCREMENT,
+	heat_surfer_id	INT NOT NULL,
+	picked_percent	FLOAT,
+	jersey_color		VARCHAR(20),
+	advancement			VARCHAR(20),
+	wave_1					FLOAT,
+	wave_2					FLOAT,
+	wave_3					FLOAT,
+	wave_4					FLOAT,
+	wave_5					FLOAT,
+	wave_6					FLOAT,
+	wave_7					FLOAT,
+	wave_8					FLOAT,
+	wave_9					FLOAT,
+	wave_10					FLOAT,
+	wave_11					FLOAT,
+	wave_12					FLOAT,
+	wave_13					FLOAT,
+	wave_14					FLOAT,
+	wave_15					FLOAT,
+	Primary Key     (ID)
+);
+
 
 ----------------------------------------------------------------------------
 
@@ -167,6 +233,11 @@ select * from wsl.countries;
 select * from wsl.regions;
 select * from wsl.cities;
 select * from wsl.breaks;
+
 select * from wsl.surfers;
+
 select * from wsl.tour_type;
 select * from wsl.events;
+select * from wsl.rounds;
+select * from wsl.heats;
+select * from wsl.heat_surfers;

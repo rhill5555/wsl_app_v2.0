@@ -31,6 +31,12 @@ Checkboxes-Green: color: rgb(40, 223, 153);
 Checkboxes-Yellow: color: #FDFFA9;
 Checkboxes-Red: color: rgb(216, 58, 86);
 
+Jersey - Yellow: color: #FFFF00;
+Jersey - Red: color: #F7183F;
+Jersey - Blue: color: #4331FF;
+Jersey - Pink: color: #ff00a9;
+
 New Location Button: background-color: rgb(246, 234, 190);
 Submit Button: background-color: rgb(253, 192, 255);
 Clear Button: background-color: rgb(154, 223, 244);
+New Tour Button: background-color: rgb(167, 255, 226);

@@ -11,7 +11,7 @@ from PyQt5.QtWidgets import QMainWindow, QApplication, QDialog
 from gui.common_widget.dialog_widget.popup_add_data import AddLocation, AddTourType, AddRoundType, SurferToHeat
 from gui.main.ui_to_py.wsl_analytics_ui_v2 import Ui_Form
 
-from src.Places import Region, Round, Heat
+from src.Places import Region,  Heat
 from src import Places, Validations
 
 
@@ -1187,7 +1187,7 @@ class MainWidget(QMainWindow, Ui_Form):
         elif self.check_addsurfer_goofy.isChecked():
             stance = 'Goofy'
         else:
-            stance = ''
+            stance = ' '
 
         # Find Country they represent
         country = self.cb_addsurfer_country.currentText()
@@ -1196,18 +1196,34 @@ class MainWidget(QMainWindow, Ui_Form):
         birthday = Validations.DateCheck.date_check(input_dt=self.line_addsurfer_bday.text())
 
         # Grab Height and Weight and check to see if they are numbers
-        height = self.line_addsurfer_ht.text()
-        weight = self.line_addsurfer_wt.text()
+        if self.line_addsurfer_ht.text() == '':
+            height = '0'
+        else:
+            height = self.line_addsurfer_ht.text()
+            inst = Validations.NumCheck(input_num=height)
+            inst.int_check()
+        if self.line_addsurfer_wt.text() == '':
+            height = '0'
+        else:
+            weight = self.line_addsurfer_wt.text()
+            inst = Validations.NumCheck(input_num=weight)
+            inst.int_check()
 
         # Check to Make sure height and weight were entered as numbers
-        inst = Validations.NumCheck(input_num=height)
-        inst.int_check()
-        inst = Validations.NumCheck(input_num=weight)
-        inst.int_check()
+        # inst = Validations.NumCheck(input_num=height)
+        # inst.int_check()
+        # inst = Validations.NumCheck(input_num=weight)
+        # inst.int_check()
 
         # Grab first season and tour
-        first_season = self.line_addsurfer_firstseason.text()
-        first_tour = self.line_addsurfer_firsttour.text()
+        if self.line_addsurfer_firstseason.text() == '':
+            first_season = '1900'
+        else:
+            first_season = self.line_addsurfer_firstseason.text()
+        if self.line_addsurfer_firsttour.text() == '':
+            first_tour = ''
+        else:
+            first_tour = self.line_addsurfer_firsttour.text()
 
         # Make sure first season has a length of 4 and is an integer
         if not first_season == '':
@@ -1219,7 +1235,10 @@ class MainWidget(QMainWindow, Ui_Form):
         inst.int_check()
 
         # Grab Home City
-        home_city = self.cb_addsurfer_hcity.currentText()
+        if self.cb_addsurfer_hcity.currentText() == '':
+            home_city = ' '
+        else:
+            home_city = self.cb_addsurfer_hcity.currentText()
 
         # Grab Male or Female
         if self.check_addsurfer_male.isChecked():
@@ -1233,14 +1252,14 @@ class MainWidget(QMainWindow, Ui_Form):
             print("Bruh, you have to choose a gender for this to work.")
             raise ValueError
 
-        print(f"Name: {first_name} {last_name}")
-        print(f"Stance: {stance}")
-        print(f"Representing: {country}")
-        print(f"Date of Birth: {birthday}")
-        print(f"Height(cm): {height}    Weight(kg): {weight}")
-        print(f"First Season: {first_season} {first_tour}")
-        print(f"Hometown: {home_city}")
-        print(f"Competing in the {gender}'s tour.")
+        # print(f"Name: {first_name} {last_name}")
+        # print(f"Stance: {stance}")
+        # print(f"Representing: {country}")
+        # print(f"Date of Birth: {birthday}")
+        # print(f"Height(cm): {height}    Weight(kg): {weight}")
+        # print(f"First Season: {first_season} {first_tour}")
+        # print(f"Hometown: {home_city}")
+        # print(f"Competing in the {gender}'s tour.")
 
         # Add the Break to wsl.surfers
         try:
@@ -1257,7 +1276,10 @@ class MainWidget(QMainWindow, Ui_Form):
             # Need to grab city id tied to home city
             table = 'wsl.cities'
             column = 'id'
-            col_filter = f"where city = '{home_city}' "
+            if home_city == '':
+                col_filter = ' '
+            else:
+                col_filter = f"where city = '{home_city}' "
             inst = Places.SqlCommands()
             home_city_id = inst.select_a_column(table=table,
                                                 column=column,
