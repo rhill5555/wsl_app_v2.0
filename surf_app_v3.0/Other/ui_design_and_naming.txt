@@ -1,0 +1,42 @@
+# Naming: object_page_group_name
+
+GroupBox: gb_addbreak_location
+Layout: flayout_addbreak_location
+Combobox: cb_addbreak_continent
+LineEdit: line_addbreak_break
+Label: label_addbreak_country
+PushButton: pb_addbreak_newloc
+CheckBox-ColoredSymbols: check_addbreak_ability_green
+CheckBoxes: check_addbreak_beach
+Spaces: vspace_addbreak_skill01
+
+
+# CSS
+
+Periwinkle Blue: background-color: rgb(148, 179, 253);
+Pink: background-color: rgb(254, 131, 198);
+White-Pink: background-color: rgb(251, 248, 241);
+Purple: background-color: rgb(185, 131, 255);
+Green: background-color: rgb(139, 255, 197);
+White-Green: background-color: rgb(224, 255, 236);
+Blue: background-color: rgb(0, 170, 255);
+White-Blue: background-color: rgb(215, 248, 255);
+
+
+Group Box Titles: font: 75 14pt "Verdana";
+Labels: font: 63 10pt "Cascadia Mono SemiBold";
+
+Checboxes: font: 24pt "Wingdings";
+Checkboxes-Green: color: rgb(40, 223, 153);
+Checkboxes-Yellow: color: #FDFFA9;
+Checkboxes-Red: color: rgb(216, 58, 86);
+
+Jersey - Yellow: color: #FFFF00;
+Jersey - Red: color: #F7183F;
+Jersey - Blue: color: #4331FF;
+Jersey - Pink: color: #ff00a9;
+
+New Location Button: background-color: rgb(246, 234, 190);
+Submit Button: background-color: rgb(253, 192, 255);
+Clear Button: background-color: rgb(154, 223, 244);
+New Tour Button: background-color: rgb(167, 255, 226);
