@@ -24,7 +24,7 @@ INSERT INTO wsl.continent (continent) VALUES
 CREATE TABLE wsl.country
 (
   country_id      INT unsigned NOT NULL AUTO_INCREMENT,
-  country_id      VARCHAR(50) NOT NULL,
+  country         VARCHAR(50) NOT NULL,
   continent_id    INT NOT NULL,
   Primary Key     (country_id)
 );
@@ -97,7 +97,7 @@ CREATE TABLE wsl.surfers
 
 ----------------------------------------------------------------
 
-select * from wsl.surfer;
+select * from wsl.surfers;
 
 ----------------------------------------------------------------
 -- tour TABLE
@@ -115,7 +115,7 @@ CREATE TABLE wsl.tour
 -----------------------------------------------------------------
 -- event table
 -- DROP TABLE wsl.event;
-CREATE TABLE wsl.events
+CREATE TABLE wsl.event
 (
   event_id        INT unsigned NOT NULL AUTO_INCREMENT,
   event_name      VARCHAR(50) NOT NULL,
@@ -203,3 +203,13 @@ CREATE TABLE wsl.heat_results
   wave_15               FLOAT,
   Primary Key           (heat_result_id)
 );
+
+-----------------------------------------------------------
+
+select * from wsl.tour;
+select * from wsl.event;
+select * from wsl.round;
+select * from wsl.event_round;
+select * from wsl.heat_details;
+select * from wsl.heat_surfers;
+select * from wsl.heat_results;
