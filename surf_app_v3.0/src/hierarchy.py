@@ -541,14 +541,15 @@ class TourName(TourYear):
         )
 
 
-class EventRound(TourName):
+class Event(TourName):
     # We are going to assign default values of None to all the values passed into the constructor,
     # so we can create an instance of this class without having that information at the time of creating the instance.
     def __init__(self,
                  sql_host_name: Optional[str] = None,
                  sql_user_name: Optional[str] = None,
                  sql_password: Optional[str] = None,
-                 selected_event: Optional[str] = None):
+                 selected_event: Optional[str] = None,
+                 selected_tour_name: Optional[str] = None):
 
         TourName.__init__(
             self,
@@ -558,6 +559,7 @@ class EventRound(TourName):
         )
 
         self.selected_event: Optional[str] = selected_event
+        self.selected_tour_name: Optional[str] = selected_tour_name
 
     # Define a function to return a list of the round for the combobox
     def return_rounds(self) -> List:
@@ -590,19 +592,17 @@ class EventRound(TourName):
         )
 
 
-class Heat(EventRound):
-    # This is the constructor class for the region class. We will assign default values of None to all values passed to
-    # the constructor, so that we can create an instance of this class without having all information at the time of
-    # of creating the instance. Values will be assigned later during use.
+class Round(Event):
+    # We are going to assign default values of None to all the values passed into the constructor,
+    # so we can create an instance of this class without having that information at the time of creating the instance.
     def __init__(self,
                  sql_host_name: Optional[str] = None,
                  sql_user_name: Optional[str] = None,
                  sql_password: Optional[str] = None,
-                 selected_heat: Optional[str] = None,
-                 selected_surfer: Optional[str] = None):
-        # Call the constructor for the inherited class, Country. Remember, this runs the constructor function in the
-        # CommonSQL class and all the instance variables of that class are now instance variables of this class.
-        # It also inherits all the functions.
+                 selected_event: Optional[str] = None,
+                 selected_tour_name: Optional[str] = None,
+                 selected_round: Optional[str] = None):
+
         TourName.__init__(
             self,
             sql_host_name=sql_host_name,
@@ -610,92 +610,42 @@ class Heat(EventRound):
             sql_password=sql_password
         )
 
-        # This is the instance variable for the selected region, which is equal to the passed value.
-        self.selected_heat: Optional[str] = selected_heat
-        self.selected_surfer: Optional[str] = selected_surfer
+        self.selected_event: Optional[str] = selected_event
+        self.selected_tour_name: Optional[str] = selected_tour_name
+        self.selected_round: Optional[str] = selected_round
 
-        # This is the instance variable for the region_id. I assume this has something to do with the SQL key stuff.
-        # Just going to set its default to None.
-        self.selected_heat_id: Optional[int] = None
+    # Define a function to return Heats based on the round
+    def return_heats(self) -> List:
+        print(f"We are returning the heat numbers in the {self.selected_round} in "
+              f"{self.selected_event} in {self.selected_tour_name}...")
+        heat_list: List = []
 
-    # Define a function to return a list of the cities, so you can use it to place it in the
-    # Combo box after the region is selected.
-    def return_surfers(self) -> List:
-        # Let's print that we are in this function, so it makes debugging easier.
-        print("We are returning the surfers...")
-
-        # Create a temporary list for the countries.
-        surfer_list: List = []
-
-        # Okay, since we inherited the return_places function from the CommonSQL class, we use it here to grab the
-        # list of cities and return it. First, let's create a temporary string with the sql command.
-        sql_command: str = f"""select surfers.surfer 
-                                from wsl.heat_surfers surfers 
-                                join wsl.heats heats 
-                                    on surfers.heat_id = heats.id
-                                join wsl.rounds rounds
-                                    on heats.round_id = rounds.id
-                                join wsl.events events
-                                    on heats.event_id = events.id
-                                join wsl.tour_type tour
-                                    on events.tour_type_id = tour.id
-                                where heats.heat_nbr = {self.selected_heat}
-                                and rounds.round_name = '{self.selected_round}'
-                                and events.event_name = '{self.selected_event}'
-                                and tour.tour_name = '{self.selected_tourname}'
+        sql_command: str = f"""select heat.heat_nbr
+                                from wsl.heat_details heat
+                                join wsl.event_round event_round
+                                    on heat.event_round_id = event_round.event_round_id
+                                join wsl.round round
+                                    on round.round_id = event_heat.round_id
+                                join wsl.event event
+                                    on event.event_id = event_heat_id
+                                where event.event_name = {self.selected_event}
+                                and tour.tour_name = {self.selected_tour_name}
+                                and round.round = {self.selected_round}
                             """
 
-        # Return the cities, by calling the return_places function from the CommonSQL Class.
         return self.return_event_hier(
             mysql_command=sql_command
         )
 
-        # # This function sets all the instance variables that dealing with selected places back to None.
-        # def set_everything_to_none(self) -> None:
-        #     self.selected_round = None
-        #     self.selected_event = None
-        #     self.selected_tour_name = None
-        #     self.selected_round = None
+# Class Heat to bring in surfers in the heat
 
 
-    def return_heat_and_surfer(self) -> List:
-        # Let's print that we are in this function, so it makes debugging easier.
-        print("We are returning the heat and surfer...")
-
-        # Create a temporary list for the countries.
-        heat_and_surfer_list: List = []
-
-        # Okay, since we inherited the return_places function from the CommonSQL class, we use it here to grab the
-        # list of cities and return it. First, let's create a temporary string with the sql command.
-        sql_command: str = f"""select surfers.id 
-                                from wsl.heat_surfers surfers 
-                                join wsl.heats heats 
-                                    on surfers.heat_id = heats.id
-                                join wsl.rounds rounds
-                                    on heats.round_id = rounds.id
-                                join wsl.events events
-                                    on heats.event_id = events.id
-                                join wsl.tour_type tour
-                                    on events.tour_type_id = tour.id
-                                where heats.heat_nbr = {self.selected_heat}
-                                and surfers.surfer = '{self.selected_surfer}'
-                                and rounds.round_name = '{self.selected_round}'
-                                and events.event_name = '{self.selected_event}'
-                                and tour.tour_name = '{self.selected_tourname}'
-                            """
-
-        # Return the cities, by calling the return_places function from the CommonSQL Class.
-        return self.return_event_hier(
-            mysql_command=sql_command
-        )
-
-
-    # This function sets all the instance variables that dealing with selected places back to None.
-    def set_everything_to_none(self) -> None:
-        self.selected_round = None
-        self.selected_event = None
-        self.selected_tourname = None
-        self.selected_round = None
+    # # This function sets all the instance variables that dealing with selected places back to None.
+    # def set_everything_to_none(self) -> None:
+    #     self.selected_round = None
+    #     self.selected_event = None
+    #     self.selected_tourname = None
+    #     self.selected_round = None
 
 
 

@@ -11,7 +11,7 @@ from PyQt5.QtWidgets import QMainWindow, QApplication, QDialog
 from gui.common_widget.dialog_widget.popup_add_data import AddLocation, AddTourType, AddEventType, SurferToHeat
 from gui.main.ui_to_py.wsl_analytics_ui_v2 import Ui_Form
 
-from src.hierarchy import Region,  Heat
+from src.hierarchy import Region,  Round
 from src import hierarchy, Validations
 
 
@@ -43,7 +43,7 @@ class MainWidget(QMainWindow, Ui_Form):
         )
 
         # Instance of TourYear Class.
-        self.add_heat_round_instance: Heat = Heat(
+        self.add_heat_round_instance: Round = Round(
             sql_host_name=self.__sql_host,
             sql_password=self.__sql_password,
             sql_user_name=self.__sql_user
@@ -64,7 +64,7 @@ class MainWidget(QMainWindow, Ui_Form):
         self.pb_addevent_clear.clicked.connect(self.slot_pb_addevent_clear_clicked)
         self.pb_addevent_submit.clicked.connect(self.slot_pb_addevent_submit_clicked)
 
-        # Slots for Add Heat Tab
+        # Slots for Add Round Tab
         self.cb_addheat_tour.currentIndexChanged.connect(self.slot_cb_addheat_tour_on_index_change)
 
         self.pb_addheat_newround.clicked.connect(self.slot_pb_addheat_newround_clicked)
@@ -72,7 +72,7 @@ class MainWidget(QMainWindow, Ui_Form):
         self.pb_addheat_submit.clicked.connect(self.slot_pb_addheat_submit_clicked)
         self.pb_addheat_surfers.clicked.connect(self.slot_pb_addheat_surfers_clicked)
 
-        # Slots for Add Heat Results Tab
+        # Slots for Add Round Results Tab
         self.cb_addresults_year.currentIndexChanged.connect(self.slot_cb_addresults_year_on_index_change)
         self.cb_addresults_tour.currentIndexChanged.connect(self.slot_cb_addresults_tour_on_index_change)
         self.cb_addresults_event.currentIndexChanged.connect(self.slot_cb_addresults_round_on_index_change)
@@ -109,13 +109,13 @@ class MainWidget(QMainWindow, Ui_Form):
         self.cb_addevent_continent.addItems([''] + self.add_break_region_instance.return_continents())
         self.cb_addevent_tourtype.addItems([''] + self.add_heat_round_instance.return_tours())
 
-        # Add Heat Tab
+        # Add Round Tab
         self.cb_addheat_tour.addItems([''] + self.add_heat_round_instance.return_tours())
         self.cb_addheat_round.addItems([''] + self.add_heat_round_instance.return_all_rounds())
 
-        # Add Heat Results Tab
+        # Add Round Results Tab
         # Add Tour Years
-        inst = Places.EventRound()
+        inst = Places.Event()
         self.cb_addresults_year.addItems([''] + inst.return_tour_years())
 
         # Add Break Tab
@@ -319,9 +319,9 @@ class MainWidget(QMainWindow, Ui_Form):
             pass
 
     ####################################################################################################################
-    # TourName Handler Functions for the Add Heat Tab
+    # TourName Handler Functions for the Add Round Tab
     def slot_cb_addheat_tour_on_index_change(self):
-        # Set all the instance variables in the instance of the EventRound class to None, by calling a function in the
+        # Set all the instance variables in the instance of the Event class to None, by calling a function in the
         # add_heat_round_instance instance.
         self.add_heat_round_instance.set_everything_to_none()
 
@@ -342,14 +342,14 @@ class MainWidget(QMainWindow, Ui_Form):
         if dialog.exec() == QDialog.Accepted:
             round_name = dialog.line_round.text()
 
-            # Check to see if EventRound Name is Blank for Label and LineEdit
+            # Check to see if Event Name is Blank for Label and LineEdit
             if dialog.line_round.text() == '':
                 print(f"You can't add a blank round type. WSL even tells you wtf it should be!")
                 raise ValueError
 
                 # Insert new tour type into  tour type table
             try:
-                # Insert into EventRound Table
+                # Insert into Event Table
                 table = 'wsl.rounds'
                 columns = f"round_name"
                 fields = f"'{round_name}'"
@@ -390,15 +390,15 @@ class MainWidget(QMainWindow, Ui_Form):
         if self.cb_addheat_event.currentText() == '':
             print("What TourName? If the tour doensn't have an event just repeat the tour name without the date.")
             raise ValueError
-        # Check to see if EventRound is Entered
+        # Check to see if Event is Entered
         if self.cb_addheat_round.currentText() == '':
             print('What round? If there is only one round then type 1')
             raise ValueError
-        # Check to see if Heat is Entered
+        # Check to see if Round is Entered
         if self.line_addheat_heat.text() == '':
             print('What heat? If there is only one then type 1')
 
-        # Grab Tour, TourName, EventRound, and Heat from Add Heat Tab
+        # Grab Tour, TourName, Event, and Round from Add Round Tab
         tour_name = self.cb_addheat_tour.currentText()
         event_name = self.cb_addheat_event.currentText()
         round_name = self.cb_addheat_round.currentText()
@@ -460,7 +460,7 @@ class MainWidget(QMainWindow, Ui_Form):
         print(f"Waves ranged from {wave_min} to {wave_max}")
         print(f"Wind: {wind_type}")
 
-        # Add the Heat to wsl.heats
+        # Add the Round to wsl.heats
         try:
             # Need to grab event_id
             table = 'wsl.events'
@@ -481,7 +481,7 @@ class MainWidget(QMainWindow, Ui_Form):
                                             col_filter=col_filter
                                             )[0]
 
-            # Insert into Heat Table
+            # Insert into Round Table
             table = 'wsl.heats'
             columns = f"event_id, round_id, heat_nbr, heat_date, duration, wave_min, wave_max, wind"
             fields = f"{event_id}, {round_id}, {heat_num}, '{heat_date}', {duration}, {wave_min}, {wave_max}, '{wind_type_str}' "
@@ -496,10 +496,10 @@ class MainWidget(QMainWindow, Ui_Form):
         self.slot_pb_addheat_clear_clicked()
 
     ####################################################################################################################
-    # TourName Handler Functions for the Add Heat Results Tab
+    # TourName Handler Functions for the Add Round Results Tab
 
     def slot_cb_addresults_year_on_index_change(self):
-        inst = Places.EventRound()
+        inst = Places.Event()
         inst.set_everything_to_none()
 
         self.cb_addresults_tour.clear()
@@ -549,7 +549,7 @@ class MainWidget(QMainWindow, Ui_Form):
 
     def slot_pb_addresults_clear_clicked(self):
         self.cb_addresults_year.clear()
-        inst = hierarchy.EventRound()
+        inst = hierarchy.Event()
         self.cb_addresults_year.addItems([''] + inst.return_tour_years())
 
         self.cb_addresults_tour.clear()
