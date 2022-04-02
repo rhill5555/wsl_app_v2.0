@@ -8,7 +8,7 @@ import sys
 
 from PyQt5.QtWidgets import QMainWindow, QApplication, QDialog
 
-from gui.common_widget.dialog_widget.popup_add_data import AddLocation, AddTourType, AddRoundType, SurferToHeat
+from gui.common_widget.dialog_widget.popup_add_data import AddLocation, AddTourType, AddEventType, SurferToHeat
 from gui.main.ui_to_py.wsl_analytics_ui_v2 import Ui_Form
 
 from src.hierarchy import Region,  Heat
@@ -42,7 +42,7 @@ class MainWidget(QMainWindow, Ui_Form):
             sql_user_name=self.__sql_user
         )
 
-        # Instance of TourType Class.
+        # Instance of TourYear Class.
         self.add_heat_round_instance: Heat = Heat(
             sql_host_name=self.__sql_host,
             sql_password=self.__sql_password,
@@ -55,7 +55,7 @@ class MainWidget(QMainWindow, Ui_Form):
     # This defines the event handlers for everything on the Main Widget
     def connect_slots(self):
 
-        # Slots for Add Event Tab
+        # Slots for Add TourName Tab
         self.cb_addevent_continent.currentIndexChanged.connect(self.slot_cb_addevent_continent_on_index_change)
         self.cb_addevent_country.currentIndexChanged.connect(self.slot_cb_addevent_country_on_index_change)
         self.cb_addevent_region.currentIndexChanged.connect(self.slot_cb_addevent_region_on_index_change)
@@ -105,7 +105,7 @@ class MainWidget(QMainWindow, Ui_Form):
     # Everything that should happen when the app has started up
     def on_startup(self):
 
-        # Add Event Tab
+        # Add TourName Tab
         self.cb_addevent_continent.addItems([''] + self.add_break_region_instance.return_continents())
         self.cb_addevent_tourtype.addItems([''] + self.add_heat_round_instance.return_tours())
 
@@ -115,7 +115,7 @@ class MainWidget(QMainWindow, Ui_Form):
 
         # Add Heat Results Tab
         # Add Tour Years
-        inst = Places.Round()
+        inst = Places.EventRound()
         self.cb_addresults_year.addItems([''] + inst.return_tour_years())
 
         # Add Break Tab
@@ -126,7 +126,7 @@ class MainWidget(QMainWindow, Ui_Form):
         self.cb_addsurfer_hcontinent.addItems([''] + self.add_break_region_instance.return_continents())
 
     ####################################################################################################################
-    # Event Handler Functions for Add Event Tab
+    # TourName Handler Functions for Add TourName Tab
 
     def slot_cb_addevent_continent_on_index_change(self):
         # Set all the instance variables in the instance of the Region class to None, by calling a function in the
@@ -319,9 +319,9 @@ class MainWidget(QMainWindow, Ui_Form):
             pass
 
     ####################################################################################################################
-    # Event Handler Functions for the Add Heat Tab
+    # TourName Handler Functions for the Add Heat Tab
     def slot_cb_addheat_tour_on_index_change(self):
-        # Set all the instance variables in the instance of the Round class to None, by calling a function in the
+        # Set all the instance variables in the instance of the EventRound class to None, by calling a function in the
         # add_heat_round_instance instance.
         self.add_heat_round_instance.set_everything_to_none()
 
@@ -337,19 +337,19 @@ class MainWidget(QMainWindow, Ui_Form):
 
     # noinspection PyMethodMayBeStatic
     def slot_pb_addheat_newround_clicked(self):
-        dialog = AddRoundType(title="Add a Tour Type to database.")
+        dialog = AddEventType(title="Add a Tour Type to database.")
 
         if dialog.exec() == QDialog.Accepted:
             round_name = dialog.line_round.text()
 
-            # Check to see if Round Name is Blank for Label and LineEdit
+            # Check to see if EventRound Name is Blank for Label and LineEdit
             if dialog.line_round.text() == '':
                 print(f"You can't add a blank round type. WSL even tells you wtf it should be!")
                 raise ValueError
 
                 # Insert new tour type into  tour type table
             try:
-                # Insert into Round Table
+                # Insert into EventRound Table
                 table = 'wsl.rounds'
                 columns = f"round_name"
                 fields = f"'{round_name}'"
@@ -386,11 +386,11 @@ class MainWidget(QMainWindow, Ui_Form):
         if self.cb_addheat_tour.currentText() == '':
             print("What tour was this?")
             raise ValueError
-        # Check to Make sure an Event is Entered
+        # Check to Make sure an TourName is Entered
         if self.cb_addheat_event.currentText() == '':
-            print("What Event? If the tour doensn't have an event just repeat the tour name without the date.")
+            print("What TourName? If the tour doensn't have an event just repeat the tour name without the date.")
             raise ValueError
-        # Check to see if Round is Entered
+        # Check to see if EventRound is Entered
         if self.cb_addheat_round.currentText() == '':
             print('What round? If there is only one round then type 1')
             raise ValueError
@@ -398,7 +398,7 @@ class MainWidget(QMainWindow, Ui_Form):
         if self.line_addheat_heat.text() == '':
             print('What heat? If there is only one then type 1')
 
-        # Grab Tour, Event, Round, and Heat from Add Heat Tab
+        # Grab Tour, TourName, EventRound, and Heat from Add Heat Tab
         tour_name = self.cb_addheat_tour.currentText()
         event_name = self.cb_addheat_event.currentText()
         round_name = self.cb_addheat_round.currentText()
@@ -454,7 +454,7 @@ class MainWidget(QMainWindow, Ui_Form):
                 wind_type_str = wind_type_str + item
 
         print(f"Tour: {tour_name}")
-        print(f"Event: {event_name}")
+        print(f"TourName: {event_name}")
         print(f"Round & Heat: {round_name} - Heat {heat_num}")
         print(f"{duration} minutes")
         print(f"Waves ranged from {wave_min} to {wave_max}")
@@ -496,10 +496,10 @@ class MainWidget(QMainWindow, Ui_Form):
         self.slot_pb_addheat_clear_clicked()
 
     ####################################################################################################################
-    # Event Handler Functions for the Add Heat Results Tab
+    # TourName Handler Functions for the Add Heat Results Tab
 
     def slot_cb_addresults_year_on_index_change(self):
-        inst = Places.Round()
+        inst = Places.EventRound()
         inst.set_everything_to_none()
 
         self.cb_addresults_tour.clear()
@@ -549,7 +549,7 @@ class MainWidget(QMainWindow, Ui_Form):
 
     def slot_pb_addresults_clear_clicked(self):
         self.cb_addresults_year.clear()
-        inst = hierarchy.Round()
+        inst = hierarchy.EventRound()
         self.cb_addresults_year.addItems([''] + inst.return_tour_years())
 
         self.cb_addresults_tour.clear()
@@ -791,7 +791,7 @@ class MainWidget(QMainWindow, Ui_Form):
 
 
     ####################################################################################################################
-    # Event Handler Functions for The Add Break Tab
+    # TourName Handler Functions for The Add Break Tab
 
     # Change Country List when a Continent is selected
     def slot_cb_addbreak_continent_on_index_change(self):
@@ -1082,7 +1082,7 @@ class MainWidget(QMainWindow, Ui_Form):
         self.slot_pb_addbreak_clear_clicked()
 
     ####################################################################################################################
-    # Event Handler Functions for Add Surfer Tab
+    # TourName Handler Functions for Add Surfer Tab
 
     # Change Country List when Continent is Selected
     def slot_cb_addsurfer_continent_on_index_change(self):
@@ -1140,7 +1140,7 @@ class MainWidget(QMainWindow, Ui_Form):
         # Add the regions to the add_break_region_instance combo box.
         self.cb_addsurfer_hcity.addItems([''] + self.add_break_region_instance.return_cities())
 
-    # Event Handler for Clear Button Clicked
+    # TourName Handler for Clear Button Clicked
     def slot_pb_addsurfer_clear_clicked(self):
         self.line_addsurfer_firstname.clear()
         self.line_addsurfer_lastname.clear()
@@ -1162,11 +1162,11 @@ class MainWidget(QMainWindow, Ui_Form):
         self.check_addsurfer_male.setChecked(0)
         self.check_addsurfer_female.setChecked(0)
 
-    # Event Handler for Add Location Button Clicked
+    # TourName Handler for Add Location Button Clicked
     def slot_pb_addsurfer_newloc_clicked(self):
         self.slot_pb_addbreak_newloc_clicked()
 
-    # Event Handler for Submit Button Clicked
+    # TourName Handler for Submit Button Clicked
     def slot_pb_addsurfer_submit_clicked(self):
         # Check to Make Sure a First and Last Name are entered
         condition_1 = self.line_addsurfer_firstname.text() == ''

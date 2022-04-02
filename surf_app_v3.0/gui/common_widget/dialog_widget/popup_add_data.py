@@ -6,7 +6,7 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QLabel, QApplication, QDialogButtonBox
 
 from src import hierarchy
-from src.hierarchy import Region, Round
+from src.hierarchy import Region, EventRound
 
 
 ########################################################################################################################
@@ -243,7 +243,7 @@ class AddTourType(QDialog, Region):
         self.setLayout(self.layout)
 
 
-class AddRoundType(QDialog, Round):
+class AddEventType(QDialog, EventRound):
     def __init__(self,
                  title,
                  left=10,
@@ -257,11 +257,11 @@ class AddRoundType(QDialog, Round):
         # Calls constructor for QDialog
         QDialog.__init__(self, parent=parent)
 
-        # Calls the constructor for the Round Class
-        Round.__init__(self,
-                        sql_host_name=sql_host_name,
-                        sql_user_name=sql_user_name,
-                        sql_password=sql_password)
+        # Calls the constructor for the EventRound Class
+        EventRound.__init__(self,
+                            sql_host_name=sql_host_name,
+                            sql_user_name=sql_user_name,
+                            sql_password=sql_password)
 
         # Set Title of the QDialog.
         self.setWindowTitle(title)
@@ -288,8 +288,8 @@ class AddRoundType(QDialog, Round):
         # Create Horizontal Layouts.
         self.vlayout_round = QVBoxLayout()
 
-        # Round Label and Combobox
-        self.vlayout_round.addWidget(QLabel("Round Type:"))
+        # EventRound Label and Combobox
+        self.vlayout_round.addWidget(QLabel("EventRound Type:"))
         self.line_round = PyQt5.QtWidgets.QLineEdit()
         self.vlayout_round.addWidget(self.line_round)
         self.line_round.setFixedWidth(200)
@@ -307,7 +307,7 @@ class AddRoundType(QDialog, Round):
         ################################################################################################################
 
 
-class SurferToHeat(QDialog, Round):
+class SurferToHeat(QDialog, EventRound):
     def __init__(self,
                  title,
                  left=10,
@@ -322,10 +322,10 @@ class SurferToHeat(QDialog, Round):
         QDialog.__init__(self, parent=parent)
 
         # Calls the constructor for the Region Class
-        Round.__init__(self,
-                        sql_host_name=sql_host_name,
-                        sql_user_name=sql_user_name,
-                        sql_password=sql_password)
+        EventRound.__init__(self,
+                            sql_host_name=sql_host_name,
+                            sql_user_name=sql_user_name,
+                            sql_password=sql_password)
 
         # Set Title of the QDialog.
         self.setWindowTitle(title)
@@ -375,7 +375,7 @@ class SurferToHeat(QDialog, Round):
         self.hlayout_event = QHBoxLayout()
 
         # Tour Year Label and Combobox
-        self.hlayout_event.addWidget(QLabel("Event:"))
+        self.hlayout_event.addWidget(QLabel("TourName:"))
         self.cb_event = PyQt5.QtWidgets.QComboBox()
         self.hlayout_event.addWidget(self.cb_event)
         self.cb_event.setFixedWidth(200)
@@ -386,7 +386,7 @@ class SurferToHeat(QDialog, Round):
         self.hlayout_round = QHBoxLayout()
 
         # Tour Year Label and Combobox
-        self.hlayout_round.addWidget(QLabel("Round:"))
+        self.hlayout_round.addWidget(QLabel("EventRound:"))
         self.cb_round = PyQt5.QtWidgets.QComboBox()
         self.hlayout_round.addWidget(self.cb_round)
         self.cb_round.setFixedWidth(200)
@@ -438,8 +438,8 @@ class SurferToHeat(QDialog, Round):
         self.__sql_password: str = "#LAwaItly19"
         self.__sql_host: str = "localhost"
 
-        # Instance of TourType Class.
-        self.add_heat_round_instance: Round = Round(
+        # Instance of TourYear Class.
+        self.add_heat_round_instance: EventRound = EventRound(
             sql_host_name=self.__sql_host,
             sql_password=self.__sql_password,
             sql_user_name=self.__sql_user
@@ -461,7 +461,7 @@ class SurferToHeat(QDialog, Round):
     def on_startup(self):
 
         # Add Tour Years
-        inst = Places.Round()
+        inst = Places.EventRound()
         self.cb_year.addItems([''] + inst.return_tour_years())
 
         # Add Surfers to Drop Down
@@ -482,7 +482,7 @@ class SurferToHeat(QDialog, Round):
     ####################################################################################################################
 
     def slot_cb_year_on_index_change(self):
-        inst = Places.Round()
+        inst = Places.EventRound()
         inst.set_everything_to_none()
 
         self.cb_tour.clear()
