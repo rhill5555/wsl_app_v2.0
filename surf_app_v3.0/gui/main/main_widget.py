@@ -10,9 +10,8 @@ from PyQt5.QtWidgets import QMainWindow, QApplication, QDialog
 from gui.common_widget.dialog_widget.popup_add_data import AddLocation, AddTourType, AddEventType, SurferToHeat
 from gui.main.ui_to_py.wsl_analytics_ui_v2 import Ui_Form
 
-from src.hierarchy import Region,  Round
+from src.hierarchy import Region, Heat
 from src import hierarchy, Validations
-
 
 ########################################################################################################################
 
@@ -41,8 +40,8 @@ class MainWidget(QMainWindow, Ui_Form):
             sql_user_name=self.__sql_user
         )
 
-        # Instance of TourYear Class.
-        self.add_heat_round_instance: Round = Round(
+        # Instance of Heat Class.
+        self.add_heat_instance: Heat = Heat(
             sql_host_name=self.__sql_host,
             sql_password=self.__sql_password,
             sql_user_name=self.__sql_user
@@ -106,15 +105,15 @@ class MainWidget(QMainWindow, Ui_Form):
 
         # Add TourName Tab
         self.cb_addevent_continent.addItems([''] + self.add_break_region_instance.return_continents())
-        self.cb_addevent_tourtype.addItems([''] + self.add_heat_round_instance.return_tours())
+        self.cb_addevent_tourtype.addItems([''] + self.add_heat_instance.return_tours())
 
         # Add Round Tab
-        self.cb_addheat_tour.addItems([''] + self.add_heat_round_instance.return_tours())
-        self.cb_addheat_round.addItems([''] + self.add_heat_round_instance.return_all_rounds())
+        self.cb_addheat_tour.addItems([''] + self.add_heat_instance.return_tours())
+        self.cb_addheat_round.addItems([''] + self.add_heat_instance.return_all_rounds())
 
         # Add Round Results Tab
         # Add Tour Years
-        inst = Places.Event()
+        inst = Validations.()
         self.cb_addresults_year.addItems([''] + inst.return_tour_years())
 
         # Add Break Tab
@@ -321,18 +320,18 @@ class MainWidget(QMainWindow, Ui_Form):
     # TourName Handler Functions for the Add Round Tab
     def slot_cb_addheat_tour_on_index_change(self):
         # Set all the instance variables in the instance of the Event class to None, by calling a function in the
-        # add_heat_round_instance instance.
-        self.add_heat_round_instance.set_everything_to_none()
+        # add_heat_instance instance.
+        self.add_heat_instance.set_everything_to_none()
 
         # Clear the event combo boxs.
         self.cb_addheat_event.clear()
 
         # Set the current value of the selected_tour variable in add_break_region_instance to the current text in the tour
         # combo box.
-        self.add_heat_round_instance.selected_tourname = self.cb_addheat_tour.currentText()
+        self.add_heat_instance.selected_tourname = self.cb_addheat_tour.currentText()
 
         # Add the events to the event combo box.
-        self.cb_addheat_event.addItems([''] + self.add_heat_round_instance.return_events())
+        self.cb_addheat_event.addItems([''] + self.add_heat_instance.return_events())
 
     # noinspection PyMethodMayBeStatic
     def slot_pb_addheat_newround_clicked(self):
@@ -363,10 +362,10 @@ class MainWidget(QMainWindow, Ui_Form):
 
     def slot_pb_addheat_clear_clicked(self):
         self.cb_addheat_tour.clear()
-        self.cb_addheat_tour.addItems([''] + self.add_heat_round_instance.return_tours())
+        self.cb_addheat_tour.addItems([''] + self.add_heat_instance.return_tours())
         self.cb_addheat_event.clear()
         self.cb_addheat_round.clear()
-        self.cb_addheat_round.addItems([''] + self.add_heat_round_instance.return_all_rounds())
+        self.cb_addheat_round.addItems([''] + self.add_heat_instance.return_all_rounds())
         self.line_addheat_heat.clear()
         self.line_addheat_date.clear()
         self.line_addheat_duration.clear()
@@ -507,44 +506,44 @@ class MainWidget(QMainWindow, Ui_Form):
 
     def slot_cb_addresults_tour_on_index_change(self):
 
-        self.add_heat_round_instance.set_everything_to_none()
+        self.add_heat_instance.set_everything_to_none()
 
         self.cb_addresults_event.clear()
 
         # Set the current value of the selected_continent variable in add_break_region_instance to the current text in the continent
         # combo box.
-        self.add_heat_round_instance.selected_tourname = self.cb_addresults_tour.currentText()
+        self.add_heat_instance.selected_tourname = self.cb_addresults_tour.currentText()
 
         # Add the countries to the country combo box.
-        self.cb_addresults_event.addItems([''] + self.add_heat_round_instance.return_events())
+        self.cb_addresults_event.addItems([''] + self.add_heat_instance.return_events())
 
     def slot_cb_addresults_round_on_index_change(self):
         self.cb_addresults_round.clear()
 
-        self.cb_addresults_round.addItems([''] + self.add_heat_round_instance.return_rounds())
+        self.cb_addresults_round.addItems([''] + self.add_heat_instance.return_rounds())
 
     def slot_cb_addresults_heat_on_index_change(self):
         self.cb_addresults_heat.clear()
 
-        self.add_heat_round_instance.selected_event = self.cb_addresults_event.currentText()
-        self.add_heat_round_instance.selected_round = self.cb_addresults_round.currentText()
+        self.add_heat_instance.selected_event = self.cb_addresults_event.currentText()
+        self.add_heat_instance.selected_round = self.cb_addresults_round.currentText()
 
         # Add the countries to the country combo box.
-        self.cb_addresults_heat.addItems([''] + self.add_heat_round_instance.return_heats())
+        self.cb_addresults_heat.addItems([''] + self.add_heat_instance.return_heats())
 
     def slot_cb_addresults_surfer_on_index_change(self):
         self.cb_addresults_surfer.clear()
 
-        self.add_heat_round_instance.selected_tourname = self.cb_addresults_tour.currentText()
-        print(self.add_heat_round_instance.selected_tourname)
-        self.add_heat_round_instance.selected_event = self.cb_addresults_event.currentText()
-        print(self.add_heat_round_instance.selected_event)
-        self.add_heat_round_instance.selected_round = self.cb_addresults_round.currentText()
-        print(self.add_heat_round_instance.selected_round)
-        self.add_heat_round_instance.selected_heat = self.cb_addresults_heat.currentText()
-        print(self.add_heat_round_instance.selected_heat)
+        self.add_heat_instance.selected_tourname = self.cb_addresults_tour.currentText()
+        print(self.add_heat_instance.selected_tourname)
+        self.add_heat_instance.selected_event = self.cb_addresults_event.currentText()
+        print(self.add_heat_instance.selected_event)
+        self.add_heat_instance.selected_round = self.cb_addresults_round.currentText()
+        print(self.add_heat_instance.selected_round)
+        self.add_heat_instance.selected_heat = self.cb_addresults_heat.currentText()
+        print(self.add_heat_instance.selected_heat)
 
-        self.cb_addresults_surfer.addItems([''] + self.add_heat_round_instance.return_surfers())
+        self.cb_addresults_surfer.addItems([''] + self.add_heat_instance.return_surfers())
 
     def slot_pb_addresults_clear_clicked(self):
         self.cb_addresults_year.clear()
@@ -595,7 +594,7 @@ class MainWidget(QMainWindow, Ui_Form):
         round_name = self.cb_addresults_round.currentText()
         heat_nbr = self.cb_addresults_heat.currentText()
         surfer = self.cb_addresults_surfer.currentText()
-        self.add_heat_round_instance.selected_surfer = self.cb_addresults_surfer.currentText()
+        self.add_heat_instance.selected_surfer = self.cb_addresults_surfer.currentText()
 
         # Get picked % from form and check that it's float
         picked_percent = self.line_addresults_picks.text()
@@ -742,7 +741,7 @@ class MainWidget(QMainWindow, Ui_Form):
         # Add To Table
         try:
             # Need to grab id from wsl.heat_surfers
-            heat_surfer_id = self.add_heat_round_instance.return_heat_and_surfer()[0]
+            heat_surfer_id = self.add_heat_instance.return_heat_and_surfer()[0]
 
             # Insert into Break Table
             inst = hierarchy.SqlCommands()

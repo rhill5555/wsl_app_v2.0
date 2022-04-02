@@ -6,18 +6,17 @@
 import datetime
 
 
+# The is for checking inputs that should be numbers since they are read in from PyQt as strings
 class NumCheck:
     def __init__(self, input_num: str):
         self.input_num = input_num
 
     def int_check(self):
         try:
-            # print(f"I'm checking for an integer.")
+            print(f"I'm checking for an integer.")
             if self.input_num == '':
                 self.input_num = 0
             int(self.input_num)
-            # print(f"It's an integer.")
-            # print(f"I've adjusted the type to int.")
             return self.input_num
         except:
             print(f"It's not an integer.")
@@ -25,15 +24,13 @@ class NumCheck:
 
     def float_check(self):
         try:
-            # print(f"I'm checking for an integer.")
+            print(f"I'm checking for an float.")
             if self.input_num == '':
                 self.input_num = 0
             float(self.input_num)
-            # print(f"It's an integer.")
-            # print(f"I've adjusted the type to int.")
             return self.input_num
         except:
-            print(f"It's not an integer.")
+            print(f"It's not a float.")
             raise ValueError
 
     def year_check(self):
