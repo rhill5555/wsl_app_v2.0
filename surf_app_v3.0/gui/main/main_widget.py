@@ -3,7 +3,6 @@
 # FileName: main_widget.py
 # Main Python Code for GUI
 ########################################################################################################################
-import datetime
 import sys
 
 from PyQt5.QtWidgets import QMainWindow, QApplication, QDialog

@@ -1,4 +1,4 @@
-# This file contains validatinos that I would want to do in real time in my app
+# This file contains validations that I would want to do in real time in my app
 # For example I'd want to check that items that should be numbers do not have other characters
 # Or I may want to check that a break name entered does not already exist
 

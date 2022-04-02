@@ -138,74 +138,6 @@ class CommonSQL:
                   f"IGNORE ME, PUT THAT SHIT IN THE SQL COMMAND LINE THING AND CHECK IT, JESUS.")
             return hierarchy
 
-    # def return_event_hier(self, mysql_command: str, sort_key: Callable = str.lower) -> List:
-    #
-    #     # Define a temporary local list to store the event hier that are returned.
-    #     event_hier_list: List = []
-    #
-    #     # Okay, so, lets do some smart error handling. We are going to use self.mysql_connection to return the mysql
-    #     # connection, but right now it could return None, which will lead to a most likely fatal error that crashes the
-    #     # app, we want to prevent this. So, first we will check if it returns None, if it does return an empty list
-    #     # and print some useful info, to help you debug this error.
-    #     if self.mysql_connection is None:
-    #         print(f"OH NOOOO!!! Butters made a boo boo. Butters tried to return the event types and the mysql_connection "
-    #               f"returned None. Check everything is correct with settings relating to connection to mysql.")
-    #         return event_hier_list
-    #
-    #     # Okay, another error check, because we know you like to mistype things and shit. Make sure the mysql_command
-    #     # is a string. We can later add more advanced checks with regular expressions, if you want to.
-    #     if not isinstance(mysql_command, str):
-    #         print("DAMN IT, the mysql_command is not a string when you passed it to return_event_hier.")
-    #         return event_hier_list
-    #
-    #     # Okay, so let's wrap this next part into a try except, just in case this causes an error.
-    #     try:
-    #
-    #         # Define the mycursor object.
-    #         mycursor = self.mysql_connection.cursor()
-    #
-    #         # Define the execute command inside the mycursor object, by passing in the variable, mysql_command.
-    #         mycursor.execute(mysql_command)
-    #
-    #         # Grab the results of this.
-    #         result = mycursor.fetchall()
-    #
-    #         # For error debugging lets print what you got that way if an error occurs after this point, we will know it
-    #         # was due to the loop code.
-    #         print(f"The mysql results for the command {mysql_command} is: {result}")
-    #         print()
-    #
-    #         # Since, mysql returns it in the list of tuple format, you take care of this.
-    #         for item in result:
-    #
-    #             # Append the modified version of the current item into the places_list list.
-    #             event_hier_list.append(
-    #                 str(item[0])
-    #             )
-    #
-    #         # Okay, so now we sort the place_list, by using the sort key passed to this function. In most cases, we will
-    #         # use the default value, which is a string function, str.lower. You could use lambda to pass in your own
-    #         # function, or pass in a reference to another function. For now, just use str.lower. Also, notice that when
-    #         # you pass a reference to a function into another function you omit the parenthesis, which you use when you
-    #         # call that function. If you don't omit the parenthesis, it would pass the value returned by the function
-    #         # and not a reference to use to call the function. Again, if this doesn't make complete sense, that is okay
-    #         # for now, just remember the rule, if I need to pass a reference to a function to use later than no
-    #         # parenthesis and if I want it to evaluate and return the value of the function then use parenthesis.
-    #         return sorted(event_hier_list, key=sort_key)
-    #
-    #     except Exception as e:
-    #         # Print the official error.
-    #         print(e)
-    #         # Print a blank space.
-    #         print()
-    #         # Print a usable error message
-    #         print("OH No Cartman was right, the red head infected your code!!!!! There was an error fetching the "
-    #               f"the places with the mysql_command: {mysql_command} and for the love of god, check that the sql"
-    #               f"syntax has not been infected with the red head gene, aka bad sql syntax. NO REALLY. HEY, HEY, Don't"
-    #               f"IGNORE ME, PUT THAT SHIT IN THE SQL COMMAND LINE THING AND CHECK IT, JESUS.")
-    #         # return
-    #         return event_hier_list
-
 
 class SqlCommands(CommonSQL):
     def __init__(self,
@@ -246,6 +178,7 @@ class SqlCommands(CommonSQL):
     def update_table_record(self):
         pass
 
+########################################################################################################################
 
 class Continent(CommonSQL):
     # We are going to assign default values of None to all the values passed into the constructor,
@@ -603,7 +536,7 @@ class Round(Event):
                  selected_tour_name: Optional[str] = None,
                  selected_round: Optional[str] = None):
 
-        TourName.__init__(
+        Event.__init__(
             self,
             sql_host_name=sql_host_name,
             sql_user_name=sql_user_name,
@@ -620,24 +553,87 @@ class Round(Event):
               f"{self.selected_event} in {self.selected_tour_name}...")
         heat_list: List = []
 
+        # Check to see if tourname is None and make sure it is a string
+        condition_1 = self.selected_round is None
+        condition_2 = isinstance(self.selected_round, str)
+        if condition_1 or not condition_2:
+            print("Beep Boop Bot... Oh No... You were trying to return a list of heats, but the selected event"
+                  f"is None or not a string. It has a type of: {type(self.selected_event)}")
+            return heat_list
+
         sql_command: str = f"""select heat.heat_nbr
                                 from wsl.heat_details heat
+                                    on heat.heat_id = heat_surfers.heat_id
                                 join wsl.event_round event_round
-                                    on heat.event_round_id = event_round.event_round_id
+                                    on event_round.event_round_id = heat.heat_round_id
                                 join wsl.round round
-                                    on round.round_id = event_heat.round_id
+                                    on round.round_id = event_round.round_id
                                 join wsl.event event
-                                    on event.event_id = event_heat_id
-                                where event.event_name = {self.selected_event}
-                                and tour.tour_name = {self.selected_tour_name}
-                                and round.round = {self.selected_round}
+                                    on event.event_id = event_round.event_id
+                                join wsl.tour
+                                    on tour.tour_id = event.tour_id
+                                where tour.tour_name = '{self.selected_tour_name}'
+                                and event.event_name = '{self.selected_event}'
+                                and round.round = '{self.selected_round}'
                             """
 
-        return self.return_event_hier(
+        return self.return_hierarchy(
             mysql_command=sql_command
         )
 
-# Class Heat to bring in surfers in the heat
+
+class Heat(Round):
+    # We are going to assign default values of None to all the values passed into the constructor,
+    # so we can create an instance of this class without having that information at the time of creating the instance.
+    def __init__(self,
+                 sql_host_name: Optional[str] = None,
+                 sql_user_name: Optional[str] = None,
+                 sql_password: Optional[str] = None,
+                 selected_event: Optional[str] = None,
+                 selected_tour_name: Optional[str] = None,
+                 selected_round: Optional[str] = None,
+                 selected_heat: Optional[str] = None):
+        Round.__init__(
+            self,
+            sql_host_name=sql_host_name,
+            sql_user_name=sql_user_name,
+            sql_password=sql_password
+        )
+
+        self.selected_event: Optional[str] = selected_event
+        self.selected_tour_name: Optional[str] = selected_tour_name
+        self.selected_round: Optional[str] = selected_round
+        self.selected_heat: Optional[str] = selected_heat
+
+    # Define a function to return each Surfer in a Heat
+    def return_surfers_in_heat(self) -> List:
+        print(f"We are returning the surfers in heat {self.selected_heat} in the {self.selected_round} in "
+              f"{self.selected_event} in {self.selected_tour_name}...")
+        heat_list: List = []
+
+        sql_command: str = f"""select concat(surfer.firstname, ' ', surfer.last_name) as surfer
+                                        from wsl.surfer surfer
+                                        join wsl.heat_surfers heat_surfers
+                                            on heat_surfers.surfer_id = surfer.surfer_id
+                                        join wsl.heat_details heat
+                                            on heat.heat_id = heat_surfers.heat_id
+                                        join wsl.event_round event_round
+                                            on event_round.event_round_id = heat.heat_round_id
+                                        join wsl.round round
+                                            on round.round_id = event_round.round_id
+                                        join wsl.event event
+                                            on event.event_id = event_round.event_id
+                                        join wsl.tour
+                                            on tour.tour_id = event.tour_id
+                                        where tour.tour_name = '{self.selected_tour_name}'
+                                        and event.event_name = '{self.selected_event}'
+                                        and round.round = '{self.selected_round}'
+                                        and heat.heat_nbr = {self.selected_heat}
+                                    """
+
+        return self.return_hierarchy(
+            mysql_command=sql_command
+        )
 
 
     # # This function sets all the instance variables that dealing with selected places back to None.
@@ -646,8 +642,6 @@ class Round(Event):
     #     self.selected_event = None
     #     self.selected_tourname = None
     #     self.selected_round = None
-
-
 
 
 ########################################################################################################################
@@ -660,68 +654,3 @@ if __name__ == '__main__':
         sql_password="#LAwaItly19",
         sql_user_name="Heather"
     )
-
-    # Print the continents out.
-    print(inst_cont.return_continents())
-
-    # Set the selected_continent to North America
-    inst_cont.selected_continent = "North America"
-
-    # Print the countries out.
-    print(inst_cont.return_countries())
-    ####################################################################################################################
-    # # Create an instance of the Country class
-    # inst_country: Country = Country(
-    #     sql_host_name="localhost",
-    #     SQL_PASSWORD="#LAwaItly19",
-    #     sql_user_name="Heather"
-    # )
-    #
-    # # Print the continents out.
-    # print(inst_country.return_continents())
-    #
-    # # Set the selected_continent to North America
-    # inst_country.selected_continent = "North America"
-    #
-    # # Print the countries out.
-    # print(inst_country.return_countries())
-    #
-    # # Set the selected_country to "USA".
-    # inst_country.selected_country = "USA"
-    #
-    # # Print the regions out.
-    # print(inst_country.return_regions())
-    ####################################################################################################################
-    # # Create an instance of the Region class
-    # inst_region: Region = Region(
-    #     sql_host_name="localhost",
-    #     SQL_PASSWORD="#LAwaItly19",
-    #     sql_user_name="Heather"
-    # )
-    #
-    # # Print the continents out.
-    # print(inst_region.return_continents())
-    #
-    # # Set the selected_continent to North America
-    # inst_region.selected_continent = "North America"
-    #
-    # # Print the countries out.
-    # print(inst_region.return_countries())
-    #
-    # # Set the selected_country to "USA".
-    # inst_region.selected_country = "USA"
-    #
-    # # Print the regions out.
-    # print(inst_region.return_regions())
-    #
-    # # Set the selected_region to Florida
-    # inst_region.selected_region = "Florida"
-    #
-    # # Print the cities out.
-    # print(inst_region.return_cities())
-    #
-    # # Print the breaks out.
-    # print(inst_region.return_breaks())
-
-
-
