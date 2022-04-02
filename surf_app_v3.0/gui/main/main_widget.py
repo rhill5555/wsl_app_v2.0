@@ -11,8 +11,8 @@ from PyQt5.QtWidgets import QMainWindow, QApplication, QDialog
 from gui.common_widget.dialog_widget.popup_add_data import AddLocation, AddTourType, AddRoundType, SurferToHeat
 from gui.main.ui_to_py.wsl_analytics_ui_v2 import Ui_Form
 
-from src.Places import Region,  Heat
-from src import Places, Validations
+from src.hierarchy import Region,  Heat
+from src import hierarchy, Validations
 
 
 ########################################################################################################################
@@ -211,7 +211,7 @@ class MainWidget(QMainWindow, Ui_Form):
                 table = 'wsl.tour_type'
                 columns = f"gender, year, tour_type, tour_name"
                 fields = f"'{gender}', '{year}', '{tour_type}', '{tour_name}'"
-                inst = Places.SqlCommands()
+                inst = hierarchy.SqlCommands()
                 inst.insert_to_table(table=table,
                                      columns=columns,
                                      fields=fields
@@ -353,7 +353,7 @@ class MainWidget(QMainWindow, Ui_Form):
                 table = 'wsl.rounds'
                 columns = f"round_name"
                 fields = f"'{round_name}'"
-                inst = Places.SqlCommands()
+                inst = hierarchy.SqlCommands()
                 inst.insert_to_table(table=table,
                                      columns=columns,
                                      fields=fields
@@ -466,7 +466,7 @@ class MainWidget(QMainWindow, Ui_Form):
             table = 'wsl.events'
             column = 'id'
             col_filter = f"where event_name = '{event_name}' "
-            inst = Places.SqlCommands()
+            inst = hierarchy.SqlCommands()
             event_id = inst.select_a_column(table=table,
                                             column=column,
                                             col_filter=col_filter
@@ -549,7 +549,7 @@ class MainWidget(QMainWindow, Ui_Form):
 
     def slot_pb_addresults_clear_clicked(self):
         self.cb_addresults_year.clear()
-        inst = Places.Round()
+        inst = hierarchy.Round()
         self.cb_addresults_year.addItems([''] + inst.return_tour_years())
 
         self.cb_addresults_tour.clear()
@@ -746,7 +746,7 @@ class MainWidget(QMainWindow, Ui_Form):
             heat_surfer_id = self.add_heat_round_instance.return_heat_and_surfer()[0]
 
             # Insert into Break Table
-            inst = Places.SqlCommands()
+            inst = hierarchy.SqlCommands()
             table = 'wsl.heat_results'
             columns = f"heat_surfer_id, picked_percent, jersey_color, advancement, wave_1, wave_2, wave_3, wave_4, wave_5, wave_6, wave_7, wave_8, wave_9, wave_10, wave_11, wave_12, wave_13, wave_14, wave_15"
             # noinspection PyBroadException,PyUnboundLocalVariable
@@ -863,7 +863,7 @@ class MainWidget(QMainWindow, Ui_Form):
                     table = 'wsl.continents'
                     column = 'id'
                     col_filter = f"where continent = '{continent}' "
-                    inst = Places.SqlCommands()
+                    inst = hierarchy.SqlCommands()
                     continent_id = inst.select_a_column(table=table,
                                                         column=column,
                                                         col_filter=col_filter
@@ -1061,7 +1061,7 @@ class MainWidget(QMainWindow, Ui_Form):
             column = 'id'
             # noinspection PyBroadException,PyUnboundLocalVariable
             col_filter = f"where region = '{region}' "
-            inst = Places.SqlCommands()
+            inst = hierarchy.SqlCommands()
             region_id = inst.select_a_column(table=table,
                                              column=column,
                                              col_filter=col_filter

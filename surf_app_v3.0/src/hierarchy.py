@@ -1,6 +1,6 @@
 ########################################################################################################################
 # Places Class Hierarchy
-# FileName: Places.py
+# FileName: hierarchy.py
 
 ########################################################################################################################
 # Select Continents
@@ -12,32 +12,21 @@ from typing import Optional, List, Callable
 
 
 class CommonSQL:
-    # This is a class variable for the mysql_connection. Remember this variable is the same across all instances of
-    # CommonSQL, including all the classes that inherit this class. Any changes to this variable in one instance
-    # changes it for all instances of the class. This variable has a default value of None and will be assigned a value
-    # by the function below. This variable is NEVER accessed directly, only through the function below (this is just a
-    # standard of how to do this, but not a specific rule in python).
+    # This is a class variable for the mysql_connection.
+    # This variable has a default value of None and will be assigned a value by the function below.
     MYSQL__CONNECTION: Optional[MySQLConnection] = None
     SQL_HOST: Optional[str] = None
     SQL_USER: Optional[str] = None
     SQL_PASSWORD: Optional[str] = None
     MY_CURSOR: Optional[MySQLCursor] = None
 
-    # We need some information
-    # passed to this class when an instance is created, that being the host_name, user_name, and password.
-    # We will make this class as generic as possible, so, that you can use it in multiple situations down the road,
-    # including potentially ones that you haven't currently considered. That means, we will give these variables being
-    # passed in default values. Why? In the case, where we want to create an instance of the class but define some or
-    # all of those values later. In general, there are other useful reasons to do this, but here, the default values for
-    # all three variables are None.
+    # We need some information passed to this class when an instance is created.
+    # We will give these variables default values because
+    # We want to create an instance of the class but define some or all of those values later.
     def __init__(self,
                  host_name: Optional[str] = None,
                  user_name: Optional[str] = None,
                  password: Optional[str] = None):
-        # Remember "__" in an instance variable name, like self.__name. means that only this class can see it and
-        # it won't show up on the drop down . operator in pycharm. This is good practice for more secure type variables.
-        # This is very similar but not completely the same to private variables in other languages. In python, you can
-        # still access them if you know they are there, but just can't see them.
 
         # Define the class variable for the host name.
         if CommonSQL.SQL_HOST is None:
@@ -57,87 +46,71 @@ class CommonSQL:
     @property
     def mysql_connection(self) -> Optional[MySQLConnection]:
 
-        # First we need to check if the class variable is set to None, if so we need to create the connection.
-        # We can access the class variable through several
-        # methods. The first is by CommonSQL.__mysql__connection. The second being through the self operator. The third
-        # would be through the cls operator if that was passed to the function, but in this case we can't use cls,
-        # because we can only pass self to a property function. So option 1 or 2 would work, but I will go with the self
-        # operator.
+        # First we need to check if the class variable is set to None. If so we need to create the connection.
+        # We can access the class variable by CommonSQL.__mysql__connection or the self operator.
         if CommonSQL.MYSQL__CONNECTION is None:
 
-            # Now, we need to check that the following instance variables were not None. If they were not defined to
-            # something besides None, then, trying to create a connection will lead to an error.
-            if CommonSQL.SQL_HOST is not None and CommonSQL.SQL_USER is not None and CommonSQL.SQL_PASSWORD \
-                    is not None:
+            # Now, we need to check that the following instance variables were not None.
+            # If that is the case then trying to create a connection will lead to an error.
+            condition_1 = CommonSQL.SQL_HOST is not None
+            condition_2 = CommonSQL.SQL_USER is not None
+            condition_3 = CommonSQL.SQL_PASSWORD is not None
+            if condition_1 and condition_2 and condition_3:
 
-                # Finally, we can create the mysql connection, but we can wrap this in a try except to help with
-                # debugging.
+                # We can create the mysql connection, Wrapping this in a try except to help with debugging.
                 try:
                     CommonSQL.MYSQL__CONNECTION = mysql.connector.connect(
                         host=CommonSQL.SQL_HOST,
                         user=CommonSQL.SQL_USER,
                         password=CommonSQL.SQL_PASSWORD
-
                     )
                 except Exception as e:
                     # Print the official exception info.
                     print(e)
-                    # Print a blank line.
                     print()
-                    # Print a funny error message, so you feel less bad and know where the error came from in the code.
                     print(f"You're a fucking piece of shit idiot and can't even fucking connect to mysql correctly.")
-                    # Maybe consider raising an error here to shut down the program.
+                    # Insert a popup dialog later so that the program doesn't have to shut down.
+                    raise ValueError
 
         # Return the value of the class variable, regardless of whether it is equal to None.
-        # You could add some error handling at this point to prevent a return of None or you can do it in the
-        # locations using this property function to get a mysql connection. This is up to you and no real standard way
-        # of doing this, just personal choice.
         return CommonSQL.MYSQL__CONNECTION
 
     @property
     def mycursor(self) -> MySQLCursor:
 
-        # Check if the Class variable MY_CURSOR is None, and define a value to it, if it is.
         if SqlCommands.MY_CURSOR is None:
             SqlCommands.MY_CURSOR = self.mysql_connection.cursor()
 
-        # Return
         return SqlCommands.MY_CURSOR
 
-    # After looking over the code, I noticed that a lot of the code did this one thing over and over again. You also had
-    # this code more or less repeated over and over again, with a few changes here or there. So, I created this function
-    # to fetch the continents, countries, etc. Doing this also, reduces the chance of errors due to miss typing or
-    # coping and pasting and forgetting to change code for that situation.
-    def return_places(self, mysql_command: str, sort_key: Callable = str.lower) -> List:
+    # Return a hierarchy list and sort it alphabetically
+    def return_hierarchy(self, mysql_command: str, sort_key: Callable = str.lower) -> List:
 
         # Define a temporary local list to store the places that are returned.
-        places_list: List = []
+        hierarchy: List = []
 
         # Okay, so, lets do some smart error handling. We are going to use self.mysql_connection to return the mysql
         # connection, but right now it could return None, which will lead to a most likely fatal error that crashes the
         # app, we want to prevent this. So, first we will check if it returns None, if it does return an empty list
         # and print some useful info, to help you debug this error.
+
+        # We are using self.mysql_connection to return the mysql connection.
+        # Right now it could return None which could lead to an error that crashes the app.
+        # If None will be returned then return the empty list above with a useful print statement
         if self.mysql_connection is None:
             print(f"OH NOOOO!!! Butters made a boo boo. Butters tried to return the places and the mysql_connection "
                   f"returned None. Check everything is correct with settings relating to connection to mysql.")
-            return places_list
+            return hierarchy
 
-        # Okay, another error check, because we know you like to mistype things and shit. Make sure the mysql_command
-        # is a string. We can later add more advanced checks with regular expressions, if you want to.
+        # Make sure the mysql_command is a string.
         if not isinstance(mysql_command, str):
             print("DAMN IT, the mysql_command is not a string when you passed it to return_places.")
-            return places_list
+            return hierarchy
 
-        # Okay, so let's wrap this next part into a try except, just in case this causes an error.
+        # Wrap this next part into a try except, just in case this causes an error.
         try:
-
-            # Define the mycursor object.
             mycursor = self.mysql_connection.cursor()
-
-            # Define the execute command inside the mycursor object, by passing in the variable, mysql_command.
             mycursor.execute(mysql_command)
-
-            # Grab the results of this.
             result = mycursor.fetchall()
 
             # For error debugging lets print what you got that way if an error occurs after this point, we will know it
@@ -145,104 +118,93 @@ class CommonSQL:
             print(f"The mysql results for the command {mysql_command} is: {result}")
             print()
 
-            # Since, mysql returns it in the list of tuple format, you take care of this.
+            # Since mysql returns it in the list of tuple format, you take care of this with a for loop.
             for item in result:
 
-                # Append the modified version of the current item into the places_list list.
-                places_list.append(
+                # Append the modified version of the current item into the hierarchy list created above.
+                hierarchy.append(
                     item[0]
                 )
 
-            # Okay, so now we sort the place_list, by using the sort key passed to this function. In most cases, we will
-            # use the default value, which is a string function, str.lower. You could use lambda to pass in your own
-            # function, or pass in a reference to another function. For now, just use str.lower. Also, notice that when
-            # you pass a reference to a function into another function you omit the parenthesis, which you use when you
-            # call that function. If you don't omit the parenthesis, it would pass the value returned by the function
-            # and not a reference to use to call the function. Again, if this doesn't make complete sense, that is okay
-            # for now, just remember the rule, if I need to pass a reference to a function to use later than no
-            # parenthesis and if I want it to evaluate and return the value of the function then use parenthesis.
-            return sorted(places_list, key=sort_key)
+            # Sort the hierarchy list alphabetically
+            return sorted(hierarchy, key=sort_key)
 
         except Exception as e:
-            # Print the official error.
             print(e)
-            # Print a blank space.
             print()
-            # Print a usable error message
             print("OH No Cartman was right, the red head infected your code!!!!! There was an error fetching the "
                   f"the places with the mysql_command: {mysql_command} and for the love of god, check that the sql"
                   f"syntax has not been infected with the red head gene, aka bad sql syntax. NO REALLY. HEY, HEY, Don't"
                   f"IGNORE ME, PUT THAT SHIT IN THE SQL COMMAND LINE THING AND CHECK IT, JESUS.")
-            # return
-            return places_list
+            return hierarchy
 
-    def return_event_hier(self, mysql_command: str, sort_key: Callable = str.lower) -> List:
-
-        # Define a temporary local list to store the event hier that are returned.
-        event_hier_list: List = []
-
-        # Okay, so, lets do some smart error handling. We are going to use self.mysql_connection to return the mysql
-        # connection, but right now it could return None, which will lead to a most likely fatal error that crashes the
-        # app, we want to prevent this. So, first we will check if it returns None, if it does return an empty list
-        # and print some useful info, to help you debug this error.
-        if self.mysql_connection is None:
-            print(f"OH NOOOO!!! Butters made a boo boo. Butters tried to return the event types and the mysql_connection "
-                  f"returned None. Check everything is correct with settings relating to connection to mysql.")
-            return event_hier_list
-
-        # Okay, another error check, because we know you like to mistype things and shit. Make sure the mysql_command
-        # is a string. We can later add more advanced checks with regular expressions, if you want to.
-        if not isinstance(mysql_command, str):
-            print("DAMN IT, the mysql_command is not a string when you passed it to return_event_hier.")
-            return event_hier_list
-
-        # Okay, so let's wrap this next part into a try except, just in case this causes an error.
-        try:
-
-            # Define the mycursor object.
-            mycursor = self.mysql_connection.cursor()
-
-            # Define the execute command inside the mycursor object, by passing in the variable, mysql_command.
-            mycursor.execute(mysql_command)
-
-            # Grab the results of this.
-            result = mycursor.fetchall()
-
-            # For error debugging lets print what you got that way if an error occurs after this point, we will know it
-            # was due to the loop code.
-            print(f"The mysql results for the command {mysql_command} is: {result}")
-            print()
-
-            # Since, mysql returns it in the list of tuple format, you take care of this.
-            for item in result:
-
-                # Append the modified version of the current item into the places_list list.
-                event_hier_list.append(
-                    str(item[0])
-                )
-
-            # Okay, so now we sort the place_list, by using the sort key passed to this function. In most cases, we will
-            # use the default value, which is a string function, str.lower. You could use lambda to pass in your own
-            # function, or pass in a reference to another function. For now, just use str.lower. Also, notice that when
-            # you pass a reference to a function into another function you omit the parenthesis, which you use when you
-            # call that function. If you don't omit the parenthesis, it would pass the value returned by the function
-            # and not a reference to use to call the function. Again, if this doesn't make complete sense, that is okay
-            # for now, just remember the rule, if I need to pass a reference to a function to use later than no
-            # parenthesis and if I want it to evaluate and return the value of the function then use parenthesis.
-            return sorted(event_hier_list, key=sort_key)
-
-        except Exception as e:
-            # Print the official error.
-            print(e)
-            # Print a blank space.
-            print()
-            # Print a usable error message
-            print("OH No Cartman was right, the red head infected your code!!!!! There was an error fetching the "
-                  f"the places with the mysql_command: {mysql_command} and for the love of god, check that the sql"
-                  f"syntax has not been infected with the red head gene, aka bad sql syntax. NO REALLY. HEY, HEY, Don't"
-                  f"IGNORE ME, PUT THAT SHIT IN THE SQL COMMAND LINE THING AND CHECK IT, JESUS.")
-            # return
-            return event_hier_list
+    # def return_event_hier(self, mysql_command: str, sort_key: Callable = str.lower) -> List:
+    #
+    #     # Define a temporary local list to store the event hier that are returned.
+    #     event_hier_list: List = []
+    #
+    #     # Okay, so, lets do some smart error handling. We are going to use self.mysql_connection to return the mysql
+    #     # connection, but right now it could return None, which will lead to a most likely fatal error that crashes the
+    #     # app, we want to prevent this. So, first we will check if it returns None, if it does return an empty list
+    #     # and print some useful info, to help you debug this error.
+    #     if self.mysql_connection is None:
+    #         print(f"OH NOOOO!!! Butters made a boo boo. Butters tried to return the event types and the mysql_connection "
+    #               f"returned None. Check everything is correct with settings relating to connection to mysql.")
+    #         return event_hier_list
+    #
+    #     # Okay, another error check, because we know you like to mistype things and shit. Make sure the mysql_command
+    #     # is a string. We can later add more advanced checks with regular expressions, if you want to.
+    #     if not isinstance(mysql_command, str):
+    #         print("DAMN IT, the mysql_command is not a string when you passed it to return_event_hier.")
+    #         return event_hier_list
+    #
+    #     # Okay, so let's wrap this next part into a try except, just in case this causes an error.
+    #     try:
+    #
+    #         # Define the mycursor object.
+    #         mycursor = self.mysql_connection.cursor()
+    #
+    #         # Define the execute command inside the mycursor object, by passing in the variable, mysql_command.
+    #         mycursor.execute(mysql_command)
+    #
+    #         # Grab the results of this.
+    #         result = mycursor.fetchall()
+    #
+    #         # For error debugging lets print what you got that way if an error occurs after this point, we will know it
+    #         # was due to the loop code.
+    #         print(f"The mysql results for the command {mysql_command} is: {result}")
+    #         print()
+    #
+    #         # Since, mysql returns it in the list of tuple format, you take care of this.
+    #         for item in result:
+    #
+    #             # Append the modified version of the current item into the places_list list.
+    #             event_hier_list.append(
+    #                 str(item[0])
+    #             )
+    #
+    #         # Okay, so now we sort the place_list, by using the sort key passed to this function. In most cases, we will
+    #         # use the default value, which is a string function, str.lower. You could use lambda to pass in your own
+    #         # function, or pass in a reference to another function. For now, just use str.lower. Also, notice that when
+    #         # you pass a reference to a function into another function you omit the parenthesis, which you use when you
+    #         # call that function. If you don't omit the parenthesis, it would pass the value returned by the function
+    #         # and not a reference to use to call the function. Again, if this doesn't make complete sense, that is okay
+    #         # for now, just remember the rule, if I need to pass a reference to a function to use later than no
+    #         # parenthesis and if I want it to evaluate and return the value of the function then use parenthesis.
+    #         return sorted(event_hier_list, key=sort_key)
+    #
+    #     except Exception as e:
+    #         # Print the official error.
+    #         print(e)
+    #         # Print a blank space.
+    #         print()
+    #         # Print a usable error message
+    #         print("OH No Cartman was right, the red head infected your code!!!!! There was an error fetching the "
+    #               f"the places with the mysql_command: {mysql_command} and for the love of god, check that the sql"
+    #               f"syntax has not been infected with the red head gene, aka bad sql syntax. NO REALLY. HEY, HEY, Don't"
+    #               f"IGNORE ME, PUT THAT SHIT IN THE SQL COMMAND LINE THING AND CHECK IT, JESUS.")
+    #         # return
+    #         return event_hier_list
 
 
 class SqlCommands(CommonSQL):
@@ -286,19 +248,16 @@ class SqlCommands(CommonSQL):
 
 
 class Continent(CommonSQL):
-    # Okay, So here is the constructor class for the continent class. We are going to do the same thing as before and
+    # This is the constructor class for the continent class. We are going to do the same thing as before and
     # assign default values of None to all the values passed into the constructor, so we can create an instance of this
-    # class without having that information at the time of creating the instance. We will assign it later, during its
-    # use.
+    # class without having that information at the time of creating the instance.
     def __init__(self,
                  sql_host_name: Optional[str] = None,
                  sql_user_name: Optional[str] = None,
                  sql_password: Optional[str] = None,
                  selected_continent: Optional[str] = None):
 
-        # Call the constructor for the inherited class, CommonSQL. Remember this runs the constructor function in the
-        # CommonSQL class and all the instance variables of that class are now instance variables of this class.
-        # It also inherits all the functions.
+        # Call the constructor for the inherited class, CommonSQL.
         CommonSQL.__init__(
             self,
             host_name=sql_host_name,
@@ -325,7 +284,7 @@ class Continent(CommonSQL):
 
         sql_command: str = "select continent from wsl.continents"
 
-        return self.return_places(
+        return self.return_hierarchy(
             mysql_command=sql_command
         )
 
@@ -366,7 +325,7 @@ class Continent(CommonSQL):
                         """
 
         # Return the countries, by calling the return_places function from the CommonSQL Class.
-        return self.return_places(
+        return self.return_hierarchy(
             mysql_command=sql_command
         )
 
@@ -435,7 +394,7 @@ class Country(Continent):
                         """
 
         # Return the regions, by calling the return_places function from the CommonSQL Class.
-        return self.return_places(
+        return self.return_hierarchy(
             mysql_command=sql_command
         )
 
@@ -503,7 +462,7 @@ class Region(Country):
                             """
 
         # Return the cities, by calling the return_places function from the CommonSQL Class.
-        return self.return_places(
+        return self.return_hierarchy(
             mysql_command=sql_command
         )
 
@@ -544,7 +503,7 @@ class Region(Country):
                             """
 
         # Return the breaks, by calling the return_places function from the CommonSQL Class.
-        return self.return_places(
+        return self.return_hierarchy(
             mysql_command=sql_command
         )
 

@@ -5,8 +5,8 @@ import PyQt5.QtWidgets
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QLabel, QApplication, QDialogButtonBox
 
-from src import Places
-from src.Places import Region, Round
+from src import hierarchy
+from src.hierarchy import Region, Round
 
 
 ########################################################################################################################
@@ -529,7 +529,7 @@ class SurferToHeat(QDialog, Round):
 
         try:
             # Need to grab event_id tied to event that needs to be added
-            inst = Places.SqlCommands()
+            inst = hierarchy.SqlCommands()
             table = 'wsl.heats'
             column = 'event_id'
             col_filter = f"where heat_nbr = {heat_nbr} "
