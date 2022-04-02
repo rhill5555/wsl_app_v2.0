@@ -267,10 +267,6 @@ class Continent(CommonSQL):
         # This is the instance variable for the selected continent, which is equal to the passed value.
         self.selected_continent: Optional[str] = selected_continent
 
-        # This is the instance variable for the continent_id. I assume this has something to do with the SQL key stuff.
-        # Just going to set its default to None.
-        self.selected_continent_id: Optional[int] = None
-
     # Define a function to return a list of the continents to populate the combobox at startup.
     def return_continents(self) -> List:
 
@@ -456,9 +452,6 @@ class TourYear(CommonSQL):
 
         self.selected_tour_year: Optional[str] = selected_tour_year
 
-        # This is the instance variable for the region_id to use later if needed.
-        self.selected_tour_id: Optional[int] = None
-
     # Define a function to return tour years for the combobox
     def return_tour_years(self) -> List:
         print("We are returning tour years...")
@@ -482,6 +475,18 @@ class TourYear(CommonSQL):
     # Define a function to return a list of tour names for the combobox
     def return_tours(self) -> List:
         print(f"We are returning the tours from {self.selected_tour_year}...")
+        tour_list: List = []
+
+        # Create an instance of this class.
+        # We most likely will not have a value to pass for selected_tour_name so None is set by default.
+        # If it is None or if it is not a string return the empty list.
+        condition_1 = self.selected_tour_year is None
+        condition_2 = isinstance(self.selected_tour_year, str)
+        if condition_1 or not condition_2:
+            print("Beep Boop Bot... Oh No... You were trying to return a list of tour names, "
+                  "but the selected tour year"
+                  f"is None or not a string. It has a type of: {type(self.selected_tour_year)}")
+            return tour_list
 
         sql_command: str = f"""select tour.tour_name
                                 from wsl.tour tour
@@ -543,7 +548,7 @@ class EventRound(TourName):
                  sql_host_name: Optional[str] = None,
                  sql_user_name: Optional[str] = None,
                  sql_password: Optional[str] = None,
-                 selected_round: Optional[str] = None):
+                 selected_event: Optional[str] = None):
 
         TourName.__init__(
             self,
@@ -552,20 +557,31 @@ class EventRound(TourName):
             sql_password=sql_password
         )
 
-        self.selected_round: Optional[str] = selected_round
+        self.selected_event: Optional[str] = selected_event
 
     # Define a function to return a list of the round for the combobox
     def return_rounds(self) -> List:
         print(f"We are returning the round in {self.selected_event} in the{self.selected_tour_name}...")
         round_list: List = []
 
-        sql_command: str = f"""select round.round
+        # Check to see if tourname is None and make sure it is a string
+        condition_1 = self.selected_event is None
+        condition_2 = isinstance(self.selected_event, str)
+        if condition_1 or not condition_2:
+            print("Beep Boop Bot... Oh No... You were trying to return a list of rounds, but the selected event"
+                  f"is None or not a string. It has a type of: {type(self.selected_event)}")
+            return round_list
+
+        sql_command: str = f"""select distinct round.round
                                 from wsl.event_round event_round
                                 join wsl.event event
                                     on event_round.event_id = event.event_id
                                 join wsl.round round
                                     on event_round.round_id = round.round_id
-                                where even.event_name = {self.selected_event} 
+                                join wsl.tour tour
+                                    on tour.tour_id = event.tour_id
+                                where event.event_name = {self.selected_event}
+                                and tour.tour_name = {self.selected_tour_name}
                             """
 
         # Return the cities, by calling the return_places function from the CommonSQL Class.
