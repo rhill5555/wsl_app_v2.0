@@ -830,11 +830,29 @@ class MainWidget(QMainWindow, Ui_Form):
             condition_region_cb = dialog.cb_region.currentText() != ''
             condition_city_line = dialog.line_city.text() != ''
 
-            # If a Country is typed in add it to the country table.
+            # Create an instance of SQLCommands to use when entering data to mysql tables
+            sql_command_instance = hierarchy.SqlCommands()
+
+            # Check to see if text has been entered in the country line edit, combobox, or neither
             if condition_country_line:
+                # Assign the text from the line_edit for country to the variable country
                 country = dialog.line_country.text()
+
+                # Pull the continent_id to use when adding the new country to the database
+                # Future State: Put a check in here to make sure one continent_id is returned
+                continent_id = sql_command_instance.select_a_column(table='wsl.continent',
+                                                                    column='continent_id',
+                                                                    col_filter=f"where continent = '{continent}' "
+                                                                    )[0]
+
+                # Add the new country to the table
+                sql_command_instance.insert_to_table(table='wsl.country',
+                                                     columns='country, continent_id',
+                                                     fields=f"'{country}', {continent_id}"
+                                                     )
+
                 print(f"You have discovered the country of {country} on {continent}")
-                # Insert into table
+
             elif condition_country_cb:
                 country = dialog.cb_country.currentText()
                 print(f"Welcome back to {country}")
@@ -845,6 +863,7 @@ class MainWidget(QMainWindow, Ui_Form):
             # If a Region is typed in add it to the region table
             if condition_region_line:
                 region = dialog.line_region.text()
+
                 print(f"You have discovered the region of {region} in {country}")
                 # Insert into table
             elif condition_region_cb:
