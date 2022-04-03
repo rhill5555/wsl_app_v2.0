@@ -6,7 +6,7 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QLabel, QApplication, QDialogButtonBox
 
 from src import hierarchy
-from src.hierarchy import Region, Event
+from src.hierarchy import Region, Event, SqlCommands
 
 
 ########################################################################################################################
@@ -63,10 +63,6 @@ class AddLocation(QDialog, Region):
         self.hlayout_continent.addWidget(QLabel("Continent:"))
         self.cb_continent = PyQt5.QtWidgets.QComboBox()
         self.hlayout_continent.addWidget(self.cb_continent)
-        # self.cb_continent.clear()
-        # self.cb_continent.addItems(
-        #     [item for item in Places.continent(mysql_connection=mysql_conn)]
-        # )
         self.cb_continent.setFixedWidth(200)
         self.hlayout_continent.addWidget(QLabel(''))
         self.layout.addLayout(self.hlayout_continent)
@@ -75,10 +71,6 @@ class AddLocation(QDialog, Region):
         self.hlayout_country.addWidget(QLabel("Country:"))
         self.cb_country = PyQt5.QtWidgets.QComboBox()
         self.hlayout_country.addWidget(self.cb_country)
-        # self.cb_country.clear()
-        # self.cb_country.addItems(
-        #     [item[0] for item in Places.countries(mysql_connection=mysql_conn,
-        #                                           continent=self.cb_continent.currentText())])
         self.cb_country.setFixedWidth(200)
         self.line_country = PyQt5.QtWidgets.QLineEdit()
         self.hlayout_country.addWidget(self.line_country)
@@ -133,15 +125,10 @@ class AddLocation(QDialog, Region):
 
     # Change Country when Continent is selected
     def slot_cb_continent_on_index_change(self):
-        # Set all the instance variables in the instance of the Region class to None, by calling a function in the
-        # add_region_instance instance.
         self.set_everything_to_none()
-
-        # Clear the country combo boxs.
         self.cb_country.clear()
 
-        # Set the current value of the selected_continent variable in add_region_instance to the current text in the continent
-        # combo box.
+        # Set value of the selected_continent variable in add_region_instnace to text in continent combobox
         self.selected_continent = self.cb_continent.currentText()
 
         # Add the countries to the country combo box.
@@ -438,8 +425,15 @@ class SurferToHeat(QDialog, Event):
         self.__sql_password: str = "#LAwaItly19"
         self.__sql_host: str = "localhost"
 
-        # Instance of TourYear Class.
+        # Instance of Event Class.
         self.add_heat_round_instance: Event = Event(
+            sql_host_name=self.__sql_host,
+            sql_password=self.__sql_password,
+            sql_user_name=self.__sql_user
+        )
+
+        # Instance of SQLCommands Class.
+        self.add_sql_command_instance: hierarchy.SqlCommands = hierarchy.SqlCommands(
             sql_host_name=self.__sql_host,
             sql_password=self.__sql_password,
             sql_user_name=self.__sql_user
@@ -461,11 +455,11 @@ class SurferToHeat(QDialog, Event):
     def on_startup(self):
 
         # Add Tour Years
-        inst = Places.Event()
+        inst = hierarchy.Event()
         self.cb_year.addItems([''] + inst.return_tour_years())
 
         # Add Surfers to Drop Down
-        inst = Places.SqlCommands
+        inst = hierarchy.SqlCommands()
         self.cb_surfer.addItems([''] + inst.select_a_column(self,
             table='wsl.surfers',
             column=f"concat(first_name, ' ', last_name) as name",
@@ -482,7 +476,7 @@ class SurferToHeat(QDialog, Event):
     ####################################################################################################################
 
     def slot_cb_year_on_index_change(self):
-        inst = Places.Event()
+        inst = hierarchy.Event()
         inst.set_everything_to_none()
 
         self.cb_tour.clear()

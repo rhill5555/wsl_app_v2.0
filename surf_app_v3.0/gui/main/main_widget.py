@@ -166,7 +166,7 @@ class MainWidget(QMainWindow, Ui_Form):
         dialog = AddTourType(title="Add a Tour Type to database.")
 
         if dialog.exec() == QDialog.Accepted:
-            tour_type = dialog.line_tourtype.text()
+            tour_name = dialog.line_tourtype.text()
 
             # Check to see if Tour Name is Blank for Label and LineEdit
             if dialog.line_tourtype.text() == '':
@@ -178,10 +178,9 @@ class MainWidget(QMainWindow, Ui_Form):
                 print(f"You have to tell us the year...")
                 raise ValueError
 
-                # Insert new tour type into  tour type table
+            # Insert new tour type into  tour type table
             try:
-                # Tour Type Description
-                tour_type = dialog.line_tourtype.text()
+                tour_name = dialog.line_tourtype.text()
 
                 # Tour Year
                 year = dialog.line_year.text()
@@ -200,13 +199,13 @@ class MainWidget(QMainWindow, Ui_Form):
                     gender = ''
 
                 # noinspection PyUnboundLocalVariable
-                tour_name = f"{year} {gender} {tour_type}"
+                tour_name = f"{year} {gender} {tour_name}"
                 print(tour_name)
 
                 # Insert into Country Table
                 table = 'wsl.tour_type'
                 columns = f"gender, year, tour_type, tour_name"
-                fields = f"'{gender}', '{year}', '{tour_type}', '{tour_name}'"
+                fields = f"'{gender}', '{year}', '{tour_name}', '{tour_name}'"
                 inst = hierarchy.SqlCommands()
                 inst.insert_to_table(table=table,
                                      columns=columns,
@@ -582,7 +581,6 @@ class MainWidget(QMainWindow, Ui_Form):
         self.line_addresults_14.clear()
         self.line_addresults_15.clear()
 
-
     def slot_pb_addresults_submit_clicked(self):
 
         # Get Tour down through heat and surfer from Form
@@ -785,7 +783,6 @@ class MainWidget(QMainWindow, Ui_Form):
         self.line_addresults_14.clear()
         self.line_addresults_15.clear()
 
-
     ####################################################################################################################
     # TourName Handler Functions for The Add Break Tab
 
@@ -824,28 +821,45 @@ class MainWidget(QMainWindow, Ui_Form):
         dialog = AddLocation(title="Add a location to the database.")
 
         if dialog.exec() == QDialog.Accepted:
-
-            # Assign continent based on continent combobox
             continent = dialog.cb_continent.currentText()
 
-            # Check to See if Country is Blank for Label and LineEdit
-            if not dialog.line_country.text() == '':
+            # Conditions to see what tables to add to
+            condition_country_line = dialog.line_country.text() != ''
+            condition_country_cb = dialog.cb_country.currentText() != ''
+            condition_region_line = dialog.line_region.text() != ''
+            condition_region_cb = dialog.cb_region.currentText() != ''
+            condition_city_line = dialog.line_city.text() != ''
+
+            # If a Country is typed in add it to the country table.
+            if condition_country_line:
                 country = dialog.line_country.text()
-            elif not dialog.cb_country.currentText() == '':
+                print(f"You have discovered the country of {country} on {continent}")
+                # Insert into table
+            elif condition_country_cb:
                 country = dialog.cb_country.currentText()
-
-            # Check to See if Region is Blank for Label and LineEdit
-            if not dialog.line_region.text() == '':
-                region = dialog.line_region.text()
-            elif not dialog.cb_region.currentText() == '':
-                region = dialog.cb_region.currentText()
-
-            # Check to see if City is Blank for Label and LineEdit
-            if not dialog.line_city.text() == '':
-                city = dialog.line_city.text()
+                print(f"Welcome back to {country}")
             else:
-                print('Cities need names too.')
-                # raise ValueError()
+                print('Either choose a known Country or discover a new one.')
+                raise ValueError
+
+            # If a Region is typed in add it to the region table
+            if condition_region_line:
+                region = dialog.line_region.text()
+                print(f"You have discovered the region of {region} in {country}")
+                # Insert into table
+            elif condition_region_cb:
+                region = dialog.cb_region.currentText()
+                print(f"Welcome back to {region} in {country}")
+            else:
+                print(f"Either choose a known region in {country} of discover a new one.")
+                raise ValueError
+
+            # Check to see if a City was entered
+            if condition_city_line:
+                city = dialog.line_city.text()
+                print(f"You have discovered the {city}, {region} in {country}")
+            else:
+                print(f"Discover a new city.")
 
             # noinspection PyUnboundLocalVariable
             print(f"You have found {city}, {region}, {country}, {continent}.")
@@ -856,7 +870,7 @@ class MainWidget(QMainWindow, Ui_Form):
                 if not dialog.line_country.text() == '':
                     country = dialog.line_country.text()
                     # Need to grab continent id tied to country that needs to be added
-                    table = 'wsl.continents'
+                    table = 'wsl.continent'
                     column = 'id'
                     col_filter = f"where continent = '{continent}' "
                     inst = hierarchy.SqlCommands()
@@ -865,7 +879,7 @@ class MainWidget(QMainWindow, Ui_Form):
                                                         col_filter=col_filter
                                                         )[0]
                     # Insert into Country Table
-                    table = 'wsl.countries'
+                    table = 'wsl.country'
                     columns = 'country, continent_id'
                     fields = f"'{country}', {continent_id}"
                     inst.insert_to_table(table=table,
