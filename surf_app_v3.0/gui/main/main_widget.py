@@ -180,7 +180,7 @@ class MainWidget(QMainWindow, Ui_Form):
 
             # Insert new tour type into  tour type table
             try:
-                tour_name = dialog.line_tourtype.text()
+                tour_type = dialog.line_tourtype.text()
 
                 # Tour Year
                 year = dialog.line_year.text()
@@ -199,20 +199,20 @@ class MainWidget(QMainWindow, Ui_Form):
                     gender = ''
 
                 # noinspection PyUnboundLocalVariable
-                tour_name = f"{year} {gender} {tour_name}"
+                tour_name = f"{year} {gender}s {tour_type}"
                 print(tour_name)
 
                 # Insert into Country Table
-                table = 'wsl.tour_type'
-                columns = f"gender, year, tour_type, tour_name"
-                fields = f"'{gender}', '{year}', '{tour_name}', '{tour_name}'"
+                table = 'wsl.tour'
+                columns = f"year, gender, tour_type, tour_name"
+                fields = f"{year}, '{gender}', '{tour_type}', '{tour_name}'"
                 inst = hierarchy.SqlCommands()
                 inst.insert_to_table(table=table,
                                      columns=columns,
                                      fields=fields
                                      )
             except:
-                print('I went to the fucking except')
+                print('I went to the fucking except when you were trying to enter a new tour.')
                 raise ValueError
 
     def slot_pb_addevent_clear_clicked(self):

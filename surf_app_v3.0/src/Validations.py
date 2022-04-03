@@ -16,10 +16,11 @@ class NumCheck:
             print(f"I'm checking for an integer.")
             if self.input_num == '':
                 self.input_num = 0
-            int(self.input_num)
-            return self.input_num
+            output_num = int(self.input_num)
+            return output_num
         except:
-            print(f"It's not an integer.")
+            output_num = self.input_num
+            print(f"You entered {output_num} which is not an integer.")
             raise ValueError
 
     def float_check(self):
@@ -38,7 +39,7 @@ class NumCheck:
             if len(self.input_num) == 4:
                 self.int_check()
             else:
-                print("First Season must be a year in form YYYY")
+                print(f"You are trying to enter a year which should be in the form YYYY. You entered {self.input_num}.")
                 raise ValueError
 
 

@@ -121,7 +121,7 @@ class AddLocation(QDialog, Region):
     # This setups up everything at the first startup.
     def on_startup(self):
         # Add Continents to the combobox.
-        self.cb_continent.addItems(self.return_continents())
+        self.cb_continent.addItems([''] + self.return_continents())
 
     # Change Country when Continent is selected
     def slot_cb_continent_on_index_change(self):
@@ -132,7 +132,7 @@ class AddLocation(QDialog, Region):
         self.selected_continent = self.cb_continent.currentText()
 
         # Add the countries to the country combo box.
-        self.cb_country.addItems(self.return_countries())
+        self.cb_country.addItems([''] + self.return_countries())
 
     # Change Region when Country is selected
     def slot_cb_country_on_index_change(self):
@@ -148,7 +148,7 @@ class AddLocation(QDialog, Region):
         self.selected_country = self.cb_country.currentText()
 
         # Add the countries to the country combo box.
-        self.cb_region.addItems(self.return_regions())
+        self.cb_region.addItems([''] + self.return_regions())
 
 ########################################################################################################################
 
