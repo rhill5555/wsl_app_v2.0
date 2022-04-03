@@ -823,17 +823,12 @@ class MainWidget(QMainWindow, Ui_Form):
         if dialog.exec() == QDialog.Accepted:
             continent = dialog.cb_continent.currentText()
 
-            # Conditions to see what tables to add to
-            condition_country_line = dialog.line_country.text() != ''
-            condition_country_cb = dialog.cb_country.currentText() != ''
-            condition_region_line = dialog.line_region.text() != ''
-            condition_region_cb = dialog.cb_region.currentText() != ''
-            condition_city_line = dialog.line_city.text() != ''
-
             # Create an instance of SQLCommands to use when entering data to mysql tables
             sql_command_instance = hierarchy.SqlCommands()
 
             # Check to see if text has been entered in the country line edit, combobox, or neither
+            condition_country_line = dialog.line_country.text() != ''
+            condition_country_cb = dialog.cb_country.currentText() != ''
             if condition_country_line:
                 # Assign the text from the line_edit for country to the variable country
                 country = dialog.line_country.text()
@@ -850,7 +845,6 @@ class MainWidget(QMainWindow, Ui_Form):
                                                      columns='country, continent_id',
                                                      fields=f"'{country}', {continent_id}"
                                                      )
-
                 print(f"You have discovered the country of {country} on {continent}")
 
             elif condition_country_cb:
@@ -861,9 +855,23 @@ class MainWidget(QMainWindow, Ui_Form):
                 raise ValueError
 
             # If a Region is typed in add it to the region table
+            condition_region_line = dialog.line_region.text() != ''
+            condition_region_cb = dialog.cb_region.currentText() != ''
             if condition_region_line:
                 region = dialog.line_region.text()
 
+                # Pull the continent_id to use when adding the new country to the database
+                # Future State: Put a check in here to make sure one continent_id is returned
+                country_id = sql_command_instance.select_a_column(table='wsl.country',
+                                                                    column='country_id',
+                                                                    col_filter=f"where country = '{country}' "
+                                                                    )[0]
+
+                # Add the new region to the table
+                sql_command_instance.insert_to_table(table='wsl.region',
+                                                     columns='region, country_id',
+                                                     fields=f"'{region}', {country_id}"
+                                                     )
                 print(f"You have discovered the region of {region} in {country}")
                 # Insert into table
             elif condition_region_cb:
@@ -874,92 +882,25 @@ class MainWidget(QMainWindow, Ui_Form):
                 raise ValueError
 
             # Check to see if a City was entered
+            condition_city_line = dialog.line_city.text() != ''
             if condition_city_line:
                 city = dialog.line_city.text()
+
+                # Pull the region_id to use when adding the new country to the database
+                # Future State: Put a check in here to make sure one continent_id is returned
+                region_id = sql_command_instance.select_a_column(table='wsl.region',
+                                                                  column='region_id',
+                                                                  col_filter=f"where region = '{region}' "
+                                                                  )[0]
+
+                # Add the new city to the table
+                sql_command_instance.insert_to_table(table='wsl.city',
+                                                     columns='city, region_id',
+                                                     fields=f"'{city}', {region_id}"
+                                                     )
                 print(f"You have discovered the {city}, {region} in {country}")
             else:
                 print(f"Discover a new city.")
-
-            # noinspection PyUnboundLocalVariable
-            print(f"You have found {city}, {region}, {country}, {continent}.")
-
-            # Insert new country into country table
-            try:
-                # If New country is entered continue
-                if not dialog.line_country.text() == '':
-                    country = dialog.line_country.text()
-                    # Need to grab continent id tied to country that needs to be added
-                    table = 'wsl.continent'
-                    column = 'id'
-                    col_filter = f"where continent = '{continent}' "
-                    inst = hierarchy.SqlCommands()
-                    continent_id = inst.select_a_column(table=table,
-                                                        column=column,
-                                                        col_filter=col_filter
-                                                        )[0]
-                    # Insert into Country Table
-                    table = 'wsl.country'
-                    columns = 'country, continent_id'
-                    fields = f"'{country}', {continent_id}"
-                    inst.insert_to_table(table=table,
-                                         columns=columns,
-                                         fields=fields
-                                         )
-            except:
-                print('I went to the fucking except')
-                raise ValueError
-
-            # Insert new region into region table
-            try:
-                # If New region is entered continue
-                if not dialog.line_region.text() == '':
-                    region = dialog.line_region.text()
-                    # Need to grab country id tied to region that needs to be added
-                    table = 'wsl.countries'
-                    column = 'id'
-                    col_filter = f"where country = '{country}' "
-                    inst = hierarchy.SqlCommands()
-                    country_id = inst.select_a_column(table=table,
-                                                      column=column,
-                                                      col_filter=col_filter
-                                                      )[0]
-                    # Insert into Region Table
-                    table = 'wsl.regions'
-                    columns = 'region, country_id'
-                    fields = f"'{region}', {country_id}"
-                    inst.insert_to_table(table=table,
-                                         columns=columns,
-                                         fields=fields
-                                         )
-            except:
-                print('I went to the fucking except')
-                pass
-
-            # Insert new city into city table
-            try:
-                # If New city is entered continue
-                if not dialog.line_city.text() == '':
-                    city = dialog.line_city.text()
-                    # Need to grab region id tied to city that needs to be added
-                    table = 'wsl.regions'
-                    column = 'id'
-                    col_filter = f"where region = '{region}' "
-                    inst = hierarchy.SqlCommands()
-                    region_id = inst.select_a_column(table=table,
-                                                     column=column,
-                                                     col_filter=col_filter
-                                                     )[0]
-                    # Insert into City Table
-                    table = 'wsl.cities'
-                    columns = 'city, region_id'
-                    fields = f"'{city}', {region_id}"
-                    inst.insert_to_table(table=table,
-                                         columns=columns,
-                                         fields=fields
-                                         )
-            except:
-                print('I went to the fucking except')
-                pass
 
     # Clear the form when the Clear button is checked
     def slot_pb_addbreak_clear_clicked(self):
