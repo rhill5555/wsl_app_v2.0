@@ -939,75 +939,75 @@ class MainWidget(QMainWindow, Ui_Form):
             reliability = self.cb_addbreak_reliability.currentText()
 
             # Grab Ability based on which color is checked
-            ability = []
+            ability_list = []
             if self.check_addbreak_ability_green.isChecked():
-                ability.append('Beginner')
+                ability_list.append('Beginner')
             if self.check_addbreak_ability_yellow.isChecked():
-                ability.append('Intermediate')
+                ability_list.append('Intermediate')
             if self.check_addbreak_ability_red.isChecked():
-                ability.append('Advanced')
+                ability_list.append('Advanced')
 
             # Turn List of abilities into a string for mysql table
-            ability_str = ""
-            for ind, item in enumerate(ability):
-                if not ind == (len(ability) - 1):
-                    ability_str = ability_str + item + ', '
+            ability = ""
+            for ind, item in enumerate(ability_list):
+                if not ind == (len(ability_list) - 1):
+                    ability = ability + item + ', '
                 else:
-                    ability_str = ability_str + item
+                    ability = ability + item
 
             # Grab Shoulder Burn based on which color is checked
-            shoulder_burn = []
+            shoulder_burn_list = []
             if self.check_addbreak_burn_green.isChecked():
-                shoulder_burn.append('Light')
+                shoulder_burn_list.append('Light')
             if self.check_addbreak_burn_yellow.isChecked():
-                shoulder_burn.append('Medium')
+                shoulder_burn_list.append('Medium')
             if self.check_addbreak_burn_red.isChecked():
-                shoulder_burn.append('Exhausting')
+                shoulder_burn_list.append('Exhausting')
 
             # Turn List of shoulder burn into a string for mysql table
-            shoulder_burn_str = ""
-            for ind, item in enumerate(shoulder_burn):
-                if not ind == (len(shoulder_burn) - 1):
-                    shoulder_burn_str = shoulder_burn_str + item + ', '
+            shoulder_burn = ""
+            for ind, item in enumerate(shoulder_burn_list):
+                if not ind == (len(shoulder_burn_list) - 1):
+                    shoulder_burn = shoulder_burn + item + ', '
                 else:
-                    shoulder_burn_str = shoulder_burn_str + item
+                    shoulder_burn = shoulder_burn + item
 
             # Grab Break Type based on which types are checked
-            break_type = []
+            break_type_list = []
             if self.check_addbreak_beach.isChecked():
-                break_type.append('Beach')
+                break_type_list.append('Beach')
             if self.check_addbreak_point.isChecked():
-                break_type.append('Point')
+                break_type_list.append('Point')
             if self.check_addbreak_reef.isChecked():
-                break_type.append('Reef')
+                break_type_list.append('Reef')
             if self.check_addbreak_river.isChecked():
-                break_type.append('River')
+                break_type_list.append('River')
             if self.check_addbreak_sandbar.isChecked():
-                break_type.append('Sandbar')
+                break_type_list.append('Sandbar')
             if self.check_addbreak_jetty.isChecked():
-                break_type.append('Jetty')
+                break_type_list.append('Jetty')
             if self.check_addbreak_eng.isChecked():
-                break_type.append('Engineered')
+                break_type_list.append('Engineered')
 
             # Turn List of breaks into a string for mysql table
-            break_type_str = ""
-            for ind, item in enumerate(break_type):
-                if not ind == (len(break_type) - 1):
-                    break_type_str = break_type_str + item + ', '
+            break_type = ""
+            for ind, item in enumerate(break_type_list):
+                if not ind == (len(break_type_list) - 1):
+                    break_type = break_type + item + ', '
                 else:
-                    break_type_str = break_type_str + item
+                    break_type = break_type + item
 
             # Grab Surfability
             clean = self.line_addbreak_clean.text()
-            blown = self.line_addbreak_blown.text()
-            small = self.line_addbreak_small.text()
+            blown_out = self.line_addbreak_blown.text()
+            too_small = self.line_addbreak_small.text()
 
             # Make sure numbers were entered for surfability
             inst = Validations.NumCheck(input_num=clean)
             inst.int_check()
-            inst = Validations.NumCheck(input_num=blown)
+            inst = Validations.NumCheck(input_num=blown_out)
             inst.int_check()
-            inst = Validations.NumCheck(input_num=small)
+            inst = Validations.NumCheck(input_num=too_small)
             inst.int_check()
 
             print(f'Continent: {continent}, '
@@ -1015,10 +1015,10 @@ class MainWidget(QMainWindow, Ui_Form):
                   f'Region: {region}, '
                   f'Break: {break_name}')
             print(reliability)
-            print(ability)
-            print(shoulder_burn)
-            print(break_type)
-            print(f"Clean: {clean}%  Blown: {blown}%  Small: {small}%")
+            print(ability_list)
+            print(shoulder_burn_list)
+            print(break_type_list)
+            print(f"Clean: {clean}%  Blown: {blown_out}%  Small: {too_small}%")
 
         else:
             print('You should probably enter a break name.')
@@ -1026,9 +1026,8 @@ class MainWidget(QMainWindow, Ui_Form):
         # Add the Break to wsl.breaks
         # noinspection PyBroadException
         try:
-            # Need to grab region id tied to break that needs to be added
-            table = 'wsl.regions'
-            column = 'id'
+            table = 'wsl.region'
+            column = 'region_id'
             # noinspection PyBroadException,PyUnboundLocalVariable
             col_filter = f"where region = '{region}' "
             inst = hierarchy.SqlCommands()
@@ -1037,10 +1036,14 @@ class MainWidget(QMainWindow, Ui_Form):
                                              col_filter=col_filter
                                              )[0]
             # Insert into Break Table
-            table = 'wsl.breaks'
-            columns = f"break, region_id, break_type, reliability, ability, shoulder_burn, clean_waves, blown_waves, small_waves"
+            table = 'wsl.break'
+            columns = f"break, region_id, break_type, " \
+                      f"reliability, ability, shoulder_burn, " \
+                      f"clean, blown_out, too_small"
             # noinspection PyBroadException,PyUnboundLocalVariable
-            fields = f"'{break_name}', {region_id}, '{break_type_str}', '{reliability}', '{ability_str}', '{shoulder_burn_str}',{int(clean)}, {int(blown)}, {int(small)}"
+            fields = f"'{break_name}', {region_id}, '{break_type}', " \
+                     f"'{reliability}', '{ability}', '{shoulder_burn}', " \
+                     f"{clean}, {blown_out}, {too_small}"
             inst.insert_to_table(table=table,
                                  columns=columns,
                                  fields=fields

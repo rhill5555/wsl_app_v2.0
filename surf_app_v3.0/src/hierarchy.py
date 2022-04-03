@@ -402,9 +402,11 @@ class TourYear(CommonSQL):
 
         sql_command: str = "select distinct year from wsl.tour"
 
-        return self.return_hierarchy(
-            mysql_command=sql_command
-        )
+        return [str(year) for year in self.return_hierarchy(mysql_command=sql_command)]
+
+        # return self.return_hierarchy(
+        #     mysql_command=sql_command
+        # )
 
     # Define a function to return all possible round names since that does not depend on anything else
     def return_all_rounds(self) -> List:
