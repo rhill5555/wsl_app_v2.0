@@ -788,16 +788,8 @@ class MainWidget(QMainWindow, Ui_Form):
 
     # Change Country List when a Continent is selected
     def slot_cb_addbreak_continent_on_index_change(self):
-
-        # Set all the instance variables in the instance of the Region class to None, by calling a function in the
-        # add_region_instance instance.
         self.add_region_instance.set_everything_to_none()
-
-        # Clear the country combo boxs.
         self.cb_addbreak_country.clear()
-
-        # Set the current value of the selected_continent variable in add_region_instance to the current text in the continent
-        # combo box.
         self.add_region_instance.selected_continent = self.cb_addbreak_continent.currentText()
 
         # Add the countries to the country combo box.
@@ -805,11 +797,7 @@ class MainWidget(QMainWindow, Ui_Form):
 
     # Change Region List when a Country is selected
     def slot_cb_addbreak_country_on_index_change(self):
-        # Clear the add_region_instance combo boxs.
         self.cb_addbreak_region.clear()
-
-        # Set the current value of the selected_country variable in add_region_instance to the current text
-        # in the country combo box.
         self.add_region_instance.selected_country = self.cb_addbreak_country.currentText()
 
         # Add the regions to the add_region_instance combo box.
@@ -1059,15 +1047,10 @@ class MainWidget(QMainWindow, Ui_Form):
 
     # Change Country List when Continent is Selected
     def slot_cb_addsurfer_continent_on_index_change(self):
-        # Set all the instance variables in the instance of the Region class to None, by calling a function in the
-        # add_region_instance instance.
+
+        # Set up and instance of the Region Class
         self.add_region_instance.set_everything_to_none()
-
-        # Clear the country combo boxs.
         self.cb_addsurfer_country.clear()
-
-        # Set the current value of the selected_continent variable in add_region_instance to the current text in the continent
-        # combo box.
         self.add_region_instance.selected_continent = self.cb_addsurfer_continent.currentText()
 
         # Add the countries to the country combo box.
@@ -1075,15 +1058,10 @@ class MainWidget(QMainWindow, Ui_Form):
 
     # Change Home Country List when Home Continent is Selected
     def slot_cb_addsurfer_hcontinent_on_index_change(self):
-        # Set all the instance variables in the instance of the Region class to None, by calling a function in the
-        # add_region_instance instance.
+
+        # Set up and instnace of the Region Class
         self.add_region_instance.set_everything_to_none()
-
-        # Clear the country combo boxs.
         self.cb_addsurfer_hcountry.clear()
-
-        # Set the current value of the selected_continent variable in add_region_instance to the current text in the continent
-        # combo box.
         self.add_region_instance.selected_continent = self.cb_addsurfer_hcontinent.currentText()
 
         # Add the countries to the country combo box.
@@ -1091,11 +1069,7 @@ class MainWidget(QMainWindow, Ui_Form):
 
     # Change Home Region List when Home Country is Selected
     def slot_cb_addsurfer_hcountry_on_index_change(self):
-        # Clear the add_region_instance combo boxs.
         self.cb_addsurfer_hregion.clear()
-
-        # Set the current value of the selected_country variable in add_region_instance to the current text
-        # in the country combo box.
         self.add_region_instance.selected_country = self.cb_addsurfer_hcountry.currentText()
 
         # Add the regions to the add_region_instance combo box.
@@ -1103,11 +1077,7 @@ class MainWidget(QMainWindow, Ui_Form):
 
     # Change Home City List when Home Region is Selected
     def slot_cb_addsurfer_hregion_on_index_change(self):
-        # Clear the add_region_instance combo boxs.
         self.cb_addsurfer_hcity.clear()
-
-        # Set the current value of the selected_country variable in add_region_instance to the current text
-        # in the country combo box.
         self.add_region_instance.selected_region = self.cb_addsurfer_hregion.currentText()
 
         # Add the regions to the add_region_instance combo box.
@@ -1141,6 +1111,7 @@ class MainWidget(QMainWindow, Ui_Form):
 
     # TourName Handler for Submit Button Clicked
     def slot_pb_addsurfer_submit_clicked(self):
+
         # Check to Make Sure a First and Last Name are entered
         condition_1 = self.line_addsurfer_firstname.text() == ''
         condition_2 = self.line_addsurfer_lastname.text() == ''
@@ -1163,10 +1134,12 @@ class MainWidget(QMainWindow, Ui_Form):
             stance = ' '
 
         # Find Country they represent
-        country = self.cb_addsurfer_country.currentText()
+        rep_country = self.cb_addsurfer_country.currentText()
 
         # Grab birthday and turn into correct format for sql
-        birthday = Validations.DateCheck.date_check(input_dt=self.line_addsurfer_bday.text())
+        birthday = Validations.DateCheck.date_check(
+            input_dt=self.line_addsurfer_bday.text()
+        )
 
         # Grab Height and Weight and check to see if they are numbers
         if self.line_addsurfer_ht.text() == '':
@@ -1181,12 +1154,6 @@ class MainWidget(QMainWindow, Ui_Form):
             weight = self.line_addsurfer_wt.text()
             inst = Validations.NumCheck(input_num=weight)
             inst.int_check()
-
-        # Check to Make sure height and weight were entered as numbers
-        # inst = Validations.NumCheck(input_num=height)
-        # inst.int_check()
-        # inst = Validations.NumCheck(input_num=weight)
-        # inst.int_check()
 
         # Grab first season and tour
         if self.line_addsurfer_firstseason.text() == '':
@@ -1225,21 +1192,12 @@ class MainWidget(QMainWindow, Ui_Form):
             print("Bruh, you have to choose a gender for this to work.")
             raise ValueError
 
-        # print(f"Name: {first_name} {last_name}")
-        # print(f"Stance: {stance}")
-        # print(f"Representing: {country}")
-        # print(f"Date of Birth: {birthday}")
-        # print(f"Height(cm): {height}    Weight(kg): {weight}")
-        # print(f"First Season: {first_season} {first_tour}")
-        # print(f"Hometown: {home_city}")
-        # print(f"Competing in the {gender}'s tour.")
-
         # Add the Break to wsl.surfers
         try:
             # Need to grab country id tied to rep country
-            table = 'wsl.countries'
-            column = 'id'
-            col_filter = f"where country = '{country}'"
+            table = 'wsl.country'
+            column = 'country_id'
+            col_filter = f"where country = '{rep_country}'"
             inst = hierarchy.SqlCommands()
             country_id = inst.select_a_column(table=table,
                                               column=column,
@@ -1247,8 +1205,8 @@ class MainWidget(QMainWindow, Ui_Form):
                                               )[0]
 
             # Need to grab city id tied to home city
-            table = 'wsl.cities'
-            column = 'id'
+            table = 'wsl.city'
+            column = 'city_id'
             if home_city == '':
                 col_filter = ' '
             else:
@@ -1260,14 +1218,18 @@ class MainWidget(QMainWindow, Ui_Form):
                                                 )[0]
             # Insert into Surfers Table
             table = 'wsl.surfers'
-            columns = f"gender, first_name, last_name, stance, country_id, birthday, height, weight, first_season, first_tour, home_city_id"
-            fields = f"'{gender}', '{first_name}', '{last_name}', '{stance}', {country_id}, '{birthday}', {height}, {weight}, '{first_season}', '{first_tour}', {home_city_id}"
+            columns = f"gender, first_name, last_name, stance, rep_country_id, " \
+                      f"birthday, height, weight, " \
+                      f"first_season, first_tour, home_city_id"
+            fields = f"'{gender}', '{first_name}', '{last_name}', '{stance}', {country_id}, " \
+                     f"'{birthday}', {height}, {weight}, " \
+                     f"'{first_season}', '{first_tour}', {home_city_id}"
             inst.insert_to_table(table=table,
                                  columns=columns,
                                  fields=fields
                                  )
         except:
-            print('I went to the fucking except')
+            print('I went to the fucking except when trying to add a new surfer.')
 
         # Clear Everything on Submit
         self.slot_pb_addsurfer_clear_clicked()
