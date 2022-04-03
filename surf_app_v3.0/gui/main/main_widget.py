@@ -18,10 +18,10 @@ from src import hierarchy, Validations
 
 class MainWidget(QMainWindow, Ui_Form):
     def __init__(self):
+
         # Call the constructor for the inherited QWidget class.
         QMainWindow.__init__(self)
 
-        # Call the setupUi function that adds all the pyqt stuff to this class, that was designed in the designer.
         # This function is inherited from the Ui_Form class.
         self.setupUi(self)
 
@@ -131,11 +131,9 @@ class MainWidget(QMainWindow, Ui_Form):
         # add_region_instance instance.
         self.add_region_instance.set_everything_to_none()
 
-        # Clear the country combo boxs.
         self.cb_addevent_country.clear()
 
-        # Set the current value of the selected_continent variable in add_region_instance to the current text in the continent
-        # combo box.
+        # Set value of selected continent in add_region_instance to current text in continent combobox
         self.add_region_instance.selected_continent = self.cb_addevent_continent.currentText()
 
         # Add the countries to the country combo box.
@@ -502,7 +500,7 @@ class MainWidget(QMainWindow, Ui_Form):
 
         self.cb_addresults_tour.clear()
 
-        self.cb_addresults_tour.addItems([''] + inst.return_tours(selected_tour_year=self.cb_addresults_year.currentText()))
+        self.cb_addresults_tour.addItems([''] + inst.return_tour_years())
 
     def slot_cb_addresults_tour_on_index_change(self):
 
@@ -543,7 +541,7 @@ class MainWidget(QMainWindow, Ui_Form):
         self.add_heat_instance.selected_heat = self.cb_addresults_heat.currentText()
         print(self.add_heat_instance.selected_heat)
 
-        self.cb_addresults_surfer.addItems([''] + self.add_heat_instance.return_surfers())
+        self.cb_addresults_surfer.addItems([''] + self.add_heat_instance.return_surfers_in_heat())
 
     def slot_pb_addresults_clear_clicked(self):
         self.cb_addresults_year.clear()
@@ -741,7 +739,7 @@ class MainWidget(QMainWindow, Ui_Form):
         # Add To Table
         try:
             # Need to grab id from wsl.heat_surfers
-            heat_surfer_id = self.add_heat_instance.return_heat_and_surfer()[0]
+            heat_surfer_id = self.add_heat_instance.return_surfers_in_heat()[0]
 
             # Insert into Break Table
             inst = hierarchy.SqlCommands()
@@ -1201,7 +1199,7 @@ class MainWidget(QMainWindow, Ui_Form):
             inst = Validations.NumCheck(input_num=height)
             inst.int_check()
         if self.line_addsurfer_wt.text() == '':
-            height = '0'
+            weight = '0'
         else:
             weight = self.line_addsurfer_wt.text()
             inst = Validations.NumCheck(input_num=weight)
