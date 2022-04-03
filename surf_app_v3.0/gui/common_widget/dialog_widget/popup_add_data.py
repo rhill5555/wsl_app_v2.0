@@ -134,13 +134,13 @@ class AddLocation(QDialog, Region):
     # Change Country when Continent is selected
     def slot_cb_continent_on_index_change(self):
         # Set all the instance variables in the instance of the Region class to None, by calling a function in the
-        # add_break_region_instance instance.
+        # add_region_instance instance.
         self.set_everything_to_none()
 
         # Clear the country combo boxs.
         self.cb_country.clear()
 
-        # Set the current value of the selected_continent variable in add_break_region_instance to the current text in the continent
+        # Set the current value of the selected_continent variable in add_region_instance to the current text in the continent
         # combo box.
         self.selected_continent = self.cb_continent.currentText()
 
@@ -150,13 +150,13 @@ class AddLocation(QDialog, Region):
     # Change Region when Country is selected
     def slot_cb_country_on_index_change(self):
         # Set all the instance variables in the instance of the Region class to None, by calling a function in the
-        # add_break_region_instance instance.
+        # add_region_instance instance.
         self.set_everything_to_none()
 
         # Clear the country combo boxs.
         self.cb_region.clear()
 
-        # Set the current value of the selected_continent variable in add_break_region_instance to the current text in the continent
+        # Set the current value of the selected_continent variable in add_region_instance to the current text in the continent
         # combo box.
         self.selected_country = self.cb_country.currentText()
 

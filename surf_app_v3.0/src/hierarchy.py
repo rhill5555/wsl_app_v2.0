@@ -180,6 +180,7 @@ class SqlCommands(CommonSQL):
 
 ########################################################################################################################
 
+
 class Continent(CommonSQL):
     # We are going to assign default values of None to all the values passed into the constructor,
     # so we can create an instance of this class without having that information at the time of creating the instance.
@@ -238,6 +239,10 @@ class Continent(CommonSQL):
             mysql_command=sql_command
         )
 
+    # This function sets all the instance variables that dealing with selected locations back to None.
+    def set_everything_to_none(self) -> None:
+        self.selected_continent = None
+
 
 class Country(Continent):
     # We are going to assign default values of None to all the values passed into the constructor,
@@ -286,6 +291,11 @@ class Country(Continent):
             mysql_command=sql_command
         )
 
+    # This function sets all the instance variables that dealing with selected locations back to None.
+    def set_everything_to_none(self) -> None:
+        self.selected_continent = None
+        self.selected_country = None
+
 
 class Region(Country):
     # We are going to assign default values of None to all the values passed into the constructor,
@@ -304,7 +314,6 @@ class Region(Country):
         )
 
         self.selected_region: Optional[str] = selected_region
-        self.selected_region_id: Optional[int] = None
 
     # Define a function to return a list of the cities so they can be place in the combobox.
     def return_cities(self) -> List:
@@ -358,9 +367,11 @@ class Region(Country):
 
     # This function sets all the instance variables that dealing with selected locations back to None.
     def set_everything_to_none(self) -> None:
-        self.selected_region = None
-        self.selected_country = None
         self.selected_continent = None
+        self.selected_country = None
+        self.selected_region = None
+
+
 
 
 ########################################################################################################################
@@ -430,6 +441,10 @@ class TourYear(CommonSQL):
             mysql_command=sql_command
         )
 
+    # This function sets all the instance variables that dealing with selected places back to None.
+    def set_everything_to_none(self) -> None:
+        self.selected_tour_year = None
+
 
 class TourName(TourYear):
     # We are going to assign default values of None to all the values passed into the constructor,
@@ -472,6 +487,11 @@ class TourName(TourYear):
         return self.return_hierarchy(
             mysql_command=sql_command
         )
+
+    # This function sets all the instance variables that dealing with selected places back to None.
+    def set_everything_to_none(self) -> None:
+        self.selected_tour_year = None
+        self.selected_tour_name = None
 
 
 class Event(TourName):
@@ -523,6 +543,12 @@ class Event(TourName):
         return self.return_hierarchy(
             mysql_command=sql_command
         )
+
+    # This function sets all the instance variables that dealing with selected places back to None.
+    def set_everything_to_none(self) -> None:
+        self.selected_tour_year = None
+        self.selected_tour_name = None
+        self.selected_event = None
 
 
 class Round(Event):
@@ -581,6 +607,13 @@ class Round(Event):
             mysql_command=sql_command
         )
 
+    # This function sets all the instance variables that dealing with selected places back to None.
+    def set_everything_to_none(self) -> None:
+        self.selected_tour_year = None
+        self.selected_tour_name = None
+        self.selected_event = None
+        self.selected_round = None
+
 
 class Heat(Round):
     # We are going to assign default values of None to all the values passed into the constructor,
@@ -609,7 +642,15 @@ class Heat(Round):
     def return_surfers_in_heat(self) -> List:
         print(f"We are returning the surfers in heat {self.selected_heat} in the {self.selected_round} in "
               f"{self.selected_event} in {self.selected_tour_name}...")
-        heat_list: List = []
+        surfer_list: List = []
+
+        # Check to see if tourname is None and make sure it is a string
+        condition_1 = self.selected_round is None
+        condition_2 = isinstance(self.selected_round, str)
+        if condition_1 or not condition_2:
+            print("Beep Boop Bot... Oh No... You were trying to return a list of heats, but the selected event"
+                  f"is None or not a string. It has a type of: {type(self.selected_event)}")
+            return surfer_list
 
         sql_command: str = f"""select concat(surfer.firstname, ' ', surfer.last_name) as surfer
                                         from wsl.surfer surfer
@@ -635,13 +676,13 @@ class Heat(Round):
             mysql_command=sql_command
         )
 
-
-    # # This function sets all the instance variables that dealing with selected places back to None.
-    # def set_everything_to_none(self) -> None:
-    #     self.selected_round = None
-    #     self.selected_event = None
-    #     self.selected_tourname = None
-    #     self.selected_round = None
+    # This function sets all the instance variables that dealing with selected places back to None.
+    def set_everything_to_none(self) -> None:
+        self.selected_tour_year = None
+        self.selected_tour_name = None
+        self.selected_event = None
+        self.selected_round = None
+        self.selected_heat = None
 
 
 ########################################################################################################################

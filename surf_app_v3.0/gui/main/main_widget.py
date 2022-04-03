@@ -34,7 +34,7 @@ class MainWidget(QMainWindow, Ui_Form):
         self.__sql_host: str = "localhost"
 
         # Instance of the Region Class.
-        self.add_break_region_instance: Region = Region(
+        self.add_region_instance: Region = Region(
             sql_host_name=self.__sql_host,
             sql_password=self.__sql_password,
             sql_user_name=self.__sql_user
@@ -104,7 +104,7 @@ class MainWidget(QMainWindow, Ui_Form):
     def on_startup(self):
 
         # Add TourName Tab
-        self.cb_addevent_continent.addItems([''] + self.add_break_region_instance.return_continents())
+        self.cb_addevent_continent.addItems([''] + self.add_region_instance.return_continents())
         self.cb_addevent_tourtype.addItems([''] + self.add_heat_instance.return_tours())
 
         # Add Round Tab
@@ -113,55 +113,55 @@ class MainWidget(QMainWindow, Ui_Form):
 
         # Add Round Results Tab
         # Add Tour Years
-        inst = Validations.()
+        inst = hierarchy.TourYear()
         self.cb_addresults_year.addItems([''] + inst.return_tour_years())
 
         # Add Break Tab
-        self.cb_addbreak_continent.addItems([''] + self.add_break_region_instance.return_continents())
+        self.cb_addbreak_continent.addItems([''] + self.add_region_instance.return_continents())
 
         # Add Surfer Tab
-        self.cb_addsurfer_continent.addItems([''] + self.add_break_region_instance.return_continents())
-        self.cb_addsurfer_hcontinent.addItems([''] + self.add_break_region_instance.return_continents())
+        self.cb_addsurfer_continent.addItems([''] + self.add_region_instance.return_continents())
+        self.cb_addsurfer_hcontinent.addItems([''] + self.add_region_instance.return_continents())
 
     ####################################################################################################################
     # TourName Handler Functions for Add TourName Tab
 
     def slot_cb_addevent_continent_on_index_change(self):
         # Set all the instance variables in the instance of the Region class to None, by calling a function in the
-        # add_break_region_instance instance.
-        self.add_break_region_instance.set_everything_to_none()
+        # add_region_instance instance.
+        self.add_region_instance.set_everything_to_none()
 
         # Clear the country combo boxs.
         self.cb_addevent_country.clear()
 
-        # Set the current value of the selected_continent variable in add_break_region_instance to the current text in the continent
+        # Set the current value of the selected_continent variable in add_region_instance to the current text in the continent
         # combo box.
-        self.add_break_region_instance.selected_continent = self.cb_addevent_continent.currentText()
+        self.add_region_instance.selected_continent = self.cb_addevent_continent.currentText()
 
         # Add the countries to the country combo box.
-        self.cb_addevent_country.addItems([''] + self.add_break_region_instance.return_countries())
+        self.cb_addevent_country.addItems([''] + self.add_region_instance.return_countries())
 
     def slot_cb_addevent_country_on_index_change(self):
-        # Clear the add_break_region_instance combo boxs.
+        # Clear the add_region_instance combo boxs.
         self.cb_addevent_region.clear()
 
-        # Set the current value of the selected_country variable in add_break_region_instance to the current text
+        # Set the current value of the selected_country variable in add_region_instance to the current text
         # in the country combo box.
-        self.add_break_region_instance.selected_country = self.cb_addevent_country.currentText()
+        self.add_region_instance.selected_country = self.cb_addevent_country.currentText()
 
-        # Add the regions to the add_break_region_instance combo box.
-        self.cb_addevent_region.addItems([''] + self.add_break_region_instance.return_regions())
+        # Add the regions to the add_region_instance combo box.
+        self.cb_addevent_region.addItems([''] + self.add_region_instance.return_regions())
 
     def slot_cb_addevent_region_on_index_change(self):
-        # Clear the add_break_region_instance combo boxs.
+        # Clear the add_region_instance combo boxs.
         self.cb_addevent_break.clear()
 
-        # Set the current value of the selected_country variable in add_break_region_instance to the current text
+        # Set the current value of the selected_country variable in add_region_instance to the current text
         # in the country combo box.
-        self.add_break_region_instance.selected_region = self.cb_addevent_region.currentText()
+        self.add_region_instance.selected_region = self.cb_addevent_region.currentText()
 
-        # Add the regions to the add_break_region_instance combo box.
-        self.cb_addevent_break.addItems([''] + self.add_break_region_instance.return_breaks())
+        # Add the regions to the add_region_instance combo box.
+        self.cb_addevent_break.addItems([''] + self.add_region_instance.return_breaks())
 
     # noinspection PyMethodMayBeStatic
     def slot_pb_addevent_newtour_clicked(self):
@@ -225,7 +225,7 @@ class MainWidget(QMainWindow, Ui_Form):
         self.line_addevent_open.clear()
         self.line_addevent_close.clear()
         self.cb_addevent_continent.clear()
-        self.cb_addevent_continent.addItems([''] + self.add_break_region_instance.return_continents())
+        self.cb_addevent_continent.addItems([''] + self.add_region_instance.return_continents())
         self.cb_addevent_country.clear()
         self.cb_addevent_region.clear()
         self.cb_addevent_break.clear()
@@ -277,7 +277,7 @@ class MainWidget(QMainWindow, Ui_Form):
             table = 'wsl.tour_type'
             column = 'id'
             col_filter = f"where tour_name = '{tour_name}' "
-            inst = Places.SqlCommands()
+            inst = hierarchy.SqlCommands()
             tour_id = inst.select_a_column(table=table,
                                            column=column,
                                            col_filter=col_filter
@@ -326,7 +326,7 @@ class MainWidget(QMainWindow, Ui_Form):
         # Clear the event combo boxs.
         self.cb_addheat_event.clear()
 
-        # Set the current value of the selected_tour variable in add_break_region_instance to the current text in the tour
+        # Set the current value of the selected_tour variable in add_region_instance to the current text in the tour
         # combo box.
         self.add_heat_instance.selected_tourname = self.cb_addheat_tour.currentText()
 
@@ -473,7 +473,7 @@ class MainWidget(QMainWindow, Ui_Form):
             table = 'wsl.rounds'
             column = 'id'
             col_filter = f"where round_name = '{round_name}' "
-            inst = Places.SqlCommands()
+            inst = hierarchy.SqlCommands()
             round_id = inst.select_a_column(table=table,
                                             column=column,
                                             col_filter=col_filter
@@ -497,12 +497,12 @@ class MainWidget(QMainWindow, Ui_Form):
     # TourName Handler Functions for the Add Round Results Tab
 
     def slot_cb_addresults_year_on_index_change(self):
-        inst = Places.Event()
+        inst = hierarchy.Heat()
         inst.set_everything_to_none()
 
         self.cb_addresults_tour.clear()
 
-        self.cb_addresults_tour.addItems([''] + inst.return_tour_names_by_year(year=self.cb_addresults_year.currentText()))
+        self.cb_addresults_tour.addItems([''] + inst.return_tours(selected_tour_year=self.cb_addresults_year.currentText()))
 
     def slot_cb_addresults_tour_on_index_change(self):
 
@@ -510,7 +510,7 @@ class MainWidget(QMainWindow, Ui_Form):
 
         self.cb_addresults_event.clear()
 
-        # Set the current value of the selected_continent variable in add_break_region_instance to the current text in the continent
+        # Set the current value of the selected_continent variable in add_region_instance to the current text in the continent
         # combo box.
         self.add_heat_instance.selected_tourname = self.cb_addresults_tour.currentText()
 
@@ -795,30 +795,30 @@ class MainWidget(QMainWindow, Ui_Form):
     def slot_cb_addbreak_continent_on_index_change(self):
 
         # Set all the instance variables in the instance of the Region class to None, by calling a function in the
-        # add_break_region_instance instance.
-        self.add_break_region_instance.set_everything_to_none()
+        # add_region_instance instance.
+        self.add_region_instance.set_everything_to_none()
 
         # Clear the country combo boxs.
         self.cb_addbreak_country.clear()
 
-        # Set the current value of the selected_continent variable in add_break_region_instance to the current text in the continent
+        # Set the current value of the selected_continent variable in add_region_instance to the current text in the continent
         # combo box.
-        self.add_break_region_instance.selected_continent = self.cb_addbreak_continent.currentText()
+        self.add_region_instance.selected_continent = self.cb_addbreak_continent.currentText()
 
         # Add the countries to the country combo box.
-        self.cb_addbreak_country.addItems([''] + self.add_break_region_instance.return_countries())
+        self.cb_addbreak_country.addItems([''] + self.add_region_instance.return_countries())
 
     # Change Region List when a Country is selected
     def slot_cb_addbreak_country_on_index_change(self):
-        # Clear the add_break_region_instance combo boxs.
+        # Clear the add_region_instance combo boxs.
         self.cb_addbreak_region.clear()
 
-        # Set the current value of the selected_country variable in add_break_region_instance to the current text
+        # Set the current value of the selected_country variable in add_region_instance to the current text
         # in the country combo box.
-        self.add_break_region_instance.selected_country = self.cb_addbreak_country.currentText()
+        self.add_region_instance.selected_country = self.cb_addbreak_country.currentText()
 
-        # Add the regions to the add_break_region_instance combo box.
-        self.cb_addbreak_region.addItems([''] + self.add_break_region_instance.return_regions())
+        # Add the regions to the add_region_instance combo box.
+        self.cb_addbreak_region.addItems([''] + self.add_region_instance.return_regions())
 
     # Open a PopUp to enter new places when The Add Location Button is selected
     # noinspection PyMethodMayBeStatic
@@ -887,7 +887,7 @@ class MainWidget(QMainWindow, Ui_Form):
                     table = 'wsl.countries'
                     column = 'id'
                     col_filter = f"where country = '{country}' "
-                    inst = Places.SqlCommands()
+                    inst = hierarchy.SqlCommands()
                     country_id = inst.select_a_column(table=table,
                                                       column=column,
                                                       col_filter=col_filter
@@ -913,7 +913,7 @@ class MainWidget(QMainWindow, Ui_Form):
                     table = 'wsl.regions'
                     column = 'id'
                     col_filter = f"where region = '{region}' "
-                    inst = Places.SqlCommands()
+                    inst = hierarchy.SqlCommands()
                     region_id = inst.select_a_column(table=table,
                                                      column=column,
                                                      col_filter=col_filter
@@ -933,7 +933,7 @@ class MainWidget(QMainWindow, Ui_Form):
     # Clear the form when the Clear button is checked
     def slot_pb_addbreak_clear_clicked(self):
         self.cb_addbreak_continent.clear()
-        self.cb_addbreak_continent.addItems([''] + self.add_break_region_instance.return_continents())
+        self.cb_addbreak_continent.addItems([''] + self.add_region_instance.return_continents())
         self.cb_addbreak_country.clear()
         self.cb_addbreak_region.clear()
         self.line_addbreak_break.clear()
@@ -1085,58 +1085,58 @@ class MainWidget(QMainWindow, Ui_Form):
     # Change Country List when Continent is Selected
     def slot_cb_addsurfer_continent_on_index_change(self):
         # Set all the instance variables in the instance of the Region class to None, by calling a function in the
-        # add_break_region_instance instance.
-        self.add_break_region_instance.set_everything_to_none()
+        # add_region_instance instance.
+        self.add_region_instance.set_everything_to_none()
 
         # Clear the country combo boxs.
         self.cb_addsurfer_country.clear()
 
-        # Set the current value of the selected_continent variable in add_break_region_instance to the current text in the continent
+        # Set the current value of the selected_continent variable in add_region_instance to the current text in the continent
         # combo box.
-        self.add_break_region_instance.selected_continent = self.cb_addsurfer_continent.currentText()
+        self.add_region_instance.selected_continent = self.cb_addsurfer_continent.currentText()
 
         # Add the countries to the country combo box.
-        self.cb_addsurfer_country.addItems([''] + self.add_break_region_instance.return_countries())
+        self.cb_addsurfer_country.addItems([''] + self.add_region_instance.return_countries())
 
     # Change Home Country List when Home Continent is Selected
     def slot_cb_addsurfer_hcontinent_on_index_change(self):
         # Set all the instance variables in the instance of the Region class to None, by calling a function in the
-        # add_break_region_instance instance.
-        self.add_break_region_instance.set_everything_to_none()
+        # add_region_instance instance.
+        self.add_region_instance.set_everything_to_none()
 
         # Clear the country combo boxs.
         self.cb_addsurfer_hcountry.clear()
 
-        # Set the current value of the selected_continent variable in add_break_region_instance to the current text in the continent
+        # Set the current value of the selected_continent variable in add_region_instance to the current text in the continent
         # combo box.
-        self.add_break_region_instance.selected_continent = self.cb_addsurfer_hcontinent.currentText()
+        self.add_region_instance.selected_continent = self.cb_addsurfer_hcontinent.currentText()
 
         # Add the countries to the country combo box.
-        self.cb_addsurfer_hcountry.addItems([''] + self.add_break_region_instance.return_countries())
+        self.cb_addsurfer_hcountry.addItems([''] + self.add_region_instance.return_countries())
 
     # Change Home Region List when Home Country is Selected
     def slot_cb_addsurfer_hcountry_on_index_change(self):
-        # Clear the add_break_region_instance combo boxs.
+        # Clear the add_region_instance combo boxs.
         self.cb_addsurfer_hregion.clear()
 
-        # Set the current value of the selected_country variable in add_break_region_instance to the current text
+        # Set the current value of the selected_country variable in add_region_instance to the current text
         # in the country combo box.
-        self.add_break_region_instance.selected_country = self.cb_addsurfer_hcountry.currentText()
+        self.add_region_instance.selected_country = self.cb_addsurfer_hcountry.currentText()
 
-        # Add the regions to the add_break_region_instance combo box.
-        self.cb_addsurfer_hregion.addItems([''] + self.add_break_region_instance.return_regions())
+        # Add the regions to the add_region_instance combo box.
+        self.cb_addsurfer_hregion.addItems([''] + self.add_region_instance.return_regions())
 
     # Change Home City List when Home Region is Selected
     def slot_cb_addsurfer_hregion_on_index_change(self):
-        # Clear the add_break_region_instance combo boxs.
+        # Clear the add_region_instance combo boxs.
         self.cb_addsurfer_hcity.clear()
 
-        # Set the current value of the selected_country variable in add_break_region_instance to the current text
+        # Set the current value of the selected_country variable in add_region_instance to the current text
         # in the country combo box.
-        self.add_break_region_instance.selected_region = self.cb_addsurfer_hregion.currentText()
+        self.add_region_instance.selected_region = self.cb_addsurfer_hregion.currentText()
 
-        # Add the regions to the add_break_region_instance combo box.
-        self.cb_addsurfer_hcity.addItems([''] + self.add_break_region_instance.return_cities())
+        # Add the regions to the add_region_instance combo box.
+        self.cb_addsurfer_hcity.addItems([''] + self.add_region_instance.return_cities())
 
     # TourName Handler for Clear Button Clicked
     def slot_pb_addsurfer_clear_clicked(self):
@@ -1145,7 +1145,7 @@ class MainWidget(QMainWindow, Ui_Form):
         self.check_addsurfer_goofy.setChecked(0)
         self.check_addsurfer_regular.setChecked(0)
         self.cb_addsurfer_continent.clear()
-        self.cb_addsurfer_continent.addItems([''] + self.add_break_region_instance.return_continents())
+        self.cb_addsurfer_continent.addItems([''] + self.add_region_instance.return_continents())
         self.cb_addsurfer_country.clear()
         self.line_addsurfer_bday.clear()
         self.line_addsurfer_ht.clear()
@@ -1153,7 +1153,7 @@ class MainWidget(QMainWindow, Ui_Form):
         self.line_addsurfer_firstseason.clear()
         self.line_addsurfer_firsttour.clear()
         self.cb_addsurfer_hcontinent.clear()
-        self.cb_addsurfer_hcontinent.addItems([''] + self.add_break_region_instance.return_continents())
+        self.cb_addsurfer_hcontinent.addItems([''] + self.add_region_instance.return_continents())
         self.cb_addsurfer_hcountry.clear()
         self.cb_addsurfer_hregion.clear()
         self.cb_addsurfer_hcity.clear()
@@ -1265,7 +1265,7 @@ class MainWidget(QMainWindow, Ui_Form):
             table = 'wsl.countries'
             column = 'id'
             col_filter = f"where country = '{country}'"
-            inst = Places.SqlCommands()
+            inst = hierarchy.SqlCommands()
             country_id = inst.select_a_column(table=table,
                                               column=column,
                                               col_filter=col_filter
@@ -1278,7 +1278,7 @@ class MainWidget(QMainWindow, Ui_Form):
                 col_filter = ' '
             else:
                 col_filter = f"where city = '{home_city}' "
-            inst = Places.SqlCommands()
+            inst = hierarchy.SqlCommands()
             home_city_id = inst.select_a_column(table=table,
                                                 column=column,
                                                 col_filter=col_filter
