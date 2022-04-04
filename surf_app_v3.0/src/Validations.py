@@ -7,11 +7,17 @@ import datetime
 
 
 # The is for checking inputs that should be numbers since they are read in from PyQt as strings
+from typing import Optional, Union
+
+
 class NumCheck:
-    def __init__(self, input_num: str):
+    def __init__(self, input_num: Optional[str] = None):
         self.input_num = input_num
 
-    def int_check(self):
+    def int_check(self, input_num: Optional[str] = None):
+        if input_num is not None:
+            self.input_num = input_num
+
         try:
             print(f"I'm checking for an integer.")
             if self.input_num == '':
@@ -48,10 +54,10 @@ class DateCheck:
     # def __init__(self, input_dt: str):
     #     self.input_dt = input_dt
     @staticmethod
-    def date_check(input_dt: str):
+    def date_check(input_dt: str) -> Union[str, datetime.date]:
         try:
-            if input_dt == '':
-                input_dt = '1900-01-01'
+            if input_dt == '' or input_dt is None:
+                return '1900-01-01'
             else:
                 dt_string = input_dt
                 dt_format = '%m/%d/%Y'

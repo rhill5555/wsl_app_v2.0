@@ -1161,7 +1161,7 @@ class MainWidget(QMainWindow, Ui_Form):
         else:
             first_season = self.line_addsurfer_firstseason.text()
         if self.line_addsurfer_firsttour.text() == '':
-            first_tour = ''
+            first_tour = ' '
         else:
             first_tour = self.line_addsurfer_firsttour.text()
 
