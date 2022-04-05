@@ -1220,7 +1220,7 @@ class MainWidget(QMainWindow, Ui_Form):
             table = 'wsl.city'
             column = 'city_id'
             if home_city == '':
-                col_filter = ' '
+                col_filter = f"where city = 'Unknown' "
             else:
                 col_filter = f"where city = '{home_city}' "
             inst = hierarchy.SqlCommands()
@@ -1235,7 +1235,7 @@ class MainWidget(QMainWindow, Ui_Form):
                       f"first_season, first_tour, home_city_id"
             fields = f"'{gender}', '{first_name}', '{last_name}', '{stance}', {country_id}, " \
                      f"'{birthday}', {height}, {weight}, " \
-                     f"'{first_season}', '{first_tour}', {home_city_id}"
+                     f"{first_season}, '{first_tour}', {home_city_id}"
             inst.insert_to_table(table=table,
                                  columns=columns,
                                  fields=fields
