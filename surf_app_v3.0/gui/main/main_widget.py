@@ -237,10 +237,10 @@ class MainWidget(QMainWindow, Ui_Form):
         self.cb_addevent_break.clear()
 
     def slot_pb_addevent_submit_clicked(self):
-        # Check to make sureTour Type have data
+        # Check to make sure Tour Type has data
         condition_1 = self.cb_addevent_tourtype.currentText() == ''
         if not condition_1:
-            print("Tour Added.")
+            print(f"Tour is {self.cb_addevent_tourtype.currentText()}")
         else:
             print("You need to enter a Tour.")
             raise ValueError
@@ -249,20 +249,20 @@ class MainWidget(QMainWindow, Ui_Form):
         tour_name = self.cb_addevent_tourtype.currentText()
         event_name = self.line_addevent_name.text()
 
-        # Grab Stop Nbr and check to make sure it's and integer
-        stop_num = self.line_addevent_stop.text()
-        inst = Validations.NumCheck(input_num=stop_num)
-        stop_num = inst.int_check()
+        # Grab Stop nbr and check to make sure it's and integer
+        stop_nbr = self.line_addevent_stop.text()
+        inst = Validations.NumCheck()
+        stop_nbr = inst.int_check(input_num=stop_nbr)
 
         # Grab Date Open and Date close and check that they are in the correct format
         open_date = self.line_addevent_open.text()
         close_date = self.line_addevent_close.text()
-        print(open_date)
-        print(close_date)
+        # print(open_date)
+        # print(close_date)
         inst = Validations.DateCheck()
-        inst.date_check(input_dt=open_date)
+        open_date = inst.date_check(input_dt=open_date)
         inst = Validations.DateCheck()
-        inst.date_check(input_dt=close_date)
+        close_date = inst.date_check(input_dt=close_date)
 
         print("Dates successful")
 
@@ -273,15 +273,15 @@ class MainWidget(QMainWindow, Ui_Form):
         break_name = self.cb_addevent_break.currentText()
 
         print(f"Tour: {tour_name}")
-        print(f"Stop: {stop_num}  {event_name}")
+        print(f"Stop: {stop_nbr}  {event_name}")
         print(f"From: {open_date}  to  {close_date}")
         print(f"Location: {continent}, {country}, {region}, {break_name}")
 
         # Add the Events to wsl.events
         try:
             # Need to grab region id tied to event that needs to be added
-            table = 'wsl.tour_type'
-            column = 'id'
+            table = 'wsl.tour'
+            column = 'tour_id'
             col_filter = f"where tour_name = '{tour_name}' "
             inst = hierarchy.SqlCommands()
             tour_id = inst.select_a_column(table=table,
@@ -292,8 +292,8 @@ class MainWidget(QMainWindow, Ui_Form):
             print(tour_id)
 
             # Need to grab break_id tied to event that needs to be added
-            table = 'wsl.breaks'
-            column = 'id'
+            table = 'wsl.break'
+            column = 'break_id'
             col_filter = f"where break = '{break_name}' "
             break_id = inst.select_a_column(table=table,
                                             column=column,
@@ -302,9 +302,11 @@ class MainWidget(QMainWindow, Ui_Form):
             print(break_id)
 
             # Insert into Events Table
-            table = 'wsl.events'
-            columns = f"tour_type_id, event_name, stop_num, open_date, close_date, break_id"
-            fields = f"{tour_id}, '{event_name}', {stop_num}, '{open_date}', '{close_date}', {break_id}"
+            table = 'wsl.event'
+            columns = f"event_name, tour_id, stop_nbr, break_id, " \
+                      f"open_date, close_date"
+            fields = f"'{event_name}', {tour_id}, {stop_nbr}, " \
+                     f"{break_id}, '{open_date}', '{close_date}' "
             inst.insert_to_table(table=table,
                                  columns=columns,
                                  fields=fields
