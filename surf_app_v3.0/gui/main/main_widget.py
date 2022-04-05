@@ -395,7 +395,7 @@ class MainWidget(QMainWindow, Ui_Form):
             raise ValueError
         # Check to Make sure an TourName is Entered
         if self.cb_addheat_event.currentText() == '':
-            print("What TourName? If the tour doensn't have an event just repeat the tour name without the date.")
+            print("What Event? If the tour doesn't have an event just repeat the tour name without the date.")
             raise ValueError
         # Check to see if Event is Entered
         if self.cb_addheat_round.currentText() == '':
@@ -409,69 +409,67 @@ class MainWidget(QMainWindow, Ui_Form):
         tour_name = self.cb_addheat_tour.currentText()
         event_name = self.cb_addheat_event.currentText()
         round_name = self.cb_addheat_round.currentText()
-        heat_num = self.line_addheat_heat.text()
+        heat_nbr = self.line_addheat_heat.text()
 
         # Check that heat_num is an integer
-        inst = Validations.NumCheck(input_num=heat_num)
-        inst.int_check()
+        inst = Validations.NumCheck()
+        heat_nbr = inst.int_check(input_num=heat_nbr)
 
         # Grab date from the form
         heat_date = self.line_addheat_date.text()
         # Check that date is in the correct format
         inst = Validations.DateCheck()
-        inst.date_check(input_dt=heat_date)
+        heat_date = inst.date_check(input_dt=heat_date)
 
         # Grab duration from the form
         duration = self.line_addheat_duration.text()
         # Check that duration is an int
         inst = Validations.NumCheck(input_num=duration)
-        inst.int_check()
+        duration = inst.int_check(input_num=duration)
 
         # Find Wave Range
         wave_min = self.line_addheat_wavemin.text()
-        # Check to see if it is an int
-        inst = Validations.NumCheck(input_num=wave_min)
-        inst.int_check()
+        inst = Validations.NumCheck()
+        wave_min = inst.int_check(input_num=wave_min)
         wave_max = self.line_addheat_wavemax.text()
-        # Check to see if it is an int
-        inst = Validations.NumCheck(input_num=wave_max)
-        inst.int_check()
+        inst = Validations.NumCheck()
+        inst.int_check(input_num=wave_max)
 
         # Assign Wind Type
-        wind_type = []
+        wind_type_list = []
         if self.check_addheat_calm.isChecked():
-            wind_type.append('Calm')
+            wind_type_list.append('Calm')
         if self.check_addheat_light.isChecked():
-            wind_type.append('Light')
+            wind_type_list.append('Light')
         if self.check_addheat_onshore.isChecked():
-            wind_type.append('Onshore')
+            wind_type_list.append('Onshore')
         if self.check_addheat_offshore.isChecked():
-            wind_type.append('Offshore')
+            wind_type_list.append('Offshore')
         if self.check_addheat_cross.isChecked():
-            wind_type.append('Cross')
+            wind_type_list.append('Cross')
         if self.check_addheat_storm.isChecked():
-            wind_type.append('Storm')
+            wind_type_list.append('Storm')
 
         # Turn wind_type into a string
-        wind_type_str = ""
-        for ind, item in enumerate(wind_type):
-            if not ind == (len(wind_type) - 1):
-                wind_type_str = wind_type_str + item + ', '
+        wind = ""
+        for ind, item in enumerate(wind_type_list):
+            if not ind == (len(wind_type_list) - 1):
+                wind = wind + item + ', '
             else:
-                wind_type_str = wind_type_str + item
+                wind = wind + item
 
         print(f"Tour: {tour_name}")
         print(f"TourName: {event_name}")
-        print(f"Round & Heat: {round_name} - Heat {heat_num}")
+        print(f"Round & Heat: {round_name} - Heat {heat_nbr}")
         print(f"{duration} minutes")
         print(f"Waves ranged from {wave_min} to {wave_max}")
-        print(f"Wind: {wind_type}")
+        print(f"Wind: {wind_type_list}")
 
         # Add the Round to wsl.heats
         try:
             # Need to grab event_id
-            table = 'wsl.events'
-            column = 'id'
+            table = 'wsl.event'
+            column = 'event_id'
             col_filter = f"where event_name = '{event_name}' "
             inst = hierarchy.SqlCommands()
             event_id = inst.select_a_column(table=table,
@@ -479,9 +477,9 @@ class MainWidget(QMainWindow, Ui_Form):
                                             col_filter=col_filter
                                             )[0]
             # Need to grab round_id
-            table = 'wsl.rounds'
-            column = 'id'
-            col_filter = f"where round_name = '{round_name}' "
+            table = 'wsl.round'
+            column = 'round_id'
+            col_filter = f"where round = '{round_name}' "
             inst = hierarchy.SqlCommands()
             round_id = inst.select_a_column(table=table,
                                             column=column,
@@ -489,9 +487,11 @@ class MainWidget(QMainWindow, Ui_Form):
                                             )[0]
 
             # Insert into Round Table
-            table = 'wsl.heats'
-            columns = f"event_id, round_id, heat_nbr, heat_date, duration, wave_min, wave_max, wind"
-            fields = f"{event_id}, {round_id}, {heat_num}, '{heat_date}', {duration}, {wave_min}, {wave_max}, '{wind_type_str}' "
+            table = 'wsl.heat_details'
+            columns = f"heat_nbr, event_id, round_id, " \
+                      f"wind, heat_date, duration, wave_min, wave_max"
+            fields = f"{heat_nbr}, {event_id}, {round_id}, " \
+                     f"'{wind}', '{heat_date}', {duration}, {wave_min}, {wave_max}"
             inst.insert_to_table(table=table,
                                  columns=columns,
                                  fields=fields
