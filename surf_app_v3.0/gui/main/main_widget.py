@@ -129,11 +129,8 @@ class MainWidget(QMainWindow, Ui_Form):
     # Add Event Tab
 
     def slot_cb_addevent_year_on_index_change(self):
-
         self.cb_addevent_tourtype.clear()
-
         self.add_heat_instance.selected_tour_year = self.cb_addevent_year.currentText()
-
         self.cb_addevent_tourtype.addItems(self.add_heat_instance.return_tours())
 
     def slot_cb_addevent_continent_on_index_change(self):

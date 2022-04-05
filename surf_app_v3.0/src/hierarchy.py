@@ -591,13 +591,10 @@ class Round(Event):
 
         sql_command: str = f"""select heat.heat_nbr
                                 from wsl.heat_details heat
-                                    on heat.heat_id = heat_surfers.heat_id
-                                join wsl.event_round event_round
-                                    on event_round.event_round_id = heat.heat_round_id
                                 join wsl.round round
-                                    on round.round_id = event_round.round_id
+                                    on round.round_id = heat.round_id
                                 join wsl.event event
-                                    on event.event_id = event_round.event_id
+                                    on event.event_id = heat.event_id
                                 join wsl.tour
                                     on tour.tour_id = event.tour_id
                                 where tour.tour_name = '{self.selected_tour_name}'

@@ -6,7 +6,7 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QLabel, QApplication, QDialogButtonBox
 
 from src import hierarchy
-from src.hierarchy import Region, Event, SqlCommands
+from src.hierarchy import Region, Event, SqlCommands, Heat
 
 
 ########################################################################################################################
@@ -362,7 +362,7 @@ class SurferToHeat(QDialog, Event):
         self.hlayout_event = QHBoxLayout()
 
         # Tour Year Label and Combobox
-        self.hlayout_event.addWidget(QLabel("TourName:"))
+        self.hlayout_event.addWidget(QLabel("Event:"))
         self.cb_event = PyQt5.QtWidgets.QComboBox()
         self.hlayout_event.addWidget(self.cb_event)
         self.cb_event.setFixedWidth(200)
@@ -373,7 +373,7 @@ class SurferToHeat(QDialog, Event):
         self.hlayout_round = QHBoxLayout()
 
         # Tour Year Label and Combobox
-        self.hlayout_round.addWidget(QLabel("Event:"))
+        self.hlayout_round.addWidget(QLabel("Round:"))
         self.cb_round = PyQt5.QtWidgets.QComboBox()
         self.hlayout_round.addWidget(self.cb_round)
         self.cb_round.setFixedWidth(200)
@@ -384,7 +384,7 @@ class SurferToHeat(QDialog, Event):
         self.hlayout_heat = QHBoxLayout()
 
         # Tour Year Label and Combobox
-        self.hlayout_heat.addWidget(QLabel("Round:"))
+        self.hlayout_heat.addWidget(QLabel("Heat:"))
         self.cb_heat = PyQt5.QtWidgets.QComboBox()
         self.hlayout_heat.addWidget(self.cb_heat)
         self.cb_heat.setFixedWidth(200)
@@ -425,8 +425,8 @@ class SurferToHeat(QDialog, Event):
         self.__sql_password: str = "#LAwaItly19"
         self.__sql_host: str = "localhost"
 
-        # Instance of Event Class.
-        self.add_heat_round_instance: Event = Event(
+        # Instance of Heat Class.
+        self.add_heat_instance: Heat = Heat(
             sql_host_name=self.__sql_host,
             sql_password=self.__sql_password,
             sql_user_name=self.__sql_user
@@ -443,7 +443,7 @@ class SurferToHeat(QDialog, Event):
 
     ####################################################################################################################
     def connect_slots(self):
-
+        pass
         self.cb_year.currentIndexChanged.connect(self.slot_cb_year_on_index_change)
         self.cb_tour.currentIndexChanged.connect(self.slot_cb_tour_name_on_index_change)
         self.cb_event.currentIndexChanged.connect(self.slot_cb_event_round_name_on_index_change)
@@ -455,12 +455,11 @@ class SurferToHeat(QDialog, Event):
     def on_startup(self):
 
         # Add Tour Years
-        inst = hierarchy.Event()
-        self.cb_year.addItems([''] + inst.return_tour_years())
+        self.cb_year.addItems([''] + self.add_heat_instance.return_tour_years())
 
         # Add Surfers to Drop Down
         inst = hierarchy.SqlCommands()
-        self.cb_surfer.addItems([''] + inst.select_a_column(self,
+        self.cb_surfer.addItems([''] + inst.select_a_column(
             table='wsl.surfers',
             column=f"concat(first_name, ' ', last_name) as name",
             col_filter=''
@@ -476,32 +475,26 @@ class SurferToHeat(QDialog, Event):
     ####################################################################################################################
 
     def slot_cb_year_on_index_change(self):
-        inst = hierarchy.Event()
-        inst.set_everything_to_none()
-
         self.cb_tour.clear()
-
-        self.cb_tour.addItems([''] + self.return_tour_names_by_year(year=self.cb_year.currentText()))
+        self.add_heat_instance.selected_tour_year = self.cb_year.currentText()
+        self.cb_tour.addItems(self.add_heat_instance.return_tours())
 
     def slot_cb_tour_name_on_index_change(self):
         self.cb_event.clear()
-
-        self.add_heat_round_instance.selected_tourname = self.cb_tour.currentText()
-
-        self.cb_event.addItems([''] + self.add_heat_round_instance.return_events())
+        self.add_heat_instance.selected_tour_name = self.cb_tour.currentText()
+        self.cb_event.addItems([''] + self.add_heat_instance.return_events())
 
     def slot_cb_event_round_name_on_index_change(self):
         self.cb_round.clear()
-
-        self.cb_round.addItems(([''] + self.add_heat_round_instance.return_rounds()))
+        self.add_heat_instance.selected_event = self.cb_event.currentText()
+        self.cb_round.addItems(([''] + self.add_heat_instance.return_all_rounds()))
 
     def slot_cb_event_heat_name_on_index_change(self):
         self.cb_heat.clear()
-
-        self.add_heat_round_instance.selected_event = self.cb_event.currentText()
-        self.add_heat_round_instance.selected_round = self.cb_round.currentText()
-
-        self.cb_heat.addItems([''] + self.add_heat_round_instance.return_heats())
+        self.add_heat_instance.selected_tour_name = self.cb_tour.currentText()
+        self.add_heat_instance.selected_event = self.cb_event.currentText()
+        self.add_heat_instance.selected_round = self.cb_round.currentText()
+        self.cb_heat.addItems([''] + self.add_heat_instance.return_heats())
 
     def slot_add_surfer_clicked(self):
 
@@ -524,20 +517,28 @@ class SurferToHeat(QDialog, Event):
         try:
             # Need to grab event_id tied to event that needs to be added
             inst = hierarchy.SqlCommands()
-            table = 'wsl.heats'
-            column = 'event_id'
+            table = 'wsl.heat_details'
+            column = 'heat_id'
             col_filter = f"where heat_nbr = {heat_nbr} "
             heat_id = inst.select_a_column(table=table,
                                             column=column,
                                             col_filter=col_filter
                                             )[0]
 
-            print(f"Round ID: {heat_id}")
+            # Need to Grab surfer_id
+            inst = hierarchy.SqlCommands()
+            table = 'wsl.surfers'
+            column = 'surfer_id'
+            col_filter = f"where concat(first_name, ' ', last_name) = '{surfer}' "
+            surfer_id = inst.select_a_column(table=table,
+                                             column=column,
+                                             col_filter=col_filter
+                                             )[0]
 
             # Insert into Events Table
             table = 'wsl.heat_surfers'
-            columns = f"heat_id, surfer"
-            fields = f"{heat_id}, '{surfer}'"
+            columns = f"heat_id, surfer_id"
+            fields = f"{heat_id}, '{surfer_id}'"
             inst.insert_to_table(table=table,
                                  columns=columns,
                                  fields=fields
