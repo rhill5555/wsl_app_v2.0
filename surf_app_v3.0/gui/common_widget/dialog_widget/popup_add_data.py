@@ -6,7 +6,7 @@ from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QLabel, QApplication, QDialogButtonBox
 
 from src import hierarchy
-from src.hierarchy import Region, Event, SqlCommands, Heat
+from src.hierarchy import Region, Event, Heat
 
 
 ########################################################################################################################
@@ -101,8 +101,8 @@ class AddLocation(QDialog, Region):
         self.hlayout_city.addWidget(QLabel(''))
         self.layout.addLayout(self.hlayout_city)
 
-        Q_Btn = QDialogButtonBox.Ok | QDialogButtonBox.Cancel
-        self.ButtonBox = QDialogButtonBox(Q_Btn)
+        q_btn = QDialogButtonBox.Ok | QDialogButtonBox.Cancel
+        self.ButtonBox = QDialogButtonBox(q_btn)
         self.ButtonBox.accepted.connect(self.accept)
         self.ButtonBox.rejected.connect(self.reject)
         self.layout.addWidget(self.ButtonBox)
@@ -142,12 +142,7 @@ class AddLocation(QDialog, Region):
 
         # Clear the country combo boxs.
         self.cb_region.clear()
-
-        # Set the current value of the selected_continent variable in add_region_instance to the current text in the continent
-        # combo box.
         self.selected_country = self.cb_country.currentText()
-
-        # Add the countries to the country combo box.
         self.cb_region.addItems([''] + self.return_regions())
 
 ########################################################################################################################
@@ -221,8 +216,8 @@ class AddTourType(QDialog, Region):
         self.vlayout_tour.addWidget(QLabel(''))
         self.layout.addLayout(self.vlayout_tour)
 
-        Q_Btn = QDialogButtonBox.Ok | QDialogButtonBox.Cancel
-        self.ButtonBox = QDialogButtonBox(Q_Btn)
+        q_btn = QDialogButtonBox.Ok | QDialogButtonBox.Cancel
+        self.ButtonBox = QDialogButtonBox(q_btn)
         self.ButtonBox.accepted.connect(self.accept)
         self.ButtonBox.rejected.connect(self.reject)
         self.layout.addWidget(self.ButtonBox)
@@ -283,8 +278,8 @@ class AddEventType(QDialog, Event):
         self.vlayout_round.addWidget(QLabel(''))
         self.layout.addLayout(self.vlayout_round)
 
-        Q_Btn = QDialogButtonBox.Ok | QDialogButtonBox.Cancel
-        self.ButtonBox = QDialogButtonBox(Q_Btn)
+        q_btn = QDialogButtonBox.Ok | QDialogButtonBox.Cancel
+        self.ButtonBox = QDialogButtonBox(q_btn)
         self.ButtonBox.accepted.connect(self.accept)
         self.ButtonBox.rejected.connect(self.reject)
         self.layout.addWidget(self.ButtonBox)
@@ -410,8 +405,8 @@ class SurferToHeat(QDialog, Event):
         # self.add_surfer.clicked.connect(lambda: self.whichbtn(self.b4))
         self.layout.addWidget(self.add_surfer)
 
-        Q_Btn = QDialogButtonBox.Ok | QDialogButtonBox.Cancel
-        self.ButtonBox = QDialogButtonBox(Q_Btn)
+        q_btn = QDialogButtonBox.Ok | QDialogButtonBox.Cancel
+        self.ButtonBox = QDialogButtonBox(q_btn)
         self.ButtonBox.accepted.connect(self.accept)
         self.ButtonBox.rejected.connect(self.reject)
         self.layout.addWidget(self.ButtonBox)
@@ -521,9 +516,9 @@ class SurferToHeat(QDialog, Event):
             column = 'heat_id'
             col_filter = f"where heat_nbr = {heat_nbr} "
             heat_id = inst.select_a_column(table=table,
-                                            column=column,
-                                            col_filter=col_filter
-                                            )[0]
+                                           column=column,
+                                           col_filter=col_filter
+                                           )[0]
 
             # Need to Grab surfer_id
             inst = hierarchy.SqlCommands()
@@ -557,7 +552,7 @@ if __name__ == '__main__':
                       sql_user_name="Heather",
                       sql_password="#LAwaItly19",
                       sql_host_name="localhost"
-    )
+                      )
     win.show()
 
     sys.exit(app.exec())
