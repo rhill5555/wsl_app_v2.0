@@ -53,7 +53,8 @@ class MainWidget(QMainWindow, Ui_Form):
     # This defines the event handlers for everything on the Main Widget
     def connect_slots(self):
 
-        # Slots for Add TourName Tab
+        # Slots for Add Event Tab
+        self.cb_addevent_year.currentIndexChanged.connect(self.slot_cb_addevent_year_on_index_change)
         self.cb_addevent_continent.currentIndexChanged.connect(self.slot_cb_addevent_continent_on_index_change)
         self.cb_addevent_country.currentIndexChanged.connect(self.slot_cb_addevent_country_on_index_change)
         self.cb_addevent_region.currentIndexChanged.connect(self.slot_cb_addevent_region_on_index_change)
@@ -105,7 +106,7 @@ class MainWidget(QMainWindow, Ui_Form):
 
         # Add TourName Tab
         self.cb_addevent_continent.addItems([''] + self.add_region_instance.return_continents())
-        self.cb_addevent_tourtype.addItems([''] + self.add_heat_instance.return_tours())
+        self.cb_addevent_year.addItems([''] + self.add_heat_instance.return_tour_years())
 
         # Add Round Tab
         self.cb_addheat_tour.addItems([''] + self.add_heat_instance.return_tours())
@@ -125,6 +126,14 @@ class MainWidget(QMainWindow, Ui_Form):
 
     ####################################################################################################################
     # Add Event Tab
+
+    def slot_cb_addevent_year_on_index_change(self):
+
+        self.cb_addevent_tourtype.clear()
+
+        self.add_heat_instance.selected_tour_year = self.cb_addevent_year.currentText()
+
+        self.cb_addevent_tourtype.addItems(self.add_heat_instance.return_tours())
 
     def slot_cb_addevent_continent_on_index_change(self):
         # Set all the instance variables in the instance of the Region class to None, by calling a function in the
