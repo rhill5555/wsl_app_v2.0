@@ -63,7 +63,8 @@ class MainWidget(QMainWindow, Ui_Form):
         self.pb_addevent_clear.clicked.connect(self.slot_pb_addevent_clear_clicked)
         self.pb_addevent_submit.clicked.connect(self.slot_pb_addevent_submit_clicked)
 
-        # Slots for Add Round Tab
+        # Slots for Add Heat Tab
+        self.cb_addheat_year.currentIndexChanged.connect(self.slot_cb_addheat_year_on_index_change)
         self.cb_addheat_tour.currentIndexChanged.connect(self.slot_cb_addheat_tour_on_index_change)
 
         self.pb_addheat_newround.clicked.connect(self.slot_pb_addheat_newround_clicked)
@@ -104,12 +105,12 @@ class MainWidget(QMainWindow, Ui_Form):
     # Everything that should happen when the app has started up
     def on_startup(self):
 
-        # Add TourName Tab
+        # Add Event Tab
         self.cb_addevent_continent.addItems([''] + self.add_region_instance.return_continents())
         self.cb_addevent_year.addItems([''] + self.add_heat_instance.return_tour_years())
 
-        # Add Round Tab
-        self.cb_addheat_tour.addItems([''] + self.add_heat_instance.return_tours())
+        # Add Heat Tab
+        self.cb_addheat_year.addItems([''] + self.add_heat_instance.return_tour_years())
         self.cb_addheat_round.addItems([''] + self.add_heat_instance.return_all_rounds())
 
         # Add Round Results Tab
@@ -326,19 +327,19 @@ class MainWidget(QMainWindow, Ui_Form):
 
     ####################################################################################################################
     # TourName Handler Functions for the Add Round Tab
-    def slot_cb_addheat_tour_on_index_change(self):
-        # Set all the instance variables in the instance of the Event class to None, by calling a function in the
-        # add_heat_instance instance.
-        self.add_heat_instance.set_everything_to_none()
+    def slot_cb_addheat_year_on_index_change(self):
 
-        # Clear the event combo boxs.
+        self.cb_addheat_tour.clear()
+
+        self.add_heat_instance.selected_tour_year = self.cb_addheat_year.currentText()
+
+        self.cb_addheat_tour.addItems([''] + self.add_heat_instance.return_tours())
+
+    def slot_cb_addheat_tour_on_index_change(self):
         self.cb_addheat_event.clear()
 
-        # Set the current value of the selected_tour variable in add_region_instance to the current text in the tour
-        # combo box.
-        self.add_heat_instance.selected_tourname = self.cb_addheat_tour.currentText()
+        self.add_heat_instance.selected_tour_name = self.cb_addheat_tour.currentText()
 
-        # Add the events to the event combo box.
         self.cb_addheat_event.addItems([''] + self.add_heat_instance.return_events())
 
     # noinspection PyMethodMayBeStatic
@@ -356,9 +357,9 @@ class MainWidget(QMainWindow, Ui_Form):
                 # Insert new tour type into  tour type table
             try:
                 # Insert into Event Table
-                table = 'wsl.rounds'
-                columns = f"round_name"
-                fields = f"'{round_name}'"
+                table = 'wsl.round'
+                columns = f"round"
+                fields = f"'{round_name}' "
                 inst = hierarchy.SqlCommands()
                 inst.insert_to_table(table=table,
                                      columns=columns,

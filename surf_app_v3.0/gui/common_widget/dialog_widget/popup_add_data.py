@@ -276,7 +276,7 @@ class AddEventType(QDialog, Event):
         self.vlayout_round = QVBoxLayout()
 
         # Event Label and Combobox
-        self.vlayout_round.addWidget(QLabel("Event Type:"))
+        self.vlayout_round.addWidget(QLabel("Round Type:"))
         self.line_round = PyQt5.QtWidgets.QLineEdit()
         self.vlayout_round.addWidget(self.line_round)
         self.line_round.setFixedWidth(200)
