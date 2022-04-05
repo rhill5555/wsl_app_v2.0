@@ -53,7 +53,8 @@ class MainWidget(QMainWindow, Ui_Form):
     # This defines the event handlers for everything on the Main Widget
     def connect_slots(self):
 
-        # Slots for Add TourName Tab
+        # Slots for Add Event Tab
+        self.cb_addevent_year.currentIndexChanged.connect(self.slot_cb_addevent_year_on_index_change)
         self.cb_addevent_continent.currentIndexChanged.connect(self.slot_cb_addevent_continent_on_index_change)
         self.cb_addevent_country.currentIndexChanged.connect(self.slot_cb_addevent_country_on_index_change)
         self.cb_addevent_region.currentIndexChanged.connect(self.slot_cb_addevent_region_on_index_change)
@@ -62,7 +63,8 @@ class MainWidget(QMainWindow, Ui_Form):
         self.pb_addevent_clear.clicked.connect(self.slot_pb_addevent_clear_clicked)
         self.pb_addevent_submit.clicked.connect(self.slot_pb_addevent_submit_clicked)
 
-        # Slots for Add Round Tab
+        # Slots for Add Heat Tab
+        self.cb_addheat_year.currentIndexChanged.connect(self.slot_cb_addheat_year_on_index_change)
         self.cb_addheat_tour.currentIndexChanged.connect(self.slot_cb_addheat_tour_on_index_change)
 
         self.pb_addheat_newround.clicked.connect(self.slot_pb_addheat_newround_clicked)
@@ -103,12 +105,12 @@ class MainWidget(QMainWindow, Ui_Form):
     # Everything that should happen when the app has started up
     def on_startup(self):
 
-        # Add TourName Tab
+        # Add Event Tab
         self.cb_addevent_continent.addItems([''] + self.add_region_instance.return_continents())
-        self.cb_addevent_tourtype.addItems([''] + self.add_heat_instance.return_tours())
+        self.cb_addevent_year.addItems([''] + self.add_heat_instance.return_tour_years())
 
-        # Add Round Tab
-        self.cb_addheat_tour.addItems([''] + self.add_heat_instance.return_tours())
+        # Add Heat Tab
+        self.cb_addheat_year.addItems([''] + self.add_heat_instance.return_tour_years())
         self.cb_addheat_round.addItems([''] + self.add_heat_instance.return_all_rounds())
 
         # Add Round Results Tab
@@ -124,49 +126,39 @@ class MainWidget(QMainWindow, Ui_Form):
         self.cb_addsurfer_hcontinent.addItems([''] + self.add_region_instance.return_continents())
 
     ####################################################################################################################
-    # TourName Handler Functions for Add TourName Tab
+    # Add Event Tab
 
+    # Add Countries when a Continent is selected
     def slot_cb_addevent_continent_on_index_change(self):
-        # Set all the instance variables in the instance of the Region class to None, by calling a function in the
-        # add_region_instance instance.
         self.add_region_instance.set_everything_to_none()
-
         self.cb_addevent_country.clear()
-
-        # Set value of selected continent in add_region_instance to current text in continent combobox
         self.add_region_instance.selected_continent = self.cb_addevent_continent.currentText()
-
-        # Add the countries to the country combo box.
         self.cb_addevent_country.addItems([''] + self.add_region_instance.return_countries())
 
+    # Add Regions when a Country is selected
     def slot_cb_addevent_country_on_index_change(self):
-        # Clear the add_region_instance combo boxs.
         self.cb_addevent_region.clear()
-
-        # Set the current value of the selected_country variable in add_region_instance to the current text
-        # in the country combo box.
         self.add_region_instance.selected_country = self.cb_addevent_country.currentText()
-
-        # Add the regions to the add_region_instance combo box.
         self.cb_addevent_region.addItems([''] + self.add_region_instance.return_regions())
 
+    # Add Breaks when a Region is selected
     def slot_cb_addevent_region_on_index_change(self):
-        # Clear the add_region_instance combo boxs.
         self.cb_addevent_break.clear()
-
-        # Set the current value of the selected_country variable in add_region_instance to the current text
-        # in the country combo box.
         self.add_region_instance.selected_region = self.cb_addevent_region.currentText()
-
-        # Add the regions to the add_region_instance combo box.
         self.cb_addevent_break.addItems([''] + self.add_region_instance.return_breaks())
 
+    # Add Tour Names when a Year is selected
+    def slot_cb_addevent_year_on_index_change(self):
+        self.cb_addevent_tourtype.clear()
+        self.add_heat_instance.selected_tour_year = self.cb_addevent_year.currentText()
+        self.cb_addevent_tourtype.addItems(self.add_heat_instance.return_tours())
+
+    # Button for Adding a New Tour Type
     # noinspection PyMethodMayBeStatic
     def slot_pb_addevent_newtour_clicked(self):
         dialog = AddTourType(title="Add a Tour Type to database.")
 
         if dialog.exec() == QDialog.Accepted:
-            tour_name = dialog.line_tourtype.text()
 
             # Check to see if Tour Name is Blank for Label and LineEdit
             if dialog.line_tourtype.text() == '':
@@ -215,6 +207,7 @@ class MainWidget(QMainWindow, Ui_Form):
                 print('I went to the fucking except when you were trying to enter a new tour.')
                 raise ValueError
 
+    # Clear Form
     def slot_pb_addevent_clear_clicked(self):
         self.cb_addevent_tourtype.clear()
         self.line_addevent_name.clear()
@@ -227,11 +220,12 @@ class MainWidget(QMainWindow, Ui_Form):
         self.cb_addevent_region.clear()
         self.cb_addevent_break.clear()
 
+    # Logic for when Submit Button is clicked
     def slot_pb_addevent_submit_clicked(self):
-        # Check to make sureTour Type have data
+        # Check to make sure Tour Type has data
         condition_1 = self.cb_addevent_tourtype.currentText() == ''
         if not condition_1:
-            print("Tour Added.")
+            print(f"Tour is {self.cb_addevent_tourtype.currentText()}")
         else:
             print("You need to enter a Tour.")
             raise ValueError
@@ -240,20 +234,20 @@ class MainWidget(QMainWindow, Ui_Form):
         tour_name = self.cb_addevent_tourtype.currentText()
         event_name = self.line_addevent_name.text()
 
-        # Grab Stop Nbr and check to make sure it's and integer
-        stop_num = self.line_addevent_stop.text()
-        inst = Validations.NumCheck(input_num=stop_num)
-        stop_num = inst.int_check()
+        # Grab Stop nbr and check to make sure it's and integer
+        stop_nbr = self.line_addevent_stop.text()
+        inst = Validations.NumCheck()
+        stop_nbr = inst.int_check(input_num=stop_nbr)
 
         # Grab Date Open and Date close and check that they are in the correct format
         open_date = self.line_addevent_open.text()
         close_date = self.line_addevent_close.text()
-        print(open_date)
-        print(close_date)
+        # print(open_date)
+        # print(close_date)
         inst = Validations.DateCheck()
-        inst.date_check(input_dt=open_date)
+        open_date = inst.date_check(input_dt=open_date)
         inst = Validations.DateCheck()
-        inst.date_check(input_dt=close_date)
+        close_date = inst.date_check(input_dt=close_date)
 
         print("Dates successful")
 
@@ -264,15 +258,15 @@ class MainWidget(QMainWindow, Ui_Form):
         break_name = self.cb_addevent_break.currentText()
 
         print(f"Tour: {tour_name}")
-        print(f"Stop: {stop_num}  {event_name}")
+        print(f"Stop: {stop_nbr}  {event_name}")
         print(f"From: {open_date}  to  {close_date}")
         print(f"Location: {continent}, {country}, {region}, {break_name}")
 
         # Add the Events to wsl.events
         try:
             # Need to grab region id tied to event that needs to be added
-            table = 'wsl.tour_type'
-            column = 'id'
+            table = 'wsl.tour'
+            column = 'tour_id'
             col_filter = f"where tour_name = '{tour_name}' "
             inst = hierarchy.SqlCommands()
             tour_id = inst.select_a_column(table=table,
@@ -283,8 +277,8 @@ class MainWidget(QMainWindow, Ui_Form):
             print(tour_id)
 
             # Need to grab break_id tied to event that needs to be added
-            table = 'wsl.breaks'
-            column = 'id'
+            table = 'wsl.break'
+            column = 'break_id'
             col_filter = f"where break = '{break_name}' "
             break_id = inst.select_a_column(table=table,
                                             column=column,
@@ -293,9 +287,11 @@ class MainWidget(QMainWindow, Ui_Form):
             print(break_id)
 
             # Insert into Events Table
-            table = 'wsl.events'
-            columns = f"tour_type_id, event_name, stop_num, open_date, close_date, break_id"
-            fields = f"{tour_id}, '{event_name}', {stop_num}, '{open_date}', '{close_date}', {break_id}"
+            table = 'wsl.event'
+            columns = f"event_name, tour_id, stop_nbr, break_id, " \
+                      f"open_date, close_date"
+            fields = f"'{event_name}', {tour_id}, {stop_nbr}, " \
+                     f"{break_id}, '{open_date}', '{close_date}' "
             inst.insert_to_table(table=table,
                                  columns=columns,
                                  fields=fields
@@ -306,30 +302,22 @@ class MainWidget(QMainWindow, Ui_Form):
         # Clear Form on Submit
         self.slot_pb_addevent_clear_clicked()
 
-    # noinspection PyMethodMayBeStatic
-    def slot_pb_addheat_surfers_clicked(self):
-        dialog = SurferToHeat(title="Add a location to the database.")
-
-        if dialog.exec() == QDialog.Accepted:
-            pass
-
     ####################################################################################################################
-    # TourName Handler Functions for the Add Round Tab
+    # Add Heat Tab
+
+    # Add Tour Names when Year is selected
+    def slot_cb_addheat_year_on_index_change(self):
+        self.cb_addheat_tour.clear()
+        self.add_heat_instance.selected_tour_year = self.cb_addheat_year.currentText()
+        self.cb_addheat_tour.addItems([''] + self.add_heat_instance.return_tours())
+
+    # Add Events when a Tour Name is selected
     def slot_cb_addheat_tour_on_index_change(self):
-        # Set all the instance variables in the instance of the Event class to None, by calling a function in the
-        # add_heat_instance instance.
-        self.add_heat_instance.set_everything_to_none()
-
-        # Clear the event combo boxs.
         self.cb_addheat_event.clear()
-
-        # Set the current value of the selected_tour variable in add_region_instance to the current text in the tour
-        # combo box.
-        self.add_heat_instance.selected_tourname = self.cb_addheat_tour.currentText()
-
-        # Add the events to the event combo box.
+        self.add_heat_instance.selected_tour_name = self.cb_addheat_tour.currentText()
         self.cb_addheat_event.addItems([''] + self.add_heat_instance.return_events())
 
+    # Button for Adding New Round Types
     # noinspection PyMethodMayBeStatic
     def slot_pb_addheat_newround_clicked(self):
         dialog = AddEventType(title="Add a Tour Type to database.")
@@ -345,9 +333,9 @@ class MainWidget(QMainWindow, Ui_Form):
                 # Insert new tour type into  tour type table
             try:
                 # Insert into Event Table
-                table = 'wsl.rounds'
-                columns = f"round_name"
-                fields = f"'{round_name}'"
+                table = 'wsl.round'
+                columns = f"round"
+                fields = f"'{round_name}' "
                 inst = hierarchy.SqlCommands()
                 inst.insert_to_table(table=table,
                                      columns=columns,
@@ -357,6 +345,7 @@ class MainWidget(QMainWindow, Ui_Form):
                 print('I went to the fucking except')
                 raise ValueError
 
+    # Clear the Form
     def slot_pb_addheat_clear_clicked(self):
         self.cb_addheat_tour.clear()
         self.cb_addheat_tour.addItems([''] + self.add_heat_instance.return_tours())
@@ -375,6 +364,7 @@ class MainWidget(QMainWindow, Ui_Form):
         self.check_addheat_cross.setChecked(0)
         self.check_addheat_storm.setChecked(0)
 
+    # Logic for when Submit Button is clicked
     def slot_pb_addheat_submit_clicked(self):
 
         # Check to Make sure a Tour is Entered
@@ -383,7 +373,7 @@ class MainWidget(QMainWindow, Ui_Form):
             raise ValueError
         # Check to Make sure an TourName is Entered
         if self.cb_addheat_event.currentText() == '':
-            print("What TourName? If the tour doensn't have an event just repeat the tour name without the date.")
+            print("What Event? If the tour doesn't have an event just repeat the tour name without the date.")
             raise ValueError
         # Check to see if Event is Entered
         if self.cb_addheat_round.currentText() == '':
@@ -397,69 +387,67 @@ class MainWidget(QMainWindow, Ui_Form):
         tour_name = self.cb_addheat_tour.currentText()
         event_name = self.cb_addheat_event.currentText()
         round_name = self.cb_addheat_round.currentText()
-        heat_num = self.line_addheat_heat.text()
+        heat_nbr = self.line_addheat_heat.text()
 
         # Check that heat_num is an integer
-        inst = Validations.NumCheck(input_num=heat_num)
-        inst.int_check()
+        inst = Validations.NumCheck()
+        heat_nbr = inst.int_check(input_num=heat_nbr)
 
         # Grab date from the form
         heat_date = self.line_addheat_date.text()
         # Check that date is in the correct format
         inst = Validations.DateCheck()
-        inst.date_check(input_dt=heat_date)
+        heat_date = inst.date_check(input_dt=heat_date)
 
         # Grab duration from the form
         duration = self.line_addheat_duration.text()
         # Check that duration is an int
         inst = Validations.NumCheck(input_num=duration)
-        inst.int_check()
+        duration = inst.int_check(input_num=duration)
 
         # Find Wave Range
         wave_min = self.line_addheat_wavemin.text()
-        # Check to see if it is an int
-        inst = Validations.NumCheck(input_num=wave_min)
-        inst.int_check()
+        inst = Validations.NumCheck()
+        wave_min = inst.int_check(input_num=wave_min)
         wave_max = self.line_addheat_wavemax.text()
-        # Check to see if it is an int
-        inst = Validations.NumCheck(input_num=wave_max)
-        inst.int_check()
+        inst = Validations.NumCheck()
+        inst.int_check(input_num=wave_max)
 
         # Assign Wind Type
-        wind_type = []
+        wind_type_list = []
         if self.check_addheat_calm.isChecked():
-            wind_type.append('Calm')
+            wind_type_list.append('Calm')
         if self.check_addheat_light.isChecked():
-            wind_type.append('Light')
+            wind_type_list.append('Light')
         if self.check_addheat_onshore.isChecked():
-            wind_type.append('Onshore')
+            wind_type_list.append('Onshore')
         if self.check_addheat_offshore.isChecked():
-            wind_type.append('Offshore')
+            wind_type_list.append('Offshore')
         if self.check_addheat_cross.isChecked():
-            wind_type.append('Cross')
+            wind_type_list.append('Cross')
         if self.check_addheat_storm.isChecked():
-            wind_type.append('Storm')
+            wind_type_list.append('Storm')
 
         # Turn wind_type into a string
-        wind_type_str = ""
-        for ind, item in enumerate(wind_type):
-            if not ind == (len(wind_type) - 1):
-                wind_type_str = wind_type_str + item + ', '
+        wind = ""
+        for ind, item in enumerate(wind_type_list):
+            if not ind == (len(wind_type_list) - 1):
+                wind = wind + item + ', '
             else:
-                wind_type_str = wind_type_str + item
+                wind = wind + item
 
         print(f"Tour: {tour_name}")
         print(f"TourName: {event_name}")
-        print(f"Round & Heat: {round_name} - Heat {heat_num}")
+        print(f"Round & Heat: {round_name} - Heat {heat_nbr}")
         print(f"{duration} minutes")
         print(f"Waves ranged from {wave_min} to {wave_max}")
-        print(f"Wind: {wind_type}")
+        print(f"Wind: {wind_type_list}")
 
         # Add the Round to wsl.heats
         try:
             # Need to grab event_id
-            table = 'wsl.events'
-            column = 'id'
+            table = 'wsl.event'
+            column = 'event_id'
             col_filter = f"where event_name = '{event_name}' "
             inst = hierarchy.SqlCommands()
             event_id = inst.select_a_column(table=table,
@@ -467,9 +455,9 @@ class MainWidget(QMainWindow, Ui_Form):
                                             col_filter=col_filter
                                             )[0]
             # Need to grab round_id
-            table = 'wsl.rounds'
-            column = 'id'
-            col_filter = f"where round_name = '{round_name}' "
+            table = 'wsl.round'
+            column = 'round_id'
+            col_filter = f"where round = '{round_name}' "
             inst = hierarchy.SqlCommands()
             round_id = inst.select_a_column(table=table,
                                             column=column,
@@ -477,9 +465,11 @@ class MainWidget(QMainWindow, Ui_Form):
                                             )[0]
 
             # Insert into Round Table
-            table = 'wsl.heats'
-            columns = f"event_id, round_id, heat_nbr, heat_date, duration, wave_min, wave_max, wind"
-            fields = f"{event_id}, {round_id}, {heat_num}, '{heat_date}', {duration}, {wave_min}, {wave_max}, '{wind_type_str}' "
+            table = 'wsl.heat_details'
+            columns = f"heat_nbr, event_id, round_id, " \
+                      f"wind, heat_date, duration, wave_min, wave_max"
+            fields = f"{heat_nbr}, {event_id}, {round_id}, " \
+                     f"'{wind}', '{heat_date}', {duration}, {wave_min}, {wave_max}"
             inst.insert_to_table(table=table,
                                  columns=columns,
                                  fields=fields
@@ -490,56 +480,49 @@ class MainWidget(QMainWindow, Ui_Form):
         # Clear Form on Submit
         self.slot_pb_addheat_clear_clicked()
 
+    # Button for adding surfers to a heat
+    # noinspection PyMethodMayBeStatic
+    def slot_pb_addheat_surfers_clicked(self):
+        dialog = SurferToHeat(title="Add a location to the database.")
+
+        if dialog.exec() == QDialog.Accepted:
+            pass
+
     ####################################################################################################################
-    # TourName Handler Functions for the Add Round Results Tab
+    # Add Results Tab
 
+    # Add Tour Names when a Year is selected
     def slot_cb_addresults_year_on_index_change(self):
-        inst = hierarchy.Heat()
-        inst.set_everything_to_none()
-
         self.cb_addresults_tour.clear()
+        self.add_heat_instance.selected_tour_year = self.cb_addresults_year.currentText()
+        self.cb_addresults_tour.addItems([''] + self.add_heat_instance.return_tours())
 
-        self.cb_addresults_tour.addItems([''] + inst.return_tour_years())
-
+    # Add Events when a Tour Name is selected
     def slot_cb_addresults_tour_on_index_change(self):
-
-        self.add_heat_instance.set_everything_to_none()
-
         self.cb_addresults_event.clear()
-
-        # Set the current value of the selected_continent variable in add_region_instance to the current text in the continent
-        # combo box.
-        self.add_heat_instance.selected_tourname = self.cb_addresults_tour.currentText()
-
-        # Add the countries to the country combo box.
+        self.add_heat_instance.selected_tour_name = self.cb_addresults_tour.currentText()
         self.cb_addresults_event.addItems([''] + self.add_heat_instance.return_events())
 
+    # Add Round Types
     def slot_cb_addresults_round_on_index_change(self):
         self.cb_addresults_round.clear()
+        self.cb_addresults_round.addItems([''] + self.add_heat_instance.return_all_rounds())
 
-        self.cb_addresults_round.addItems([''] + self.add_heat_instance.return_rounds())
-
+    # Add Heat Numbers when a Round is selected
     def slot_cb_addresults_heat_on_index_change(self):
         self.cb_addresults_heat.clear()
-
+        self.add_heat_instance.selected_tour_name = self.cb_addresults_tour.currentText()
         self.add_heat_instance.selected_event = self.cb_addresults_event.currentText()
         self.add_heat_instance.selected_round = self.cb_addresults_round.currentText()
-
-        # Add the countries to the country combo box.
         self.cb_addresults_heat.addItems([''] + self.add_heat_instance.return_heats())
 
+    # Add Surfers when a Heat is selected
     def slot_cb_addresults_surfer_on_index_change(self):
         self.cb_addresults_surfer.clear()
-
         self.add_heat_instance.selected_tourname = self.cb_addresults_tour.currentText()
-        print(self.add_heat_instance.selected_tourname)
         self.add_heat_instance.selected_event = self.cb_addresults_event.currentText()
-        print(self.add_heat_instance.selected_event)
         self.add_heat_instance.selected_round = self.cb_addresults_round.currentText()
-        print(self.add_heat_instance.selected_round)
         self.add_heat_instance.selected_heat = self.cb_addresults_heat.currentText()
-        print(self.add_heat_instance.selected_heat)
-
         self.cb_addresults_surfer.addItems([''] + self.add_heat_instance.return_surfers_in_heat())
 
     def slot_pb_addresults_clear_clicked(self):
@@ -623,9 +606,9 @@ class MainWidget(QMainWindow, Ui_Form):
 
         # Set Advanced or Eliminated based on which is checked
         if cond_advanced:
-            advancement = 'Advanced'
+            status = 'Advanced'
         if cond_eliminated:
-            advancement = 'Eliminated'
+            status = 'Eliminated'
 
         # Grab wave scores from form
 
@@ -736,15 +719,72 @@ class MainWidget(QMainWindow, Ui_Form):
 
         # Add To Table
         try:
-            # Need to grab id from wsl.heat_surfers
-            heat_surfer_id = self.add_heat_instance.return_surfers_in_heat()[0]
+            # # Need to grab tour id
+            # inst = hierarchy.SqlCommands
+            # table = 'wsl.tour'
+            # column = 'tour_id'
+            # col_filter = f"'where tour_name = '{tour_name}' "
+            # tour_id = inst.select_a_column(table=table,
+            #                                column=column,
+            #                                col_filter=col_filter
+            #                                )
+
+            # Need to grab event id
+            inst = hierarchy.SqlCommands()
+            table = 'wsl.event'
+            column = 'event_id'
+            col_filter = f"where event_name = '{event_name}' "
+            event_id = inst.select_a_column(table=table,
+                                            column=column,
+                                            col_filter=col_filter
+                                            )[0]
+
+            # Need to grab round id
+            inst = hierarchy.SqlCommands()
+            table = 'wsl.round'
+            column = 'round_id'
+            col_filter = f"where round = '{round_name}' "
+            round_id = inst.select_a_column(table=table,
+                                            column=column,
+                                            col_filter=col_filter
+                                            )[0]
+
+            # Need to grab heat id
+            inst = hierarchy.SqlCommands()
+            table = 'wsl.heat_details'
+            column = 'heat_id'
+            col_filter = f"where event_id = {event_id} " \
+                         f"and round_id = {round_id} " \
+                         f"and heat_nbr = {heat_nbr}"
+            heat_id = inst.select_a_column(table=table,
+                                           column=column,
+                                           col_filter=col_filter
+                                           )[0]
+
+            # Need to grab surfer id
+            inst = hierarchy.SqlCommands()
+            table = 'wsl.surfers'
+            column = 'surfer_id'
+            col_filter = f"where concat(first_name, ' ', last_name) = '{surfer}' "
+            surfer_id = inst.select_a_column(table=table,
+                                             column=column,
+                                             col_filter=col_filter
+                                             )[0]
 
             # Insert into Break Table
             inst = hierarchy.SqlCommands()
             table = 'wsl.heat_results'
-            columns = f"heat_surfer_id, picked_percent, jersey_color, advancement, wave_1, wave_2, wave_3, wave_4, wave_5, wave_6, wave_7, wave_8, wave_9, wave_10, wave_11, wave_12, wave_13, wave_14, wave_15"
+            columns = f"heat_id, surfer_in_heat_id, " \
+                      f"pick_to_win_percent, jersey_color, status, " \
+                      f"wave_1, wave_2, wave_3, wave_4, wave_5, " \
+                      f"wave_6, wave_7, wave_8, wave_9, wave_10, " \
+                      f"wave_11, wave_12, wave_13, wave_14, wave_15 "
             # noinspection PyBroadException,PyUnboundLocalVariable
-            fields = f"{heat_surfer_id}, {picked_percent}, '{jersey_color}', '{advancement}', {wave_1}, {wave_2}, {wave_3}, {wave_4}, {wave_5}, {wave_6}, {wave_7}, {wave_8}, {wave_9}, {wave_10}, {wave_11}, {wave_12}, {wave_13}, {wave_14}, {wave_15}"
+            fields = f"{heat_id}, {surfer_id}, " \
+                     f"{picked_percent}, '{jersey_color}', '{status}', " \
+                     f"{wave_1}, {wave_2}, {wave_3}, {wave_4}, {wave_5}, " \
+                     f"{wave_6}, {wave_7}, {wave_8}, {wave_9}, {wave_10}, " \
+                     f"{wave_11}, {wave_12}, {wave_13}, {wave_14}, {wave_15}"
             inst.insert_to_table(table=table,
                                  columns=columns,
                                  fields=fields
@@ -784,7 +824,7 @@ class MainWidget(QMainWindow, Ui_Form):
         self.line_addresults_15.clear()
 
     ####################################################################################################################
-    # TourName Handler Functions for The Add Break Tab
+    #  Add Break Tab
 
     # Change Country List when a Continent is selected
     def slot_cb_addbreak_continent_on_index_change(self):
@@ -851,9 +891,9 @@ class MainWidget(QMainWindow, Ui_Form):
                 # Pull the continent_id to use when adding the new country to the database
                 # Future State: Put a check in here to make sure one continent_id is returned
                 country_id = sql_command_instance.select_a_column(table='wsl.country',
-                                                                    column='country_id',
-                                                                    col_filter=f"where country = '{country}' "
-                                                                    )[0]
+                                                                  column='country_id',
+                                                                  col_filter=f"where country = '{country}' "
+                                                                  )[0]
 
                 # Add the new region to the table
                 sql_command_instance.insert_to_table(table='wsl.region',
@@ -877,9 +917,9 @@ class MainWidget(QMainWindow, Ui_Form):
                 # Pull the region_id to use when adding the new country to the database
                 # Future State: Put a check in here to make sure one continent_id is returned
                 region_id = sql_command_instance.select_a_column(table='wsl.region',
-                                                                  column='region_id',
-                                                                  col_filter=f"where region = '{region}' "
-                                                                  )[0]
+                                                                 column='region_id',
+                                                                 col_filter=f"where region = '{region}' "
+                                                                 )[0]
 
                 # Add the new city to the table
                 sql_command_instance.insert_to_table(table='wsl.city',
@@ -1043,7 +1083,7 @@ class MainWidget(QMainWindow, Ui_Form):
         self.slot_pb_addbreak_clear_clicked()
 
     ####################################################################################################################
-    # TourName Handler Functions for Add Surfer Tab
+    # Add Surfer Tab
 
     # Change Country List when Continent is Selected
     def slot_cb_addsurfer_continent_on_index_change(self):
@@ -1208,7 +1248,7 @@ class MainWidget(QMainWindow, Ui_Form):
             table = 'wsl.city'
             column = 'city_id'
             if home_city == '':
-                col_filter = ' '
+                col_filter = f"where city = 'Unknown' "
             else:
                 col_filter = f"where city = '{home_city}' "
             inst = hierarchy.SqlCommands()
@@ -1223,7 +1263,7 @@ class MainWidget(QMainWindow, Ui_Form):
                       f"first_season, first_tour, home_city_id"
             fields = f"'{gender}', '{first_name}', '{last_name}', '{stance}', {country_id}, " \
                      f"'{birthday}', {height}, {weight}, " \
-                     f"'{first_season}', '{first_tour}', {home_city_id}"
+                     f"{first_season}, '{first_tour}', {home_city_id}"
             inst.insert_to_table(table=table,
                                  columns=columns,
                                  fields=fields

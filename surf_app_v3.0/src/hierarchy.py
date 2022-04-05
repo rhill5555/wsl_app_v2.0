@@ -357,7 +357,7 @@ class Region(Country):
         sql_command: str = f"""select break.break
                                 from wsl.break break
                                 join wsl.region region
-                                    on break.region_id = regions.region_id
+                                    on break.region_id = region.region_id
                                 where region = '{self.selected_region}'
                             """
 
@@ -591,13 +591,10 @@ class Round(Event):
 
         sql_command: str = f"""select heat.heat_nbr
                                 from wsl.heat_details heat
-                                    on heat.heat_id = heat_surfers.heat_id
-                                join wsl.event_round event_round
-                                    on event_round.event_round_id = heat.heat_round_id
                                 join wsl.round round
-                                    on round.round_id = event_round.round_id
+                                    on round.round_id = heat.round_id
                                 join wsl.event event
-                                    on event.event_id = event_round.event_id
+                                    on event.event_id = heat.event_id
                                 join wsl.tour
                                     on tour.tour_id = event.tour_id
                                 where tour.tour_name = '{self.selected_tour_name}'
@@ -654,18 +651,16 @@ class Heat(Round):
                   f"is None or not a string. It has a type of: {type(self.selected_event)}")
             return surfer_list
 
-        sql_command: str = f"""select concat(surfer.firstname, ' ', surfer.last_name) as surfer
-                                        from wsl.surfer surfer
+        sql_command: str = f"""select concat(surfer.first_name, ' ', surfer.last_name) as surfer
+                                        from wsl.surfers surfer
                                         join wsl.heat_surfers heat_surfers
                                             on heat_surfers.surfer_id = surfer.surfer_id
                                         join wsl.heat_details heat
                                             on heat.heat_id = heat_surfers.heat_id
-                                        join wsl.event_round event_round
-                                            on event_round.event_round_id = heat.heat_round_id
                                         join wsl.round round
-                                            on round.round_id = event_round.round_id
+                                            on round.round_id = heat.round_id
                                         join wsl.event event
-                                            on event.event_id = event_round.event_id
+                                            on event.event_id = heat.event_id
                                         join wsl.tour
                                             on tour.tour_id = event.tour_id
                                         where tour.tour_name = '{self.selected_tour_name}'
