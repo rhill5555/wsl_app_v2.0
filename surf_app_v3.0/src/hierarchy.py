@@ -357,7 +357,7 @@ class Region(Country):
         sql_command: str = f"""select break.break
                                 from wsl.break break
                                 join wsl.region region
-                                    on break.region_id = regions.region_id
+                                    on break.region_id = region.region_id
                                 where region = '{self.selected_region}'
                             """
 

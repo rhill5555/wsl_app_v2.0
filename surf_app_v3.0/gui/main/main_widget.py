@@ -124,7 +124,7 @@ class MainWidget(QMainWindow, Ui_Form):
         self.cb_addsurfer_hcontinent.addItems([''] + self.add_region_instance.return_continents())
 
     ####################################################################################################################
-    # TourName Handler Functions for Add TourName Tab
+    # Add Event Tab
 
     def slot_cb_addevent_continent_on_index_change(self):
         # Set all the instance variables in the instance of the Region class to None, by calling a function in the
