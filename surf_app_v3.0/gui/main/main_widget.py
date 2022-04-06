@@ -504,16 +504,32 @@ class MainWidget(QMainWindow, Ui_Form):
                                             col_filter=col_filter
                                             )[0]
 
-            # Insert into Round Table
+            # Check to see if heat has already been added
             table = 'wsl.heat_details'
-            columns = f"heat_nbr, event_id, round_id, " \
-                      f"wind, heat_date, duration, wave_min, wave_max"
-            fields = f"{heat_nbr}, {event_id}, {round_id}, " \
-                     f"'{wind}', '{heat_date}', {duration}, {wave_min}, {wave_max}"
-            inst.insert_to_table(table=table,
-                                 columns=columns,
-                                 fields=fields
-                                 )
+            column = 'heat_nbr, event_id, round_id'
+            col_filter = f"where heat_nbr = {heat_nbr} " \
+                         f"and event_id = {event_id} " \
+                         f"and round_id = {round_id}"
+            inst = hierarchy.SqlCommands()
+            dupe = inst.check_for_dupe_add(table=table,
+                                           column=column,
+                                           col_filter=col_filter
+                                           )
+
+            # Insert into Heat Details Table if not a duplicate
+            if not dupe:
+                table = 'wsl.heat_details'
+                columns = f"heat_nbr, event_id, round_id, " \
+                          f"wind, heat_date, duration, wave_min, wave_max"
+                fields = f"{heat_nbr}, {event_id}, {round_id}, " \
+                         f"'{wind}', '{heat_date}', {duration}, {wave_min}, {wave_max}"
+                inst.insert_to_table(table=table,
+                                     columns=columns,
+                                     fields=fields
+                                     )
+            else:
+                print(f"Heat Number {heat_nbr} has already been added to the {round_name} "
+                      f"in {event_name} on the {tour_name}.")
         except:
             print('I went to the fucking except')
 
