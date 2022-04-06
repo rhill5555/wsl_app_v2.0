@@ -359,15 +359,28 @@ class MainWidget(QMainWindow, Ui_Form):
 
                 # Insert new tour type into  tour type table
             try:
-                # Insert into Event Table
+                #Check to see if round type has already been added
                 table = 'wsl.round'
-                columns = f"round"
-                fields = f"'{round_name}' "
+                column = 'round'
+                col_filter = f"where round = '{round_name}' "
                 inst = hierarchy.SqlCommands()
-                inst.insert_to_table(table=table,
-                                     columns=columns,
-                                     fields=fields
-                                     )
+                dupe = inst.check_for_dupe_add(table=table,
+                                               column=column,
+                                               col_filter=col_filter
+                                               )
+
+                # Insert into Event Table if not a duplicate
+                if not dupe:
+                    table = 'wsl.round'
+                    columns = f"round"
+                    fields = f"'{round_name}' "
+                    inst = hierarchy.SqlCommands()
+                    inst.insert_to_table(table=table,
+                                         columns=columns,
+                                         fields=fields
+                                         )
+                else:
+                    print(f"You've already added the round type, {round_name}.")
             except:
                 print('I went to the fucking except')
                 raise ValueError
