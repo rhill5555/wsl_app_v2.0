@@ -884,12 +884,26 @@ class MainWidget(QMainWindow, Ui_Form):
                                                                     col_filter=f"where continent = '{continent}' "
                                                                     )[0]
 
-                # Add the new country to the table
-                sql_command_instance.insert_to_table(table='wsl.country',
-                                                     columns='country, continent_id',
-                                                     fields=f"'{country}', {continent_id}"
-                                                     )
-                print(f"You have discovered the country of {country} on {continent}")
+                # Check to see if it's already in wsl.country
+                table = 'wsl.country'
+                column = 'country, continent_id'
+                col_filter = f"where country = '{country}' " \
+                             f"and continent_id = {continent_id}"
+                inst = hierarchy.SqlCommands()
+                dupe = inst.check_for_dupe_add(table=table,
+                                               column=column,
+                                               col_filter=col_filter
+                                               )
+
+                # Add the new country to the table if not a duplicate
+                if not dupe:
+                    sql_command_instance.insert_to_table(table='wsl.country',
+                                                         columns='country, continent_id',
+                                                         fields=f"'{country}', {continent_id}"
+                                                         )
+                    print(f"You have discovered the country of {country} on {continent}")
+                else:
+                    print(f"You have already discovered the country of {country}")
 
             elif condition_country_cb:
                 country = dialog.cb_country.currentText()
