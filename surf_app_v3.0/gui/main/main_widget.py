@@ -534,7 +534,6 @@ class MainWidget(QMainWindow, Ui_Form):
             print('I went to the fucking except')
 
         # Clear Form on Submit
-        self.line_addheat_heat.clear()
         self.line_addheat_date.clear()
         self.line_addheat_duration.clear()
         self.line_addheat_wavemin.clear()

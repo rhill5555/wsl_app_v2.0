@@ -574,15 +574,51 @@ class SurferToHeat(QDialog, Event):
             print(f"What's the surfer's name, dude?")
 
         # Assign Value to Round and Surfer
+        tour_name = self.cb_tour.currentText()
+        event_name = self.cb_event.currentText()
+        round_name = self.cb_round.currentText()
         heat_nbr = self.cb_heat.currentText()
         surfer = self.cb_surfer.currentText()
 
         try:
-            # Need to grab event_id tied to event that needs to be added
+            # Need to grab tour id
+            inst = hierarchy.SqlCommands()
+            table = 'wsl.tour'
+            column = 'tour_id'
+            col_filter = f"where tour_name = '{tour_name}' "
+            tour_id = inst.select_a_column(table=table,
+                                           column=column,
+                                           col_filter=col_filter
+                                           )[0]
+
+            # Need to grab event id
+            inst = hierarchy.SqlCommands()
+            table = 'wsl.event'
+            column = 'event_id'
+            col_filter = f"where tour_id = {tour_id} " \
+                         f"and event_name = '{event_name}' "
+            event_id = inst.select_a_column(table=table,
+                                            column=column,
+                                            col_filter=col_filter
+                                            )[0]
+
+            # Need to grab round id
+            inst = hierarchy.SqlCommands()
+            table = 'wsl.round'
+            column = 'round_id'
+            col_filter = f"where round = '{round_name}' "
+            round_id = inst.select_a_column(table=table,
+                                            column=column,
+                                            col_filter=col_filter
+                                            )[0]
+
+            # Need to grab heat_id tied to event that needs to be added
             inst = hierarchy.SqlCommands()
             table = 'wsl.heat_details'
             column = 'heat_id'
-            col_filter = f"where heat_nbr = {heat_nbr} "
+            col_filter = f"where heat_nbr = {heat_nbr} " \
+                         f"and event_id = {event_id} " \
+                         f"and round_id = {round_id} "
             heat_id = inst.select_a_column(table=table,
                                            column=column,
                                            col_filter=col_filter
