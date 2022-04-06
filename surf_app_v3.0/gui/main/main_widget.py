@@ -1272,7 +1272,135 @@ class MainWidget(QMainWindow, Ui_Form):
 
     # TourName Handler for Add Location Button Clicked
     def slot_pb_addsurfer_newloc_clicked(self):
-        self.slot_pb_addbreak_newloc_clicked()
+        dialog = AddLocation(title="Add a location to the database.",
+                             prev_selected_continent=self.cb_addsurfer_hcontinent.currentText(),
+                             prev_selected_country=self.cb_addsurfer_hcountry.currentText(),
+                             prev_selected_region=self.cb_addsurfer_hregion.currentText())
+
+        if dialog.exec() == QDialog.Accepted:
+            continent = dialog.cb_continent.currentText()
+
+            # Create an instance of SQLCommands to use when entering data to mysql tables
+            sql_command_instance = hierarchy.SqlCommands()
+
+            # Check to see if text has been entered in the country line edit, combobox, or neither
+            condition_country_line = dialog.line_country.text() != ''
+            condition_country_cb = dialog.cb_country.currentText() != ''
+            if condition_country_line:
+                # Assign the text from the line_edit for country to the variable country
+                country = dialog.line_country.text()
+
+                # Pull the continent_id to use when adding the new country to the database
+                # Future State: Put a check in here to make sure one continent_id is returned
+                continent_id = sql_command_instance.select_a_column(table='wsl.continent',
+                                                                    column='continent_id',
+                                                                    col_filter=f"where continent = '{continent}' "
+                                                                    )[0]
+
+                # Check to see if it's already in wsl.country
+                table = 'wsl.country'
+                column = 'country, continent_id'
+                col_filter = f"where country = '{country}' " \
+                             f"and continent_id = {continent_id}"
+                inst = hierarchy.SqlCommands()
+                dupe = inst.check_for_dupe_add(table=table,
+                                               column=column,
+                                               col_filter=col_filter
+                                               )
+
+                # Add the new country to the table if not a duplicate
+                if not dupe:
+                    sql_command_instance.insert_to_table(table='wsl.country',
+                                                         columns='country, continent_id',
+                                                         fields=f"'{country}', {continent_id}"
+                                                         )
+                    print(f"You have discovered the country of {country} on {continent}.")
+                else:
+                    print(f"You have already discovered the country of {country}.")
+
+            elif condition_country_cb:
+                country = dialog.cb_country.currentText()
+                print(f"Welcome back to {country}")
+            else:
+                print('Either choose a known Country or discover a new one.')
+                raise ValueError
+
+            # If a Region is typed in add it to the region table
+            condition_region_line = dialog.line_region.text() != ''
+            condition_region_cb = dialog.cb_region.currentText() != ''
+            if condition_region_line:
+                region = dialog.line_region.text()
+
+                # Pull the continent_id to use when adding the new country to the database
+                # Future State: Put a check in here to make sure one continent_id is returned
+                country_id = sql_command_instance.select_a_column(table='wsl.country',
+                                                                  column='country_id',
+                                                                  col_filter=f"where country = '{country}' "
+                                                                  )[0]
+
+                # Check to see if region is already in wsl.region
+                table = 'wsl.region'
+                column = 'region, country_id'
+                col_filter = f"where region = '{region}' " \
+                             f"and country_id = {country_id}"
+                inst = hierarchy.SqlCommands()
+                dupe = inst.check_for_dupe_add(table=table,
+                                               column=column,
+                                               col_filter=col_filter
+                                               )
+
+                # Add the new region to the table if not a duplicate
+                if not dupe:
+                    sql_command_instance.insert_to_table(table='wsl.region',
+                                                         columns='region, country_id',
+                                                         fields=f"'{region}', {country_id}"
+                                                         )
+                    print(f"You have discovered the region of {region} in {country}")
+                else:
+                    print(f"You have already discovered the region of {region} in {country}.")
+
+            elif condition_region_cb:
+                region = dialog.cb_region.currentText()
+                print(f"Welcome back to {region} in {country}")
+            else:
+                print(f"Either choose a known region in {country} of discover a new one.")
+                raise ValueError
+
+            # Check to see if a City was entered
+            condition_city_line = dialog.line_city.text() != ''
+            if condition_city_line:
+                city = dialog.line_city.text()
+
+                # Pull the region_id to use when adding the new country to the database
+                # Future State: Put a check in here to make sure one continent_id is returned
+                region_id = sql_command_instance.select_a_column(table='wsl.region',
+                                                                 column='region_id',
+                                                                 col_filter=f"where region = '{region}' "
+                                                                 )[0]
+
+                # Check to see if city is already in wsl.city
+                table = 'wsl.city'
+                column = 'city, region_id'
+                col_filter = f"where city = '{city}' " \
+                             f"and region_id = {region_id}"
+                inst = hierarchy.SqlCommands()
+                dupe = inst.check_for_dupe_add(table=table,
+                                               column=column,
+                                               col_filter=col_filter
+                                               )
+
+                # Add the new city to the table if not duplicate
+                if not dupe:
+                    sql_command_instance.insert_to_table(table='wsl.city',
+                                                         columns='city, region_id',
+                                                         fields=f"'{city}', {region_id}"
+                                                         )
+                    print(f"You have discovered {city}, {region} in {country}")
+                else:
+                    print(f"You have already discovered {city}, {region} in {country}.")
+
+            else:
+                print(f"Discover a new city.")
 
     # TourName Handler for Submit Button Clicked
     def slot_pb_addsurfer_submit_clicked(self):
