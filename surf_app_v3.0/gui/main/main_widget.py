@@ -586,6 +586,14 @@ class MainWidget(QMainWindow, Ui_Form):
         inst = hierarchy.Event()
         self.cb_addresults_year.addItems([''] + inst.return_tour_years())
 
+        # repopulate surfers
+        self.cb_addresults_surfer.clear()
+        self.add_heat_instance.selected_tourname = self.cb_addresults_tour.currentText()
+        self.add_heat_instance.selected_event = self.cb_addresults_event.currentText()
+        self.add_heat_instance.selected_round = self.cb_addresults_round.currentText()
+        self.add_heat_instance.selected_heat = self.cb_addresults_heat.currentText()
+        self.cb_addresults_surfer.addItems([''] + self.add_heat_instance.return_surfers_in_heat())
+
         self.cb_addresults_tour.clear()
         self.cb_addresults_event.clear()
         self.cb_addresults_round.clear()
@@ -917,7 +925,10 @@ class MainWidget(QMainWindow, Ui_Form):
     # Open a PopUp to enter new location when The Add Location Button is selected
     # noinspection PyMethodMayBeStatic
     def slot_pb_addbreak_newloc_clicked(self):
-        dialog = AddLocation(title="Add a location to the database.")
+        dialog = AddLocation(title="Add a location to the database.",
+                             prev_selected_continent=self.cb_addbreak_continent.currentText(),
+                             prev_selected_country=self.cb_addbreak_country.currentText(),
+                             prev_selected_region=self.cb_addbreak_region.currentText())
 
         if dialog.exec() == QDialog.Accepted:
             continent = dialog.cb_continent.currentText()

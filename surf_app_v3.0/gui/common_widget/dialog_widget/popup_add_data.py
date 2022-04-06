@@ -21,6 +21,9 @@ class AddLocation(QDialog, Region):
                  sql_host_name: Optional[str] = None,
                  sql_user_name: Optional[str] = None,
                  sql_password: Optional[str] = None,
+                 prev_selected_continent: Optional[str] = None,
+                 prev_selected_country: Optional[str] = None,
+                 prev_selected_region: Optional[str] = None,
                  parent=None):
         # Calls constructor for QDialog
         QDialog.__init__(self, parent=parent)
@@ -29,7 +32,12 @@ class AddLocation(QDialog, Region):
         Region.__init__(self,
                         sql_host_name=sql_host_name,
                         sql_user_name=sql_user_name,
-                        sql_password=sql_password)
+                        sql_password=sql_password
+                        )
+
+        self.prev_selected_continent: Optional[str] = prev_selected_continent
+        self.prev_selected_country: Optional[str] = prev_selected_country
+        self.prev_selected_region: Optional[str] = prev_selected_region
 
         # Set Title of the QDialog.
         self.setWindowTitle(title)
@@ -120,8 +128,24 @@ class AddLocation(QDialog, Region):
 
     # This setups up everything at the first startup.
     def on_startup(self):
-        # Add Continents to the combobox.
-        self.cb_continent.addItems([''] + self.return_continents())
+
+        # If a Continent been selected from the previous tab add it on startup.
+        if self.prev_selected_continent is None or self.prev_selected_continent == "":
+            self.cb_continent.addItems([''] + self.return_continents())
+        else:
+            self.cb_continent.addItem(self.prev_selected_continent)
+
+        # If a Country has been selected from the previous tab add it on startup
+        if self.prev_selected_country is not None and self.prev_selected_country != "":
+            self.cb_country.addItem(self.prev_selected_country)
+        else:
+            self.slot_cb_continent_on_index_change()
+
+        # If a Country has been selected from the previous tab add it on startup
+        if self.prev_selected_region is not None and self.prev_selected_region != "":
+            self.cb_region.addItem(self.prev_selected_region)
+        else:
+            self.slot_cb_country_on_index_change()
 
     # Change Country when Continent is selected
     def slot_cb_continent_on_index_change(self):
