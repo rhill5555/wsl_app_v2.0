@@ -534,7 +534,17 @@ class MainWidget(QMainWindow, Ui_Form):
             print('I went to the fucking except')
 
         # Clear Form on Submit
-        self.slot_pb_addheat_clear_clicked()
+        self.line_addheat_heat.clear()
+        self.line_addheat_date.clear()
+        self.line_addheat_duration.clear()
+        self.line_addheat_wavemin.clear()
+        self.line_addheat_wavemax.clear()
+        self.check_addheat_calm.setChecked(0)
+        self.check_addheat_light.setChecked(0)
+        self.check_addheat_onshore.setChecked(0)
+        self.check_addheat_offshore.setChecked(0)
+        self.check_addheat_cross.setChecked(0)
+        self.check_addheat_storm.setChecked(0)
 
     # Button for adding surfers to a heat
     # noinspection PyMethodMayBeStatic
@@ -1322,6 +1332,8 @@ class MainWidget(QMainWindow, Ui_Form):
                                                          fields=f"'{country}', {continent_id}"
                                                          )
                     self.slot_cb_addsurfer_hcontinent_on_index_change()
+                    self.slot_cb_addsurfer_hcountry_on_index_change()
+                    self.slot_cb_addsurfer_hregion_on_index_change()
                     print(f"You have discovered the country of {country} on {continent}.")
                 else:
                     print(f"You have already discovered the country of {country}.")
@@ -1363,6 +1375,7 @@ class MainWidget(QMainWindow, Ui_Form):
                                                          fields=f"'{region}', {country_id}"
                                                          )
                     self.slot_cb_addsurfer_hcountry_on_index_change()
+                    self.slot_cb_addsurfer_hregion_on_index_change()
                     print(f"You have discovered the region of {region} in {country}")
                 else:
                     print(f"You have already discovered the region of {region} in {country}.")
@@ -1402,6 +1415,7 @@ class MainWidget(QMainWindow, Ui_Form):
                                                          columns='city, region_id',
                                                          fields=f"'{city}', {region_id}"
                                                          )
+                    self.slot_cb_addsurfer_hregion_on_index_change()
                     print(f"You have discovered {city}, {region} in {country}")
                 else:
                     print(f"You have already discovered {city}, {region} in {country}.")
