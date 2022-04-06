@@ -224,7 +224,7 @@ class Continent(CommonSQL):
         print("We are discovering all continents...")
         sql_command: str = "select continent from wsl.continent"
 
-        # Use the return_hierarchy function from the CommonSQL class to return the lsit of continents
+        # Use the return_hierarchy function from the CommonSQL class to return the list of continents
         return self.return_hierarchy(
             mysql_command=sql_command
         )

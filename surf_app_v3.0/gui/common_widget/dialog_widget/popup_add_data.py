@@ -520,11 +520,13 @@ class SurferToHeat(QDialog, Event):
 
         # Add Surfers to Drop Down
         inst = hierarchy.SqlCommands()
-        self.cb_surfer.addItems([''] + inst.select_a_column(
+        surfers = inst.select_a_column(
             table='wsl.surfers',
             column=f"concat(first_name, ' ', last_name) as name",
             col_filter=''
-        ))
+        )
+        surfers.sort()
+        self.cb_surfer.addItems([''] + surfers)
 
         # put blank stings in all combo boxes besides year
         self.cb_tour.addItems([''])
