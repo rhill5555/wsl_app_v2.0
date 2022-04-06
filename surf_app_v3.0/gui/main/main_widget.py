@@ -827,24 +827,39 @@ class MainWidget(QMainWindow, Ui_Form):
                                              col_filter=col_filter
                                              )[0]
 
-            # Insert into Break Table
-            inst = hierarchy.SqlCommands()
+            # Check to see if surfer results already added
             table = 'wsl.heat_results'
-            columns = f"heat_id, surfer_in_heat_id, " \
-                      f"pick_to_win_percent, jersey_color, status, " \
-                      f"wave_1, wave_2, wave_3, wave_4, wave_5, " \
-                      f"wave_6, wave_7, wave_8, wave_9, wave_10, " \
-                      f"wave_11, wave_12, wave_13, wave_14, wave_15 "
-            # noinspection PyBroadException,PyUnboundLocalVariable
-            fields = f"{heat_id}, {surfer_id}, " \
-                     f"{picked_percent}, '{jersey_color}', '{status}', " \
-                     f"{wave_1}, {wave_2}, {wave_3}, {wave_4}, {wave_5}, " \
-                     f"{wave_6}, {wave_7}, {wave_8}, {wave_9}, {wave_10}, " \
-                     f"{wave_11}, {wave_12}, {wave_13}, {wave_14}, {wave_15}"
-            inst.insert_to_table(table=table,
-                                 columns=columns,
-                                 fields=fields
-                                 )
+            column = 'heat_id, surfer_in_heat_id'
+            col_filter = f"where heat_id = {heat_id} " \
+                         f"and surfer_in_heat_id = {surfer_id}"
+            inst = hierarchy.SqlCommands()
+            dupe = inst.check_for_dupe_add(table=table,
+                                           column=column,
+                                           col_filter=col_filter
+                                           )
+
+            # Insert into Break Table if not a duplicate
+            if not dupe:
+                inst = hierarchy.SqlCommands()
+                table = 'wsl.heat_results'
+                columns = f"heat_id, surfer_in_heat_id, " \
+                          f"pick_to_win_percent, jersey_color, status, " \
+                          f"wave_1, wave_2, wave_3, wave_4, wave_5, " \
+                          f"wave_6, wave_7, wave_8, wave_9, wave_10, " \
+                          f"wave_11, wave_12, wave_13, wave_14, wave_15 "
+                # noinspection PyBroadException,PyUnboundLocalVariable
+                fields = f"{heat_id}, {surfer_id}, " \
+                         f"{picked_percent}, '{jersey_color}', '{status}', " \
+                         f"{wave_1}, {wave_2}, {wave_3}, {wave_4}, {wave_5}, " \
+                         f"{wave_6}, {wave_7}, {wave_8}, {wave_9}, {wave_10}, " \
+                         f"{wave_11}, {wave_12}, {wave_13}, {wave_14}, {wave_15}"
+                inst.insert_to_table(table=table,
+                                     columns=columns,
+                                     fields=fields
+                                     )
+            else:
+                print(f"It looks like the results for {surfer} have already been added to this heat.")
+
         except:
             print('I went to the fucking except')
 
