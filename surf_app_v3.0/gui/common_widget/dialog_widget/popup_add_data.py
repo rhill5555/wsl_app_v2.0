@@ -618,6 +618,7 @@ class SurferToHeat(QDialog, Event):
                                      columns=columns,
                                      fields=fields
                                      )
+
             else:
                 print(f"{surfer} has already been added to heat number {heat_nbr}.")
 

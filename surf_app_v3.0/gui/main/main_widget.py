@@ -879,6 +879,7 @@ class MainWidget(QMainWindow, Ui_Form):
 
         # Clear Everything except tour info
         self.cb_addresults_surfer.clear()
+        self.slot_cb_addresults_surfer_on_index_change()
 
         self.line_addresults_picks.clear()
 
@@ -1230,7 +1231,7 @@ class MainWidget(QMainWindow, Ui_Form):
     # Change Home Country List when Home Continent is Selected
     def slot_cb_addsurfer_hcontinent_on_index_change(self):
 
-        # Set up and instnace of the Region Class
+        # Set up and instance of the Region Class
         self.add_region_instance.set_everything_to_none()
         self.cb_addsurfer_hcountry.clear()
         self.add_region_instance.selected_continent = self.cb_addsurfer_hcontinent.currentText()
