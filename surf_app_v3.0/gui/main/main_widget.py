@@ -901,9 +901,9 @@ class MainWidget(QMainWindow, Ui_Form):
                                                          columns='country, continent_id',
                                                          fields=f"'{country}', {continent_id}"
                                                          )
-                    print(f"You have discovered the country of {country} on {continent}")
+                    print(f"You have discovered the country of {country} on {continent}.")
                 else:
-                    print(f"You have already discovered the country of {country}")
+                    print(f"You have already discovered the country of {country}.")
 
             elif condition_country_cb:
                 country = dialog.cb_country.currentText()
@@ -925,13 +925,27 @@ class MainWidget(QMainWindow, Ui_Form):
                                                                   col_filter=f"where country = '{country}' "
                                                                   )[0]
 
-                # Add the new region to the table
-                sql_command_instance.insert_to_table(table='wsl.region',
-                                                     columns='region, country_id',
-                                                     fields=f"'{region}', {country_id}"
-                                                     )
-                print(f"You have discovered the region of {region} in {country}")
-                # Insert into table
+                # Check to see if region is already in wsl.region
+                table = 'wsl.region'
+                column = 'region, country_id'
+                col_filter = f"where region = '{region}' " \
+                             f"and country_id = {country_id}"
+                inst = hierarchy.SqlCommands()
+                dupe = inst.check_for_dupe_add(table=table,
+                                               column=column,
+                                               col_filter=col_filter
+                                               )
+
+                # Add the new region to the table if not a duplicate
+                if not dupe:
+                    sql_command_instance.insert_to_table(table='wsl.region',
+                                                         columns='region, country_id',
+                                                         fields=f"'{region}', {country_id}"
+                                                         )
+                    print(f"You have discovered the region of {region} in {country}")
+                else:
+                    print(f"You have already discovered the region of {region} in {country}.")
+
             elif condition_region_cb:
                 region = dialog.cb_region.currentText()
                 print(f"Welcome back to {region} in {country}")
@@ -951,12 +965,27 @@ class MainWidget(QMainWindow, Ui_Form):
                                                                  col_filter=f"where region = '{region}' "
                                                                  )[0]
 
-                # Add the new city to the table
-                sql_command_instance.insert_to_table(table='wsl.city',
-                                                     columns='city, region_id',
-                                                     fields=f"'{city}', {region_id}"
-                                                     )
-                print(f"You have discovered the {city}, {region} in {country}")
+                # Check to see if city is already in wsl.city
+                table = 'wsl.city'
+                column = 'city, region_id'
+                col_filter = f"where city = '{city}' " \
+                             f"and region_id = {region_id}"
+                inst = hierarchy.SqlCommands()
+                dupe = inst.check_for_dupe_add(table=table,
+                                               column=column,
+                                               col_filter=col_filter
+                                               )
+
+                # Add the new city to the table if not duplicate
+                if not dupe:
+                    sql_command_instance.insert_to_table(table='wsl.city',
+                                                         columns='city, region_id',
+                                                         fields=f"'{city}', {region_id}"
+                                                         )
+                    print(f"You have discovered {city}, {region} in {country}")
+                else:
+                    print(f"You have already discovered {city}, {region} in {country}.")
+
             else:
                 print(f"Discover a new city.")
 
