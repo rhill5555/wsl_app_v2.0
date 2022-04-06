@@ -323,6 +323,11 @@ class SurferToHeat(QDialog, Event):
                  sql_host_name: Optional[str] = None,
                  sql_user_name: Optional[str] = None,
                  sql_password: Optional[str] = None,
+                 prev_selected_year: Optional[str] = None,
+                 prev_selected_tour: Optional[str] = None,
+                 prev_selected_event: Optional[str] = None,
+                 prev_selected_round: Optional[str] = None,
+                 prev_selected_heat: Optional[str] = None,
                  parent=None):
         # Calls constructor for QDialog
         QDialog.__init__(self, parent=parent)
@@ -332,6 +337,12 @@ class SurferToHeat(QDialog, Event):
                        sql_host_name=sql_host_name,
                        sql_user_name=sql_user_name,
                        sql_password=sql_password)
+
+        self.prev_selected_year: Optional[str] = prev_selected_year
+        self.prev_selected_tour: Optional[str] = prev_selected_tour
+        self.prev_selected_event: Optional[str] = prev_selected_event
+        self.prev_selected_round: Optional[str] = prev_selected_round
+        self.prev_selected_heat: Optional[str] = prev_selected_heat
 
         # Set Title of the QDialog.
         self.setWindowTitle(title)
@@ -473,8 +484,39 @@ class SurferToHeat(QDialog, Event):
     ####################################################################################################################
     def on_startup(self):
 
-        # Add Tour Years
-        self.cb_year.addItems([''] + self.add_heat_instance.return_tour_years())
+        # If a Year been selected from the previous tab add it on startup.
+        if self.prev_selected_year is None or self.prev_selected_year == "":
+            self.cb_year.addItems([''] + self.return_tour_years())
+        else:
+            self.cb_year.addItem(self.prev_selected_year)
+
+        # If a Tour has been selected from the previous tab add it on startup
+        if self.prev_selected_tour is not None and self.prev_selected_tour != "":
+            self.cb_tour.clear()
+            self.cb_tour.addItem(self.prev_selected_tour)
+        else:
+            self.slot_cb_year_on_index_change()
+
+        # If an Event has been selected from the previous tab add it on startup
+        if self.prev_selected_event is not None and self.prev_selected_event != "":
+            self.cb_event.clear()
+            self.cb_event.addItem(self.prev_selected_event)
+        else:
+            self.slot_cb_tour_name_on_index_change()
+
+        # If a Round has been selected from the previous tab add it on startup
+        if self.prev_selected_round is not None and self.prev_selected_round != "":
+            self.cb_round.clear()
+            self.cb_round.addItem(self.prev_selected_round)
+        else:
+            self.slot_cb_event_round_name_on_index_change()
+
+        # If a Heat has been selected from the previous tab add it on startup
+        if self.prev_selected_heat is not None and self.prev_selected_heat != "":
+            self.cb_heat.clear()
+            self.cb_heat.addItem(self.prev_selected_heat)
+        else:
+            self.slot_cb_event_heat_name_on_index_change()
 
         # Add Surfers to Drop Down
         inst = hierarchy.SqlCommands()

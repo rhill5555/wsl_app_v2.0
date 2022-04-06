@@ -539,7 +539,13 @@ class MainWidget(QMainWindow, Ui_Form):
     # Button for adding surfers to a heat
     # noinspection PyMethodMayBeStatic
     def slot_pb_addheat_surfers_clicked(self):
-        dialog = SurferToHeat(title="Add a location to the database.")
+        dialog = SurferToHeat(title="Add a location to the database.",
+                              prev_selected_year=self.cb_addheat_year.currentText(),
+                              prev_selected_tour=self.cb_addheat_tour.currentText(),
+                              prev_selected_event=self.cb_addheat_event.currentText(),
+                              prev_selected_round=self.cb_addheat_round.currentText(),
+                              prev_selected_heat=self.line_addheat_heat.text()
+                              )
 
         if dialog.exec() == QDialog.Accepted:
             pass
