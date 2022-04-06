@@ -194,15 +194,31 @@ class MainWidget(QMainWindow, Ui_Form):
                 tour_name = f"{year} {gender}s {tour_type}"
                 print(tour_name)
 
-                # Insert into Country Table
+                # Check to see if it's already in wsl.tour
                 table = 'wsl.tour'
-                columns = f"year, gender, tour_type, tour_name"
-                fields = f"{year}, '{gender}', '{tour_type}', '{tour_name}'"
+                column = 'year, gender, tour_type'
+                col_filter = f"where year = {year} " \
+                             f"and gender = '{gender}' " \
+                             f"and tour_type = '{tour_type}' "
                 inst = hierarchy.SqlCommands()
-                inst.insert_to_table(table=table,
-                                     columns=columns,
-                                     fields=fields
-                                     )
+                dupe = inst.check_for_dupe_add(table=table,
+                                               column=column,
+                                               col_filter=col_filter
+                                               )
+
+                if not dupe:
+                    # Insert into Country Table
+                    table = 'wsl.tour'
+                    columns = f"year, gender, tour_type, tour_name"
+                    fields = f"{year}, '{gender}', '{tour_type}', '{tour_name}'"
+                    inst = hierarchy.SqlCommands()
+                    inst.insert_to_table(table=table,
+                                         columns=columns,
+                                         fields=fields
+                                         )
+                else:
+                    print(f"You are entering a duplicate Tour.")
+                    print(f"you entered {dupe}")
             except:
                 print('I went to the fucking except when you were trying to enter a new tour.')
                 raise ValueError

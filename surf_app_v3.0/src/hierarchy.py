@@ -178,6 +178,23 @@ class SqlCommands(CommonSQL):
     def update_table_record(self):
         pass
 
+    def check_for_dupe_add(self, table: str, column: str, col_filter: str):
+        query = f"""SELECT {column} FROM {table} {col_filter}"""
+
+        self.mycursor.execute(query)
+
+        result = self.mycursor.fetchall()
+
+        # Since, mysql returns it in the list of tuple format, you take care of this.
+        result_list = []
+        for item in result:
+            # Append the modified version of the current item into the result_list list.
+            result_list.append(
+                item
+            )
+
+        return result_list
+
 ########################################################################################################################
 
 
