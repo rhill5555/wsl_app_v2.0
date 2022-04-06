@@ -290,8 +290,6 @@ class MainWidget(QMainWindow, Ui_Form):
                                            col_filter=col_filter
                                            )[0]
 
-            print(tour_id)
-
             # Need to grab break_id tied to event that needs to be added
             table = 'wsl.break'
             column = 'break_id'
@@ -300,18 +298,31 @@ class MainWidget(QMainWindow, Ui_Form):
                                             column=column,
                                             col_filter=col_filter
                                             )[0]
-            print(break_id)
 
-            # Insert into Events Table
+            # Check to see if event is already in wsl.event
             table = 'wsl.event'
-            columns = f"event_name, tour_id, stop_nbr, break_id, " \
-                      f"open_date, close_date"
-            fields = f"'{event_name}', {tour_id}, {stop_nbr}, " \
-                     f"{break_id}, '{open_date}', '{close_date}' "
-            inst.insert_to_table(table=table,
-                                 columns=columns,
-                                 fields=fields
-                                 )
+            columns = 'event_name, tour_id'
+            col_filter = f"where event_name = '{event_name}' " \
+                         f"and tour_id = {tour_id}"
+            inst = hierarchy.SqlCommands()
+            dupe = inst.check_for_dupe_add(table=table,
+                                           column=column,
+                                           col_filter=col_filter
+                                           )
+
+            # Insert into Events Table if not a duplicate event
+            if not dupe:
+                table = 'wsl.event'
+                columns = f"event_name, tour_id, stop_nbr, break_id, " \
+                          f"open_date, close_date"
+                fields = f"'{event_name}', {tour_id}, {stop_nbr}, " \
+                         f"{break_id}, '{open_date}', '{close_date}' "
+                inst.insert_to_table(table=table,
+                                     columns=columns,
+                                     fields=fields
+                                     )
+            else:
+                print(f"You've already heard about {event_name} on the {tour_name}.")
         except:
             print('I went to the fucking except')
 
