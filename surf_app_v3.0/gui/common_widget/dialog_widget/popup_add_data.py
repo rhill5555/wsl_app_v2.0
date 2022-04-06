@@ -530,14 +530,29 @@ class SurferToHeat(QDialog, Event):
                                              col_filter=col_filter
                                              )[0]
 
-            # Insert into Events Table
+            # Check to see if surfer has already been added to the heat
             table = 'wsl.heat_surfers'
-            columns = f"heat_id, surfer_id"
-            fields = f"{heat_id}, '{surfer_id}'"
-            inst.insert_to_table(table=table,
-                                 columns=columns,
-                                 fields=fields
-                                 )
+            column = 'heat_id, surfer_id'
+            col_filter = f"where heat_id = {heat_id} " \
+                         f"and surfer_id = {surfer_id}"
+            inst = hierarchy.SqlCommands()
+            dupe = inst.check_for_dupe_add(table=table,
+                                           column=column,
+                                           col_filter=col_filter
+                                           )
+
+            # Insert into Heat Surfers Table if not a duplicate
+            if not dupe:
+                table = 'wsl.heat_surfers'
+                columns = f"heat_id, surfer_id"
+                fields = f"{heat_id}, '{surfer_id}'"
+                inst.insert_to_table(table=table,
+                                     columns=columns,
+                                     fields=fields
+                                     )
+            else:
+                print(f"{surfer} has already been added to heat number {heat_nbr}.")
+
         except:
             print('I went to the goddamn except')
 
