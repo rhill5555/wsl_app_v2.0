@@ -859,7 +859,7 @@ class MainWidget(QMainWindow, Ui_Form):
         # Add the regions to the add_region_instance combo box.
         self.cb_addbreak_region.addItems([''] + self.add_region_instance.return_regions())
 
-    # Open a PopUp to enter new places when The Add Location Button is selected
+    # Open a PopUp to enter new location when The Add Location Button is selected
     # noinspection PyMethodMayBeStatic
     def slot_pb_addbreak_newloc_clicked(self):
         dialog = AddLocation(title="Add a location to the database.")
@@ -1315,18 +1315,37 @@ class MainWidget(QMainWindow, Ui_Form):
                                                 column=column,
                                                 col_filter=col_filter
                                                 )[0]
-            # Insert into Surfers Table
+
+            # Check to see if surfer is already in wsl.surfers
             table = 'wsl.surfers'
-            columns = f"gender, first_name, last_name, stance, rep_country_id, " \
-                      f"birthday, height, weight, " \
-                      f"first_season, first_tour, home_city_id"
-            fields = f"'{gender}', '{first_name}', '{last_name}', '{stance}', {country_id}, " \
-                     f"'{birthday}', {height}, {weight}, " \
-                     f"{first_season}, '{first_tour}', {home_city_id}"
-            inst.insert_to_table(table=table,
-                                 columns=columns,
-                                 fields=fields
-                                 )
+            column = 'gender, first_name, last_name, rep_country_id'
+            col_filter = f"where gender = '{gender}' " \
+                         f"and first_name = '{first_name}' " \
+                         f"and last_name = '{last_name}' " \
+                         f"and rep_country_id = {country_id}"
+            inst = hierarchy.SqlCommands()
+            dupe = inst.check_for_dupe_add(table=table,
+                                           column=column,
+                                           col_filter=col_filter
+                                           )
+
+            # Insert into Surfers Table if not a duplicate
+            if not dupe:
+                table = 'wsl.surfers'
+                columns = f"gender, first_name, last_name, stance, rep_country_id, " \
+                          f"birthday, height, weight, " \
+                          f"first_season, first_tour, home_city_id"
+                fields = f"'{gender}', '{first_name}', '{last_name}', '{stance}', {country_id}, " \
+                         f"'{birthday}', {height}, {weight}, " \
+                         f"{first_season}, '{first_tour}', {home_city_id}"
+                inst.insert_to_table(table=table,
+                                     columns=columns,
+                                     fields=fields
+                                     )
+                print(f"{first_name} {last_name} of {rep_country} has been spotted in the barrel.")
+            else:
+                print(f"Whoa dude, You must have forgotten that you already met "
+                      f"{first_name} {last_name} of {rep_country}.")
         except:
             print('I went to the fucking except when trying to add a new surfer.')
 
