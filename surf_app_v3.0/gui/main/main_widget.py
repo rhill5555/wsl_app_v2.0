@@ -967,6 +967,7 @@ class MainWidget(QMainWindow, Ui_Form):
                                                          columns='country, continent_id',
                                                          fields=f"'{country}', {continent_id}"
                                                          )
+                    self.slot_cb_addbreak_continent_on_index_change()
                     print(f"You have discovered the country of {country} on {continent}.")
                 else:
                     print(f"You have already discovered the country of {country}.")
@@ -976,7 +977,6 @@ class MainWidget(QMainWindow, Ui_Form):
                 print(f"Welcome back to {country}")
             else:
                 print('Either choose a known Country or discover a new one.')
-                raise ValueError
 
             # If a Region is typed in add it to the region table
             condition_region_line = dialog.line_region.text() != ''
@@ -1009,6 +1009,7 @@ class MainWidget(QMainWindow, Ui_Form):
                                                          fields=f"'{region}', {country_id}"
                                                          )
                     print(f"You have discovered the region of {region} in {country}")
+                    self.slot_cb_addbreak_country_on_index_change()
                 else:
                     print(f"You have already discovered the region of {region} in {country}.")
 
@@ -1017,7 +1018,6 @@ class MainWidget(QMainWindow, Ui_Form):
                 print(f"Welcome back to {region} in {country}")
             else:
                 print(f"Either choose a known region in {country} of discover a new one.")
-                raise ValueError
 
             # Check to see if a City was entered
             condition_city_line = dialog.line_city.text() != ''
@@ -1314,6 +1314,7 @@ class MainWidget(QMainWindow, Ui_Form):
                                                          columns='country, continent_id',
                                                          fields=f"'{country}', {continent_id}"
                                                          )
+                    self.slot_cb_addsurfer_hcontinent_on_index_change()
                     print(f"You have discovered the country of {country} on {continent}.")
                 else:
                     print(f"You have already discovered the country of {country}.")
@@ -1323,7 +1324,6 @@ class MainWidget(QMainWindow, Ui_Form):
                 print(f"Welcome back to {country}")
             else:
                 print('Either choose a known Country or discover a new one.')
-                raise ValueError
 
             # If a Region is typed in add it to the region table
             condition_region_line = dialog.line_region.text() != ''
@@ -1355,6 +1355,7 @@ class MainWidget(QMainWindow, Ui_Form):
                                                          columns='region, country_id',
                                                          fields=f"'{region}', {country_id}"
                                                          )
+                    self.slot_cb_addsurfer_hcountry_on_index_change()
                     print(f"You have discovered the region of {region} in {country}")
                 else:
                     print(f"You have already discovered the region of {region} in {country}.")
@@ -1364,7 +1365,6 @@ class MainWidget(QMainWindow, Ui_Form):
                 print(f"Welcome back to {region} in {country}")
             else:
                 print(f"Either choose a known region in {country} of discover a new one.")
-                raise ValueError
 
             # Check to see if a City was entered
             condition_city_line = dialog.line_city.text() != ''
