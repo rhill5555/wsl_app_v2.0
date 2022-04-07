@@ -216,6 +216,7 @@ class MainWidget(QMainWindow, Ui_Form):
                                          columns=columns,
                                          fields=fields
                                          )
+                    self.slot_cb_addevent_year_on_index_change()
                 else:
                     print(f"You are entering a duplicate Tour.")
                     print(f"you entered {dupe}")
@@ -327,7 +328,15 @@ class MainWidget(QMainWindow, Ui_Form):
             print('I went to the fucking except')
 
         # Clear Form on Submit
-        self.slot_pb_addevent_clear_clicked()
+        self.line_addevent_name.clear()
+        self.line_addevent_stop.clear()
+        self.line_addevent_open.clear()
+        self.line_addevent_close.clear()
+        self.cb_addevent_continent.clear()
+        self.cb_addevent_continent.addItems([''] + self.add_region_instance.return_continents())
+        self.cb_addevent_country.clear()
+        self.cb_addevent_region.clear()
+        self.cb_addevent_break.clear()
 
     ####################################################################################################################
     # Add Heat Tab
@@ -1064,6 +1073,7 @@ class MainWidget(QMainWindow, Ui_Form):
                                                          columns='city, region_id',
                                                          fields=f"'{city}', {region_id}"
                                                          )
+                    self.slot_cb_addbreak_country_on_index_change()
                     print(f"You have discovered {city}, {region} in {country}")
                 else:
                     print(f"You have already discovered {city}, {region} in {country}.")
